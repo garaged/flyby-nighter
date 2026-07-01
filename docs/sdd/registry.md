@@ -3,6 +3,7 @@
 | ID | Title | Status | Milestone | Notes |
 |---|---|---:|---|---|
 | ADR-0001 | Originality and IP boundaries | Accepted | Foundation | Required constraint for every future spec. |
+| ADR-0002 | Apple-first Swift and SpriteKit | Accepted | Foundation | M0 runtime target and architecture direction. |
 | SPEC-0001 | Product brief | Proposed | Foundation | Defines the game identity and non-goals. |
 | SPEC-0002 | M0 minimal playable version | Proposed | M0 | One map, player flight, shooting, enemies, obstacles, gifts, win/fail loop. |
 | SPEC-0003 | Core gameplay loop | Proposed | M0 | Start, play, score, damage, death, win, restart. |
