@@ -10,13 +10,15 @@ Goal: refine or implement only the accepted M0 scope for Flyby Nighter.
 Important constraints:
 - This is an original retro-inspired arcade shooter, not a remake or clone.
 - Do not copy protected assets, names, layouts, enemy designs, audio, or UI composition from Vanguard or any other legacy game.
-- Keep the gameplay core deterministic and testable.
+- M0 is Apple-first Swift + SpriteKit. Follow ADR-0002.
+- Keep gameplay rules out of SpriteKit callbacks where practical; use a deterministic GameCore with a SpriteKit adapter.
+- Use XCTest for core behavior tests once code exists.
 - Do not expand beyond M0 without updating docs/sdd/questions.md and the registry.
 
 Before writing code, verify which specs are Accepted. If a spec is still Proposed, update docs/specs only and do not implement gameplay code unless explicitly instructed.
 
 For implementation PRs:
-- Add/update tests for deterministic gameplay rules.
-- Add a thin playable smoke path once runtime exists.
+- Add/update XCTest coverage for deterministic gameplay rules.
+- Add a thin playable smoke path once the Xcode/SpriteKit scaffold exists.
 - Update docs/sdd/registry.md and validation notes.
 ```
