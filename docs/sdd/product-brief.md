@@ -37,8 +37,8 @@ Players who like compact arcade challenge, score chasing, retro-inspired movemen
 - No borrowed assets, names, layouts, or sound-alike audio.
 - No large content library before the core loop is fun.
 
-## Recommended first technical target
+## Accepted first technical target
 
-Unless changed by decision, the recommended M0 target is a web-playable prototype using TypeScript and a 2D game runtime. The gameplay core should be engine-independent enough to test without rendering.
+M0 targets Apple-first Swift + SpriteKit. See `docs/sdd/decisions/ADR-0002-apple-first-spritekit.md`.
 
-This is a recommendation, not an accepted decision yet. See `docs/sdd/questions.md`.
+The gameplay core should remain deterministic and testable outside SpriteKit where practical, with SpriteKit acting as the rendering/input/audio adapter around the core rules.
