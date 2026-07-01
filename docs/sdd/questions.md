@@ -4,23 +4,20 @@ This file is the discussion backlog for turning proposed specs into accepted spe
 
 ## Round 1: Platform and runtime
 
-Recommended default: **web-first TypeScript prototype**, because it gives fast iteration, easy sharing, deterministic tests, and low setup friction.
+Status: **Decided**  
+Decision: **Apple-first Swift + SpriteKit**. See `docs/sdd/decisions/ADR-0002-apple-first-spritekit.md`.
 
-Open options:
-
-1. Web-first: TypeScript + Canvas or Phaser-style 2D runtime.
-2. Apple-first: Swift + SpriteKit for iPhone/iPad/macOS.
-3. Cross-platform engine: Godot or Unity.
-4. Other.
-
-Decision needed:
-
-- What should M0 run on first?
-- Should the first implementation optimize for local development speed, mobile feel, or eventual app-store release?
+M0 should optimize for native Apple gameplay feel and a clean path toward iPhone, iPad, and macOS. The gameplay core should stay deterministic and testable outside SpriteKit where practical.
 
 ## Round 2: Camera and route direction
 
-Recommended default: **forward scrolling through a horizontal/diagonal corridor** with authored route segments.
+Recommended default: **horizontal auto-scroll through an authored left-to-right corridor** for M0.
+
+Why this default:
+
+- It is the simplest SpriteKit camera model for a first playable.
+- It keeps player movement, collision, enemy spawning, and map authoring straightforward.
+- It supports future vertical/diagonal/mixed route segments without forcing them into M0.
 
 Decision needed:
 
