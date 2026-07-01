@@ -5,16 +5,24 @@ Milestone: M0
 
 ## Purpose
 
-Define the first playable feel without locking the project into a final input scheme.
+Define the first playable feel for an Apple-first Swift + SpriteKit game without locking the project into final App Store controls.
 
-## Recommended M0 control model
+## M0 input model
 
-Until a platform decision is accepted, assume keyboard/web controls:
+M0 should support keyboard input first so the game is playable in macOS and iPad/iPhone simulator during development:
 
 - Move: Arrow keys or WASD.
 - Fire: Space or primary action.
 - Pause: Escape or P.
 - Restart after win/loss: Enter or Space.
+
+Touch controls should be added as soon as the SpriteKit scene exists, but they can be minimal for M0:
+
+- Drag or virtual stick region for movement.
+- Tap/hold fire button or auto-fire toggle.
+- Restart button on win/loss overlay.
+
+Game controller support is deferred unless trivial.
 
 ## Movement feel
 
@@ -43,9 +51,15 @@ Power-modified firing:
 
 Multi-direction firing is a core fantasy, but M0 should implement the smallest version that is fun. The recommended first implementation is Spread Gift angled shots. Full independent aim/facing can be deferred if it delays the first playable.
 
+## SpriteKit integration notes
+
+The SpriteKit scene should translate input into core commands rather than directly mutating every gameplay rule. For example, the scene can emit movement vectors and fire intents, while `GameCore` owns cooldowns, projectile creation, collision outcomes, scoring, and run state.
+
 ## Acceptance criteria
 
 - Player can move through the whole route using one input device.
+- Keyboard controls work in simulator/macOS development builds.
+- Touch movement/fire has a minimal M0 path or is explicitly deferred before implementation starts.
 - Holding fire produces a predictable shot stream.
 - Base shots can destroy enemies.
 - Rapid Gift visibly changes fire rate.
