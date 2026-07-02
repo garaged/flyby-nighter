@@ -1,6 +1,6 @@
 # SPEC-0016: Apple App Shell
 
-Status: Proposed  
+Status: Implemented  
 Milestone: M2
 
 ## Goal
@@ -32,8 +32,4 @@ Create a real Apple app shell that hosts the existing SpriteKit playable scene w
 
 ## Validation
 
-```bash
-swift test
-```
-
-Run the app shell locally through Xcode or the selected launch command and record results in an implementation note.
+Validated on macOS, iPhone, and iPad. See `docs/implementation/M2BC-validation.md`.
