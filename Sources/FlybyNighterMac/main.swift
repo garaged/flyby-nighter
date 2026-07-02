@@ -5,7 +5,19 @@ import FlybyNighterCore
 import FlybyNighterSpriteKit
 
 @main
-final class FlybyNighterMacApp: NSObject, NSApplicationDelegate {
+enum FlybyNighterMacMain {
+    static func main() {
+        let application = NSApplication.shared
+        let delegate = FlybyNighterMacAppDelegate()
+        application.delegate = delegate
+        application.setActivationPolicy(.regular)
+        application.activate(ignoringOtherApps: true)
+        application.run()
+        _ = delegate
+    }
+}
+
+final class FlybyNighterMacAppDelegate: NSObject, NSApplicationDelegate {
     private var window: NSWindow?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -26,12 +38,13 @@ final class FlybyNighterMacApp: NSObject, NSApplicationDelegate {
         )
         window.title = "Flyby Nighter"
         window.contentView = gameView
-        window.makeKeyAndOrderFront(nil)
         window.center()
+        window.makeKeyAndOrderFront(nil)
+        window.orderFrontRegardless()
         window.makeFirstResponder(gameView)
 
         self.window = window
-        NSApp.activate(ignoringOtherApps: true)
+        NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
