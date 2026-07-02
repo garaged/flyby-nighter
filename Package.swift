@@ -51,6 +51,13 @@ let package = Package(
         .testTarget(
             name: "FlybyNighterCoreTests",
             dependencies: ["FlybyNighterCore"]
+        ),
+        .testTarget(
+            name: "FlybyNighterSpriteKitTests",
+            dependencies: [
+                "FlybyNighterCore",
+                "FlybyNighterSpriteKit"
+            ]
         )
     ]
 )
