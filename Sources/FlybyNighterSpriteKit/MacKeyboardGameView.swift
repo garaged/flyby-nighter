@@ -55,6 +55,14 @@ public final class MacKeyboardGameView: SKView {
 
     public override func keyDown(with event: NSEvent) {
         guard !event.isARepeat else { return }
+
+        if event.keyCode == KeyCode.leftArrow, gameScene?.selectPreviousRoute() == true {
+            return
+        }
+        if event.keyCode == KeyCode.rightArrow, gameScene?.selectNextRoute() == true {
+            return
+        }
+
         pressedKeyCodes.insert(event.keyCode)
 
         if event.keyCode == KeyCode.space {
@@ -78,6 +86,13 @@ public final class MacKeyboardGameView: SKView {
 
     public override func mouseUp(with event: NSEvent) {
         requestKeyboardFocus()
+
+        let location = convert(event.locationInWindow, from: nil)
+        let normalizedX = bounds.width > 0 ? location.x / bounds.width : 0.5
+        if gameScene?.handleRouteSelectionPointer(normalizedX: normalizedX) == true {
+            return
+        }
+
         gameScene?.startOrRestartRun()
     }
 
