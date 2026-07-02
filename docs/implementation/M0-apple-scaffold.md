@@ -66,6 +66,7 @@ This branch starts M0 implementation with an Apple-first Swift package structure
 
 - A local macOS SpriteKit window.
 - `FlybyNighterScene` presentation.
+- Explicit SwiftPM-friendly AppKit bootstrap.
 - Keyboard movement input.
 - Keyboard firing input.
 - Keyboard/click start and restart.
@@ -102,4 +103,7 @@ swift test
 swift run FlybyNighterMac
 ```
 
-I have not run validation from this environment; this branch should be validated locally or by CI before merging.
+## Validation notes
+
+- `swift run FlybyNighterMac`: manually confirmed by Max after AppKit bootstrap fix. The game window opens and the current playable wrapper looks and works as expected.
+- `swift test`: still needs local or CI validation.
