@@ -14,17 +14,20 @@ struct FlybyNighterApp: App {
 }
 
 struct FlybyNighterSceneHost: NSViewRepresentable {
-    func makeNSView(context: Context) -> SKView {
+    func makeNSView(context: Context) -> MacKeyboardGameView {
         let sceneSize = CGSize(width: 640, height: 600)
         let scene = FlybyNighterScene(size: sceneSize)
-        let view = SKView(frame: CGRect(origin: .zero, size: sceneSize))
+        let view = MacKeyboardGameView(frame: CGRect(origin: .zero, size: sceneSize))
         view.ignoresSiblingOrder = true
         view.preferredFramesPerSecond = 60
+        view.gameScene = scene
         view.presentScene(scene)
         return view
     }
 
-    func updateNSView(_ nsView: SKView, context: Context) {}
+    func updateNSView(_ nsView: MacKeyboardGameView, context: Context) {
+        nsView.window?.makeFirstResponder(nsView)
+    }
 }
 #else
 import Foundation
