@@ -1,6 +1,6 @@
 # SPEC-0020: Placeholder SFX
 
-Status: Proposed  
+Status: Implemented  
 Milestone: M3
 
 ## Goal
@@ -33,3 +33,7 @@ Placeholder cues for:
 3. Sounds are short and do not mask gameplay.
 4. Audio can be disabled.
 5. Validation notes list the cue set tested.
+
+## Validation
+
+Validated successfully. See `docs/implementation/M3-validation.md`.
