@@ -30,6 +30,24 @@ public final class MacKeyboardGameView: SKView {
         }
     }
 
+    public func resetInputState() {
+        pressedKeyCodes.removeAll()
+        gameScene?.setMovement(Vector2())
+        gameScene?.setFiring(false)
+    }
+
+    public override func resignFirstResponder() -> Bool {
+        resetInputState()
+        return super.resignFirstResponder()
+    }
+
+    public override func viewWillMove(toWindow newWindow: NSWindow?) {
+        if newWindow == nil {
+            resetInputState()
+        }
+        super.viewWillMove(toWindow: newWindow)
+    }
+
     public override func mouseDown(with event: NSEvent) {
         requestKeyboardFocus()
         super.mouseDown(with: event)
