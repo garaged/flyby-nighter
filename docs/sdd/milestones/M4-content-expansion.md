@@ -1,6 +1,6 @@
 # M4: Content Expansion
 
-Status: Proposed  
+Status: In Progress  
 Milestone: M4
 
 ## Goal
@@ -36,10 +36,28 @@ M4 is governed by:
 ## Implementation slices
 
 1. Second route content model.
-2. Second route playable tuning.
-3. Score depth or combo pass.
-4. Local high score storage.
-5. Route selection or progression.
+2. Second route playable tuning and selection.
+3. New enemy or hazard family.
+4. Score depth or combo pass.
+5. Local high score storage.
+
+## Current progress
+
+M4-A adds:
+
+- A deterministic `RouteCatalog` with stable route identifiers and metadata.
+- The existing Neon Rift route as the first catalog entry.
+- A second original route, **The Glass Tide**.
+- Route-specific pacing, enemies, gifts, obstacles, and segment names.
+- Deterministic tests for catalog identity, content ordering, route bounds, gift availability, pacing, and completion configuration.
+
+Still pending:
+
+- Playable route selection in the Apple shells.
+- Manual tuning and completion validation for The Glass Tide.
+- A new enemy or hazard family.
+- Score-depth decisions.
+- Local high-score persistence.
 
 ## Acceptance criteria
 
