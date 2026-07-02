@@ -29,7 +29,9 @@ M1 route backdrop readability:
 
 ## Validation
 
-Pending local validation:
+Max confirmed validation passed after the route backdrop pass.
+
+Validated locally:
 
 ```bash
 swift test
@@ -38,22 +40,26 @@ swift run FlybyNighterMac
 
 ## Manual attempts
 
-Not run yet from this environment.
+Run locally by Max.
 
 ## Outcome summary
 
-Pending local playtest.
+- Tests passed.
+- Playable route looks fine.
+- Route backdrop improvement is accepted.
+- Background no longer reads as a plain black field.
 
 ## Confusing moments
 
-Pending local playtest.
+No new confusing moments reported after the route backdrop pass.
 
 ## Deferred polish
 
 - Full placeholder audio event wiring.
-- More precise per-sector tuning after manual playtest.
+- More precise per-sector tuning after further playtest.
 - Possible authored route notes per spawn if tuning grows.
 - Richer background art after the placeholder readability pass.
+- Wiring `ReadableSpriteFactory` into `FlybyNighterScene` remains deferred because the connector blocked the scene rewrite; the factory file is staged infrastructure only.
 
 ## Spec trace
 
