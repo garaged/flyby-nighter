@@ -139,6 +139,174 @@ final class FlybyNighterCoreTests: XCTestCase {
         XCTAssertEqual(events, [.enemyRemoved(score: 100)])
     }
 
+    func testAuthoredContentSpawnsFromRouteProgress() {
+        let enemy = EnemyState(
+            id: 99,
+            kind: .drifter,
+            spawnProgress: 12,
+            position: Vector2(x: 300, y: 300),
+            velocity: Vector2(x: 0, y: 0),
+            hp: 1,
+            collisionRadius: 16
+        )
+        let gift = GiftState(id: 88, kind: .rapid, spawnProgress: 12, position: Vector2(x: 300, y: 260))
+        let obstacle = ObstacleState(
+            id: 77,
+            kind: .staticObstacle,
+            spawnProgress: 12,
+            position: Vector2(x: 300, y: 340),
+            velocity: Vector2(x: 0, y: 0),
+            collisionBox: CollisionBox(halfWidth: 10, halfHeight: 10)
+        )
+        let config = GameConfig(routeSpeed: 12, initialContent: GameContent(enemies: [enemy], gifts: [gift], obstacles: [obstacle]))
+        var game = FlybyNighterGame(config: config)
+        _ = game.startRun()
+
+        let events = game.update(deltaTime: 1.0)
+
+        XCTAssertTrue(events.contains(.enemySpawned(.drifter)))
+        XCTAssertTrue(events.contains(.giftSpawned(.rapid)))
+        XCTAssertTrue(events.contains(.obstacleSpawned(.staticObstacle)))
+        XCTAssertEqual(game.state.enemies.first?.isActive, true)
+        XCTAssertEqual(game.state.gifts.first?.isActive, true)
+        XCTAssertEqual(game.state.obstacles.first?.isActive, true)
+    }
+
+    func testPlayerProjectileCanRemoveSpawnedEnemyAndAwardScore() {
+        let enemy = EnemyState(
+            id: 1,
+            kind: .drifter,
+            spawnProgress: 0,
+            position: Vector2(x: 190, y: 300),
+            velocity: Vector2(x: 0, y: 0),
+            hp: 1,
+            collisionRadius: 18
+        )
+        let config = GameConfig(routeSpeed: 0, baseFireCooldown: 0.25, initialContent: GameContent(enemies: [enemy]))
+        var game = FlybyNighterGame(config: config)
+        _ = game.startRun()
+
+        let events = game.update(deltaTime: 0.0, input: GameInput(isFiring: true))
+
+        XCTAssertTrue(events.contains(.enemySpawned(.drifter)))
+        XCTAssertTrue(events.contains(.playerFired(projectileCount: 1)))
+        XCTAssertTrue(events.contains(.enemyRemoved(score: 100)))
+        XCTAssertEqual(game.state.score, 100)
+        XCTAssertEqual(game.state.enemies.first?.isRemoved, true)
+        XCTAssertTrue(game.state.projectiles.isEmpty)
+    }
+
+    func testEnemyCanFireProjectile() {
+        let enemy = EnemyState(
+            id: 42,
+            kind: .sentry,
+            spawnProgress: 0,
+            position: Vector2(x: 300, y: 300),
+            velocity: Vector2(x: 0, y: 0),
+            hp: 2,
+            collisionRadius: 20,
+            fireCooldownRemaining: 0,
+            fireInterval: 1.2
+        )
+        let config = GameConfig(routeSpeed: 0, initialContent: GameContent(enemies: [enemy]))
+        var game = FlybyNighterGame(config: config)
+        _ = game.startRun()
+
+        let events = game.update(deltaTime: 0.0)
+
+        XCTAssertTrue(events.contains(.enemySpawned(.sentry)))
+        XCTAssertTrue(events.contains(.enemyFired(enemyID: 42)))
+        XCTAssertEqual(game.state.projectiles.count, 1)
+        XCTAssertEqual(game.state.projectiles.first?.owner, .enemy)
+    }
+
+    func testEnemyProjectileCollisionDamagesPlayer() {
+        let enemyProjectile = ProjectileState(
+            id: 1,
+            owner: .enemy,
+            position: Vector2(x: 160, y: 300),
+            velocity: Vector2(x: 0, y: 0),
+            collisionRadius: 5
+        )
+        let content = GameContent()
+        var initialState = GameState.freshRun(config: GameConfig(initialContent: content))
+        initialState.projectiles = [enemyProjectile]
+
+        var game = FlybyNighterGame(config: GameConfig(initialContent: content))
+        _ = game.startRun()
+        game = game.replacingStateForTesting(initialState)
+
+        let events = game.update(deltaTime: 0.0)
+
+        XCTAssertTrue(events.contains(.playerDamaged(remainingHP: 2)))
+        XCTAssertEqual(game.state.player.hp, 2)
+        XCTAssertTrue(game.state.projectiles.isEmpty)
+    }
+
+    func testGiftCollisionActivatesGiftAndAwardsScore() {
+        let gift = GiftState(
+            id: 1,
+            kind: .spread,
+            spawnProgress: 0,
+            position: Vector2(x: 160, y: 300),
+            collisionRadius: 16
+        )
+        let config = GameConfig(routeSpeed: 0, initialContent: GameContent(gifts: [gift]))
+        var game = FlybyNighterGame(config: config)
+        _ = game.startRun()
+
+        let events = game.update(deltaTime: 0.0)
+
+        XCTAssertTrue(events.contains(.giftSpawned(.spread)))
+        XCTAssertTrue(events.contains(.giftCollected(.spread)))
+        XCTAssertEqual(game.state.score, 50)
+        XCTAssertEqual(game.state.player.activePower?.kind, .spread)
+        XCTAssertEqual(game.state.gifts.first?.isCollected, true)
+    }
+
+    func testStaticObstacleCollisionDamagesPlayer() {
+        let obstacle = ObstacleState(
+            id: 1,
+            kind: .staticObstacle,
+            spawnProgress: 0,
+            position: Vector2(x: 160, y: 300),
+            velocity: Vector2(x: 0, y: 0),
+            collisionBox: CollisionBox(halfWidth: 18, halfHeight: 18)
+        )
+        let config = GameConfig(routeSpeed: 0, initialContent: GameContent(obstacles: [obstacle]))
+        var game = FlybyNighterGame(config: config)
+        _ = game.startRun()
+
+        let events = game.update(deltaTime: 0.0)
+
+        XCTAssertTrue(events.contains(.obstacleSpawned(.staticObstacle)))
+        XCTAssertTrue(events.contains(.playerDamaged(remainingHP: 2)))
+        XCTAssertEqual(game.state.player.hp, 2)
+    }
+
+    func testPulseGateSafePhaseDoesNotDamagePlayer() {
+        let gate = ObstacleState(
+            id: 1,
+            kind: .pulseGate,
+            spawnProgress: 0,
+            position: Vector2(x: 160, y: 300),
+            velocity: Vector2(x: 0, y: 0),
+            collisionBox: CollisionBox(halfWidth: 18, halfHeight: 18),
+            pulsePeriod: 2.0,
+            pulseDangerDuration: 0.5,
+            pulsePhaseOffset: 1.0
+        )
+        let config = GameConfig(routeSpeed: 0, initialContent: GameContent(obstacles: [gate]))
+        var game = FlybyNighterGame(config: config)
+        _ = game.startRun()
+
+        let events = game.update(deltaTime: 0.0)
+
+        XCTAssertTrue(events.contains(.obstacleSpawned(.pulseGate)))
+        XCTAssertFalse(events.contains(.playerDamaged(remainingHP: 2)))
+        XCTAssertEqual(game.state.player.hp, 3)
+    }
+
     func testRestartResetsRunStateAndTransientGameplay() {
         var game = FlybyNighterGame()
         _ = game.startRun()
@@ -160,5 +328,25 @@ final class FlybyNighterCoreTests: XCTestCase {
         XCTAssertEqual(game.state.routeProgress, 0)
         XCTAssertEqual(game.state.score, 0)
         XCTAssertTrue(game.state.projectiles.isEmpty)
+    }
+}
+
+private extension FlybyNighterGame {
+    func replacingStateForTesting(_ state: GameState) -> FlybyNighterGame {
+        var copy = self
+        copy.replaceStateForTesting(state)
+        return copy
+    }
+
+    mutating func replaceStateForTesting(_ newState: GameState) {
+        self = FlybyNighterGame.Testing.replaceState(in: self, with: newState)
+    }
+
+    enum Testing {
+        static func replaceState(in game: FlybyNighterGame, with state: GameState) -> FlybyNighterGame {
+            var replacement = game
+            replacement._replaceStateForTesting(state)
+            return replacement
+        }
     }
 }
