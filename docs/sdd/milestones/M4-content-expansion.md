@@ -57,6 +57,8 @@ M4-A and M4-B delivered:
 - Successful macOS, iPhone, and iPad validation.
 - Successful completion of both routes after learning.
 
+`SPEC-0022` is implemented.
+
 ## Remaining M4 work
 
 - A new enemy or hazard family.
