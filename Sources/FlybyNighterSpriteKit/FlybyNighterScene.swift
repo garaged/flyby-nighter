@@ -8,6 +8,8 @@ public final class FlybyNighterScene: SKScene {
     private var game = FlybyNighterGame()
     private var input = GameInput()
     private var lastUpdateTime: TimeInterval?
+    private var playerFlashRemaining: TimeInterval = 0
+    private var hudPulseRemaining: TimeInterval = 0
 
     private let worldLayer = SKNode()
     private let obstacleLayer = SKNode()
@@ -16,6 +18,10 @@ public final class FlybyNighterScene: SKScene {
     private let projectileLayer = SKNode()
     private let playerNode = SKShapeNode(path: FlybyNighterScene.makePlayerPath())
     private let hudLabel = SKLabelNode(fontNamed: "Menlo")
+    private let powerLabel = SKLabelNode(fontNamed: "Menlo")
+    private let progressLabel = SKLabelNode(fontNamed: "Menlo")
+    private let progressTrackNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 220, height: 8), cornerRadius: 4)
+    private let progressFillNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 2, height: 8), cornerRadius: 4)
     private let titleLabel = SKLabelNode(fontNamed: "Menlo-Bold")
     private let resultLabel = SKLabelNode(fontNamed: "Menlo-Bold")
 
@@ -41,7 +47,20 @@ public final class FlybyNighterScene: SKScene {
         let deltaTime = lastUpdateTime.map { currentTime - $0 } ?? 0
         lastUpdateTime = currentTime
 
+        let previousHP = game.state.player.hp
+        let previousScore = game.state.score
         _ = game.update(deltaTime: deltaTime, input: input)
+
+        if game.state.player.hp < previousHP {
+            playerFlashRemaining = 0.22
+        }
+        if game.state.score > previousScore {
+            hudPulseRemaining = 0.18
+        }
+
+        playerFlashRemaining = max(0, playerFlashRemaining - deltaTime)
+        hudPulseRemaining = max(0, hudPulseRemaining - deltaTime)
+
         render()
     }
 
@@ -57,6 +76,8 @@ public final class FlybyNighterScene: SKScene {
         switch game.state.runState {
         case .title, .completed, .failed:
             _ = game.restartRun()
+            playerFlashRemaining = 0
+            hudPulseRemaining = 0
             lastUpdateTime = nil
         case .playing:
             break
@@ -125,12 +146,20 @@ public final class FlybyNighterScene: SKScene {
         playerNode.lineWidth = 1.5
         worldLayer.addChild(playerNode)
 
-        hudLabel.fontSize = 14
-        hudLabel.horizontalAlignmentMode = .left
-        hudLabel.verticalAlignmentMode = .top
-        hudLabel.fontColor = .white
-        hudLabel.position = CGPoint(x: 16, y: size.height - 16)
-        addChild(hudLabel)
+        configureHUDLabel(hudLabel, fontSize: 14, position: CGPoint(x: 16, y: size.height - 16))
+        configureHUDLabel(powerLabel, fontSize: 13, position: CGPoint(x: 16, y: size.height - 36))
+        configureHUDLabel(progressLabel, fontSize: 12, position: CGPoint(x: 246, y: size.height - 36))
+
+        progressTrackNode.fillColor = .darkGray
+        progressTrackNode.strokeColor = .white
+        progressTrackNode.lineWidth = 1
+        progressTrackNode.position = CGPoint(x: 16, y: size.height - 62)
+        addChild(progressTrackNode)
+
+        progressFillNode.fillColor = .cyan
+        progressFillNode.strokeColor = .clear
+        progressFillNode.position = progressTrackNode.position
+        addChild(progressFillNode)
 
         titleLabel.fontSize = 28
         titleLabel.horizontalAlignmentMode = .center
@@ -147,11 +176,20 @@ public final class FlybyNighterScene: SKScene {
         addChild(resultLabel)
     }
 
+    private func configureHUDLabel(_ label: SKLabelNode, fontSize: CGFloat, position: CGPoint) {
+        label.fontSize = fontSize
+        label.horizontalAlignmentMode = .left
+        label.verticalAlignmentMode = .top
+        label.fontColor = .white
+        label.position = position
+        addChild(label)
+    }
+
     private func render() {
         guard playerNode.parent != nil else { return }
 
-        hudLabel.text = "HP \(game.state.player.hp)   Score \(game.state.score)   Power \(activePowerText)"
-        playerNode.position = Self.cgPoint(game.state.player.position)
+        renderHUD()
+        renderPlayer()
         worldLayer.isHidden = game.state.runState == .title
 
         renderObstacles()
@@ -161,19 +199,54 @@ public final class FlybyNighterScene: SKScene {
         renderOverlay()
     }
 
-    private var activePowerText: String {
+    private func renderHUD() {
+        hudLabel.text = "HP \(game.state.player.hp)/\(game.config.maxHP)   Score \(game.state.score)"
+        hudLabel.setScale(hudPulseRemaining > 0 ? 1.08 : 1.0)
+        powerLabel.text = powerDisplayText
+
+        let progress = routeProgressFraction
+        let progressWidth = max(2, 220 * CGFloat(progress))
+        progressFillNode.path = CGPath(
+            roundedRect: CGRect(x: 0, y: 0, width: progressWidth, height: 8),
+            cornerWidth: 4,
+            cornerHeight: 4,
+            transform: nil
+        )
+        progressFillNode.isHidden = game.state.runState == .title
+        progressTrackNode.isHidden = game.state.runState == .title
+        progressLabel.text = "Route \(Int(progress * 100))%"
+        progressLabel.isHidden = game.state.runState == .title
+    }
+
+    private func renderPlayer() {
+        playerNode.position = Self.cgPoint(game.state.player.position)
+        playerNode.fillColor = playerFlashRemaining > 0 ? .white : .cyan
+        playerNode.setScale(playerFlashRemaining > 0 ? 1.15 : 1.0)
+    }
+
+    private var powerDisplayText: String {
+        var parts: [String] = []
         if game.state.player.shieldCharges > 0 {
-            return "Shield"
+            parts.append("Shield")
         }
-        guard let activePower = game.state.player.activePower else {
-            return "None"
+        if let activePower = game.state.player.activePower {
+            let seconds = max(0, activePower.remainingTime)
+            switch activePower.kind {
+            case .rapid:
+                parts.append(String(format: "Rapid %.1fs", seconds))
+            case .spread:
+                parts.append(String(format: "Spread %.1fs", seconds))
+            }
         }
-        switch activePower.kind {
-        case .rapid:
-            return "Rapid"
-        case .spread:
-            return "Spread"
+        if parts.isEmpty {
+            return "Power: None"
         }
+        return "Power: " + parts.joined(separator: " + ")
+    }
+
+    private var routeProgressFraction: Double {
+        guard game.config.routeLength > 0 else { return 0 }
+        return min(max(game.state.routeProgress / game.config.routeLength, 0), 1)
     }
 
     private func renderEnemies() {
