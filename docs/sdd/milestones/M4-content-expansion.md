@@ -35,38 +35,32 @@ M4 is governed by:
 
 ## Implementation slices
 
-1. Second route content model — implemented.
-2. Second route playable selection and route-specific HUD — implemented; validation pending.
-3. Glass Tide manual tuning and completion validation — pending.
-4. New enemy or hazard family — pending.
-5. Score depth or combo pass — pending.
-6. Local high score storage — pending.
+1. Second route content model — completed and validated.
+2. Cross-platform route selection and route-specific HUD — completed and validated.
+3. New enemy or hazard family — pending.
+4. Score depth or combo pass — pending decision and implementation.
+5. Local high score storage — pending.
 
-## Current progress
+## Completed route expansion
 
-M4-A added:
+M4-A and M4-B delivered:
 
 - A deterministic `RouteCatalog` with stable route identifiers and metadata.
 - The existing Neon Rift route as the first catalog entry.
 - A second original route, **The Glass Tide**.
 - Route-specific pacing, enemies, gifts, obstacles, and segment names.
-- Deterministic tests for catalog identity, content ordering, route bounds, gift availability, pacing, and completion configuration.
-
-M4-B adds:
-
-- Route selection from title, completion, and failure screens.
-- macOS selection through left/right arrows and side click zones.
-- iPhone/iPad selection through side tap zones.
-- Center tap/click or Return to start and replay.
+- Cross-platform selection from title, completion, and failure screens.
+- macOS keyboard and click selection.
+- iPhone/iPad touch selection.
 - Route-specific HUD names and segment labels.
-- Shared selection behavior across the AppKit, legacy macOS, iPhone, and iPad shells.
-- Adapter tests for wraparound, selected configuration, and route-specific segment presentation.
+- Deterministic core and adapter tests.
+- Successful macOS, iPhone, and iPad validation.
+- Successful completion of both routes after learning.
 
-Still pending:
+## Remaining M4 work
 
-- Manual Glass Tide fairness and completion validation.
 - A new enemy or hazard family.
-- Score-depth decisions.
+- Score-depth decision and optional combo rules.
 - Local-high-score persistence.
 
 ## Acceptance criteria
