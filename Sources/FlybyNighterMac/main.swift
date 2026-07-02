@@ -58,7 +58,6 @@ final class KeyboardGameView: SKView {
     }
 
     private var pressedKeyCodes = Set<UInt16>()
-    private let tonePlayer = RuntimeTonePlayer()
 
     override var acceptsFirstResponder: Bool { true }
 
@@ -72,10 +71,8 @@ final class KeyboardGameView: SKView {
         pressedKeyCodes.insert(event.keyCode)
 
         if event.keyCode == KeyCode.space {
-            tonePlayer.play(.a)
             gameScene?.setFiring(true)
         } else if event.keyCode == KeyCode.returnKey || event.keyCode == KeyCode.keypadEnter {
-            tonePlayer.play(.f)
             gameScene?.startOrRestartRun()
         } else {
             applyInput()
@@ -93,7 +90,6 @@ final class KeyboardGameView: SKView {
     }
 
     override func mouseUp(with event: NSEvent) {
-        tonePlayer.play(.f)
         gameScene?.startOrRestartRun()
     }
 
