@@ -1,5 +1,6 @@
 #if os(macOS)
 import AppKit
+import Dispatch
 import SpriteKit
 import FlybyNighterCore
 
