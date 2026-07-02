@@ -1,4 +1,4 @@
-# SPEC-0012: M1 Game Feel and Pacing
+# M1: Game Feel and Pacing
 
 Status: Proposed  
 Milestone: M1
