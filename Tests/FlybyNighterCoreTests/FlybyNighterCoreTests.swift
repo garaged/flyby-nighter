@@ -220,23 +220,24 @@ final class FlybyNighterCoreTests: XCTestCase {
         XCTAssertEqual(game.state.projectiles.first?.owner, .enemy)
     }
 
-    func testEnemyProjectileCollisionDamagesPlayer() {
-        let enemyProjectile = ProjectileState(
-            id: 1,
-            owner: .enemy,
-            position: Vector2(x: 160, y: 300),
+    func testEnemyProjectileCollisionDamagesPlayerThroughPublicUpdateLoop() {
+        let enemy = EnemyState(
+            id: 7,
+            kind: .sentry,
+            spawnProgress: 0,
+            position: Vector2(x: 300, y: 300),
             velocity: Vector2(x: 0, y: 0),
-            collisionRadius: 5
+            hp: 2,
+            collisionRadius: 10,
+            fireCooldownRemaining: 0,
+            fireInterval: 5
         )
-        let content = GameContent()
-        var initialState = GameState.freshRun(config: GameConfig(initialContent: content))
-        initialState.projectiles = [enemyProjectile]
-
-        var game = FlybyNighterGame(config: GameConfig(initialContent: content))
+        let config = GameConfig(routeSpeed: 0, initialContent: GameContent(enemies: [enemy]))
+        var game = FlybyNighterGame(config: config)
         _ = game.startRun()
-        game = game.replacingStateForTesting(initialState)
 
-        let events = game.update(deltaTime: 0.0)
+        _ = game.update(deltaTime: 0.0)
+        let events = game.update(deltaTime: 0.64)
 
         XCTAssertTrue(events.contains(.playerDamaged(remainingHP: 2)))
         XCTAssertEqual(game.state.player.hp, 2)
@@ -328,25 +329,5 @@ final class FlybyNighterCoreTests: XCTestCase {
         XCTAssertEqual(game.state.routeProgress, 0)
         XCTAssertEqual(game.state.score, 0)
         XCTAssertTrue(game.state.projectiles.isEmpty)
-    }
-}
-
-private extension FlybyNighterGame {
-    func replacingStateForTesting(_ state: GameState) -> FlybyNighterGame {
-        var copy = self
-        copy.replaceStateForTesting(state)
-        return copy
-    }
-
-    mutating func replaceStateForTesting(_ newState: GameState) {
-        self = FlybyNighterGame.Testing.replaceState(in: self, with: newState)
-    }
-
-    enum Testing {
-        static func replaceState(in game: FlybyNighterGame, with state: GameState) -> FlybyNighterGame {
-            var replacement = game
-            replacement._replaceStateForTesting(state)
-            return replacement
-        }
     }
 }
