@@ -90,7 +90,7 @@ Validated successfully on the implemented Apple shells:
 
 ## Result
 
-M4-A and M4-B acceptance criteria passed. `SPEC-0022` can be marked Implemented.
+M4-A and M4-B acceptance criteria passed. `SPEC-0022` is implemented.
 
 ## Remaining M4 work
 
