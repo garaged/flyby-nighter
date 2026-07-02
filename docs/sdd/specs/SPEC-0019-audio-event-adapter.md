@@ -1,6 +1,6 @@
 # SPEC-0019: Audio Event Adapter
 
-Status: Proposed  
+Status: Implemented  
 Milestone: M3
 
 ## Goal
@@ -27,3 +27,7 @@ Map deterministic `GameEvent` values to platform audio behavior outside `FlybyNi
 3. Missing audio capability does not break gameplay.
 4. Audio can be disabled.
 5. `swift test` passes.
+
+## Validation
+
+Validated through mapper tests and cross-platform playtesting. See `docs/implementation/M3-validation.md`.
