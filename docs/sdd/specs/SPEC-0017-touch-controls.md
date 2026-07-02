@@ -1,6 +1,6 @@
 # SPEC-0017: Touch Controls
 
-Status: Proposed  
+Status: Implemented  
 Milestone: M2
 
 ## Goal
@@ -33,4 +33,4 @@ Provide clear touch controls for the playable route on iPhone and iPad while kee
 
 ## Manual validation
 
-Record at least three touch attempts on a simulator or device and note control confusion, reachability, and visibility issues.
+Validated on iPhone and iPad with drag movement, touch-and-hold firing, start/restart, safe-area layout, orientation changes, resizing, and lifecycle behavior. See `docs/implementation/M2BC-validation.md`.
