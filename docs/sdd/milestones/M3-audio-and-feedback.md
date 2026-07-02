@@ -1,6 +1,6 @@
 # M3: Audio and Feedback
 
-Status: Proposed  
+Status: In Progress  
 Milestone: M3
 
 ## Goal
@@ -34,11 +34,12 @@ M3 is governed by:
 
 ## Implementation slices
 
-1. Audio event adapter contract.
-2. Original placeholder sound generation or bundled generated files.
-3. Scene event wiring.
-4. Mute/debug audio control.
-5. Validation notes.
+1. Audio event adapter contract — implemented.
+2. Original runtime-generated placeholder tones — implemented.
+3. Scene event wiring — implemented.
+4. Debug mute through `--mute-audio` and scene API — implemented.
+5. Visual flashes, pulses, and small camera impulses — implemented.
+6. Cross-platform audio and feedback validation — pending local playtest.
 
 ## Acceptance criteria
 
