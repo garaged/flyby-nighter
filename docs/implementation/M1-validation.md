@@ -12,6 +12,12 @@ M1-A route tuning baseline:
 - Preserved `GameConfig.m0` and `GameContent.neonRift` as the M0 baseline.
 - Added deterministic tests for M1 route duration, content order, gift availability, opening setup time, and M0/M1 config separation.
 
+M1 route backdrop readability:
+
+- Added `RouteBackdropNode` in the SpriteKit adapter.
+- Added moving route rails, diagonal flow lines, small drifting specks, sector tinting, and a late-route exit cue.
+- Kept backdrop rendering out of the deterministic core.
+
 ## Tuning intent
 
 - Run duration target is about 54 seconds.
@@ -19,6 +25,7 @@ M1-A route tuning baseline:
 - Gifts appear before the final route quarter.
 - Enemy pressure increases from early Drifter to later Needler/Sentry combinations.
 - Timed gates are spaced away from the opening and use shorter danger windows than M0.
+- The route should no longer read as a fully black empty field between active objects.
 
 ## Validation
 
@@ -43,10 +50,10 @@ Pending local playtest.
 
 ## Deferred polish
 
-- Further visual motion cues for the corridor.
 - Full placeholder audio event wiring.
 - More precise per-sector tuning after manual playtest.
 - Possible authored route notes per spawn if tuning grows.
+- Richer background art after the placeholder readability pass.
 
 ## Spec trace
 
