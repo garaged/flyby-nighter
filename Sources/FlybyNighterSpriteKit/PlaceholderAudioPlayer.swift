@@ -13,18 +13,26 @@ enum PlaceholderAudioCue: Equatable {
 }
 
 final class PlaceholderAudioPlayer {
+    var isEnabled = true
+
     private let engine = AVAudioEngine()
     private let player = AVAudioPlayerNode()
     private let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
 
     init() {
+        #if os(iOS) || os(tvOS)
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.ambient, mode: .default, options: [.mixWithOthers])
+        try? session.setActive(true)
+        #endif
+
         engine.attach(player)
         engine.connect(player, to: engine.mainMixerNode, format: format)
         try? engine.start()
     }
 
     func play(_ cue: PlaceholderAudioCue) {
-        guard let buffer = makeBuffer(for: cue) else { return }
+        guard isEnabled, let buffer = makeBuffer(for: cue) else { return }
 
         if !engine.isRunning {
             try? engine.start()
@@ -136,6 +144,7 @@ enum PlaceholderAudioCue: Equatable {
 }
 
 final class PlaceholderAudioPlayer {
+    var isEnabled = false
     func play(_ cue: PlaceholderAudioCue) {}
 }
 #endif
