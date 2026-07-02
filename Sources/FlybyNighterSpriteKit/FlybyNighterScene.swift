@@ -116,7 +116,7 @@ public final class FlybyNighterScene: SKScene {
         guard playerNode.parent != nil else { return }
 
         hudLabel.text = "HP \(game.state.player.hp)   Score \(game.state.score)   Power \(activePowerText)"
-        playerNode.position = CGPoint(x: game.state.player.position.x, y: game.state.player.position.y)
+        playerNode.position = Self.cgPoint(game.state.player.position)
         worldLayer.isHidden = game.state.runState == .title
 
         renderObstacles()
@@ -153,12 +153,13 @@ public final class FlybyNighterScene: SKScene {
                 node = SKShapeNode(path: Self.makeNeedlerPath(radius: enemy.collisionRadius))
                 node.fillColor = .orange
             case .sentry:
-                node = SKShapeNode(rectOf: CGSize(width: enemy.collisionRadius * 2, height: enemy.collisionRadius * 2))
+                let diameter = CGFloat(enemy.collisionRadius * 2)
+                node = SKShapeNode(rectOf: CGSize(width: diameter, height: diameter))
                 node.fillColor = .purple
             }
             node.strokeColor = .white
             node.lineWidth = 1
-            node.position = CGPoint(x: enemy.position.x, y: enemy.position.y)
+            node.position = Self.cgPoint(enemy.position)
             enemyLayer.addChild(node)
         }
     }
@@ -177,7 +178,7 @@ public final class FlybyNighterScene: SKScene {
             }
             node.strokeColor = .white
             node.lineWidth = 1.5
-            node.position = CGPoint(x: gift.position.x, y: gift.position.y)
+            node.position = Self.cgPoint(gift.position)
             giftLayer.addChild(node)
         }
     }
@@ -185,7 +186,10 @@ public final class FlybyNighterScene: SKScene {
     private func renderObstacles() {
         obstacleLayer.removeAllChildren()
         for obstacle in game.state.obstacles where obstacle.isActive {
-            let size = CGSize(width: obstacle.collisionBox.halfWidth * 2, height: obstacle.collisionBox.halfHeight * 2)
+            let size = CGSize(
+                width: CGFloat(obstacle.collisionBox.halfWidth * 2),
+                height: CGFloat(obstacle.collisionBox.halfHeight * 2)
+            )
             let node = SKShapeNode(rectOf: size)
             switch obstacle.kind {
             case .staticObstacle:
@@ -196,7 +200,7 @@ public final class FlybyNighterScene: SKScene {
                 node.strokeColor = .cyan
             }
             node.lineWidth = 2
-            node.position = CGPoint(x: obstacle.position.x, y: obstacle.position.y)
+            node.position = Self.cgPoint(obstacle.position)
             obstacleLayer.addChild(node)
         }
     }
@@ -208,7 +212,7 @@ public final class FlybyNighterScene: SKScene {
             let node = SKShapeNode(circleOfRadius: radius)
             node.fillColor = projectile.owner == .player ? .yellow : .red
             node.strokeColor = .clear
-            node.position = CGPoint(x: projectile.position.x, y: projectile.position.y)
+            node.position = Self.cgPoint(projectile.position)
             projectileLayer.addChild(node)
         }
     }
@@ -234,6 +238,10 @@ public final class FlybyNighterScene: SKScene {
             titleLabel.text = "Run Failed"
             resultLabel.text = "Score \(game.state.score) — Tap/click to restart"
         }
+    }
+
+    private static func cgPoint(_ vector: Vector2) -> CGPoint {
+        CGPoint(x: CGFloat(vector.x), y: CGFloat(vector.y))
     }
 
     private static func makePlayerPath() -> CGPath {
