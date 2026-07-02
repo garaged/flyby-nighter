@@ -15,12 +15,12 @@
 | SPEC-0013 | M1 map pacing | Proposed | M1 | Route sections, spawn timing, gift reachability, pressure ramp. |
 | SPEC-0014 | M1 visual readability | Proposed | M1 | HUD, route progress, player feedback, gifts, hazards, overlays. |
 | SPEC-0015 | M1 playtest validation | Proposed | M1 | Repeatable manual playtest script and validation note format. |
-| SPEC-0016 | Apple app shell | Implemented | M2 | Native macOS and iPhone/iPad shells share the same SpriteKit scene; mobile validation pending. |
-| SPEC-0017 | Touch controls | Implemented | M2 | Drag movement, touch-and-hold fire, start/restart, safe-area layout, and resize handling implemented. |
-| SPEC-0018 | macOS controls | Implemented | M2 | AppKit host, keyboard/click controls, focus recovery, and stale-input clearing validated. |
-| SPEC-0019 | Audio event adapter | Implemented | M3 | Exhaustive adapter-side mapping from core events to audio and visual cues with tests. |
-| SPEC-0020 | Placeholder SFX | Implemented | M3 | Original runtime-generated tones for shot, removal, damage, gift, shield, completion, and failure. |
-| SPEC-0021 | Feedback events | Implemented | M3 | Brief flashes, pulses, HUD emphasis, and bounded camera impulses; playtest validation pending. |
+| SPEC-0016 | Apple app shell | Implemented | M2 | Native macOS, iPhone, and iPad shells validated with the shared SpriteKit scene. |
+| SPEC-0017 | Touch controls | Implemented | M2 | Drag movement, hold-to-fire, safe-area layout, orientation, resizing, and lifecycle behavior validated. |
+| SPEC-0018 | macOS controls | Implemented | M2 | Keyboard/click controls, focus recovery, pause/resume, and stale-input clearing validated. |
+| SPEC-0019 | Audio event adapter | Implemented | M3 | Adapter-side mapping from deterministic core events to tested audio and visual cues validated. |
+| SPEC-0020 | Placeholder SFX | Implemented | M3 | Original runtime-generated tones and mute behavior validated across app shells. |
+| SPEC-0021 | Feedback events | Implemented | M3 | Brief flashes, pulses, HUD emphasis, and bounded camera impulses manually validated. |
 
 ## Implementation rule
 
