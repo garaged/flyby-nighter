@@ -1,7 +1,7 @@
 # M4-B Route Selection Validation
 
 Branch: `m4-content-expansion`  
-Status: Automated and manual validation pending
+Status: Automated validation passed; manual validation pending
 
 ## Implemented
 
@@ -48,19 +48,18 @@ During active play, drag movement and touch-and-hold firing retain their existin
 - Route-specific segment labels.
 - Segment progress clamping.
 
-Existing M4 core tests continue to cover route identity, authored content, ordering, bounds, gift order, pacing, and completion configuration.
+Existing M4 core tests cover route identity, authored content, ordering, bounds, gift order, pacing, and completion configuration.
 
-## Expected commands
+## Automated validation result
+
+Passed in PR #3 CI:
 
 ```bash
-swift package clean
 swift build
 swift test
-swift build --product FlybyNighterApp
-swift build --product FlybyNighterMac
 ```
 
-Mobile build:
+Passed in Mobile CI:
 
 ```bash
 xcodebuild \
@@ -71,6 +70,8 @@ xcodebuild \
   CODE_SIGNING_ALLOWED=NO \
   build
 ```
+
+The package CI also compiled both macOS executable products.
 
 ## Manual validation matrix
 
