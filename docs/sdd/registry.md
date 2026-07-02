@@ -15,6 +15,9 @@
 | SPEC-0013 | M1 map pacing | Proposed | M1 | Route sections, spawn timing, gift reachability, pressure ramp. |
 | SPEC-0014 | M1 visual readability | Proposed | M1 | HUD, route progress, player feedback, gifts, hazards, overlays. |
 | SPEC-0015 | M1 playtest validation | Proposed | M1 | Repeatable manual playtest script and validation note format. |
+| SPEC-0016 | Apple app shell | Proposed | M2 | Real app shell, scene hosting, lifecycle basics, launch validation. |
+| SPEC-0017 | Touch controls | Proposed | M2 | iPhone/iPad movement, fire, start, restart, and visibility rules. |
+| SPEC-0018 | macOS controls | Proposed | M2 | Keyboard movement, firing, focus, start/restart, local playtest path. |
 
 ## Implementation rule
 
