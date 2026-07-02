@@ -10,6 +10,7 @@ This branch starts M0 implementation with an Apple-first Swift package structure
 
 - `FlybyNighterCore`: deterministic gameplay rules.
 - `FlybyNighterSpriteKit`: thin SpriteKit adapter scaffold.
+- `FlybyNighterMac`: macOS playable wrapper for local launch with `swift run`.
 - `FlybyNighterCoreTests`: XCTest coverage for M0 core rules.
 
 ## Current core behavior
@@ -56,24 +57,49 @@ This branch starts M0 implementation with an Apple-first Swift package structure
 - Title overlay.
 - Completion/failed-run overlays.
 - Tap/click start and restart.
+- Touch drag movement and hold-to-fire on touch platforms.
 - Public adapter hooks for movement and firing input.
+
+## Current macOS wrapper behavior
+
+`FlybyNighterMac` currently provides:
+
+- A local macOS SpriteKit window.
+- `FlybyNighterScene` presentation.
+- Keyboard movement input.
+- Keyboard firing input.
+- Keyboard/click start and restart.
+
+## Controls
+
+macOS wrapper:
+
+- Start/restart: Return, keypad Enter, or click.
+- Move: WASD or arrow keys.
+- Fire: Space.
+
+Touch platforms through the reusable scene:
+
+- Start/restart: tap.
+- Move: touch and drag relative to the ship.
+- Fire: hold touch while playing.
 
 ## Known deferred implementation
 
-- Real Xcode app target/project wrapper.
-- Keyboard mapping into `setMovement` and `setFiring`.
-- Touch virtual controls.
+- Real `.xcodeproj` or app-store-ready Xcode app target.
 - Tuned authored map layout and pacing.
 - Richer enemy movement and attack patterns.
+- Dedicated on-screen virtual joystick/fire button UI.
 - Placeholder audio playback.
 - CI workflow.
 
-## Expected validation command
+## Expected validation commands
 
 Once checked out locally on macOS with Swift/Xcode tools installed:
 
 ```bash
 swift test
+swift run FlybyNighterMac
 ```
 
 I have not run validation from this environment; this branch should be validated locally or by CI before merging.
