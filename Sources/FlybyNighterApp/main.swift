@@ -22,11 +22,12 @@ struct FlybyNighterSceneHost: NSViewRepresentable {
         view.preferredFramesPerSecond = 60
         view.gameScene = scene
         view.presentScene(scene)
+        view.requestKeyboardFocus()
         return view
     }
 
     func updateNSView(_ nsView: MacKeyboardGameView, context: Context) {
-        nsView.window?.makeFirstResponder(nsView)
+        nsView.requestKeyboardFocus()
     }
 }
 #else
