@@ -105,5 +105,5 @@ swift run FlybyNighterMac
 
 ## Validation notes
 
+- `swift test`: passed locally on 2026-07-01 at 21:19:20.349. Executed 19 tests with 0 failures in `FlybyNighterCoreTests`; package test suite also passed with 19 tests and 0 failures.
 - `swift run FlybyNighterMac`: manually confirmed by Max after AppKit bootstrap fix. The game window opens and the current playable wrapper looks and works as expected.
-- `swift test`: still needs local or CI validation.
