@@ -1,6 +1,6 @@
 # SPEC-0018: macOS Controls
 
-Status: Proposed  
+Status: Implemented  
 Milestone: M2
 
 ## Goal
@@ -29,3 +29,7 @@ Preserve and refine the macOS control path so local desktop playtesting remains 
 4. The window reliably receives keyboard focus after launch.
 5. Local validation still supports `swift run FlybyNighterMac` until a fuller app launch path replaces it.
 6. `swift test` passes.
+
+## Validation
+
+Validated in both macOS launch paths, including pause/resume and stale-input clearing. See `docs/implementation/M2BC-validation.md`.
