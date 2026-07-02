@@ -1,42 +1,35 @@
 # M2 Validation
 
-Branch: `m0-apple-scaffold`
+Branch: `m0-apple-scaffold`  
+Status: Passed  
+Validated: July 2, 2026
 
-## Implemented
+## Validated platforms
 
-### macOS app shell and controls
+### macOS
 
-- Native AppKit `FlybyNighterApp` shell.
-- Shared `FlybyNighterScene` and `MacKeyboardGameView` adapter.
-- WASD and arrow-key movement.
-- Space firing.
-- Return, keypad Enter, and click start/restart.
-- Input clearing on focus loss.
-- Pause/resume on app and window activation changes.
+- Native AppKit `FlybyNighterApp` shell launches successfully.
+- WASD and arrow-key movement work.
+- Space firing works.
+- Return, keypad Enter, and click start/restart work.
+- Focus loss clears input.
+- Application and window pause/resume behavior works without stuck input or time jumps.
 
-Manual macOS validation passed on July 2, 2026.
+### iPhone and iPad
 
-### iPhone and iPad shell
-
-- Native `FlybyNighterMobile` iOS/iPadOS application target.
-- Shared local Swift package dependency on `FlybyNighterSpriteKit`.
-- Supports iPhone and iPad device families.
-- Supports portrait and landscape orientations.
-- Keeps gameplay and HUD inside the safe area with black fill outside it.
-- Resizes the shared scene when the device orientation or iPad window size changes.
-- Pauses and clears input when the mobile scene becomes inactive.
-
-### Touch controls
-
-- Touch down starts or restarts a run when needed.
+- Native `FlybyNighterMobile` target launches successfully.
+- Touch down starts or restarts the run.
 - Touch and hold fires continuously.
-- Dragging steers relative to the ship position.
-- Releasing or cancelling a touch stops movement and firing.
-- No deterministic gameplay rules are duplicated in the app target.
+- Dragging steers relative to the ship.
+- Releasing or cancelling stops movement and firing.
+- HUD elements remain visible inside safe areas.
+- Portrait and landscape transitions resize correctly.
+- iPad resizing updates the scene without stale coordinates.
+- Background and foreground transitions pause and resume correctly.
 
 ## Automated validation
 
-Swift package validation:
+Passed:
 
 ```bash
 swift package clean
@@ -44,15 +37,7 @@ swift build
 swift test
 ```
 
-macOS application validation:
-
-```bash
-swift build --product FlybyNighterApp
-swift run FlybyNighterApp
-swift run FlybyNighterMac
-```
-
-iPhone/iPad target validation:
+Passed mobile target build:
 
 ```bash
 xcodebuild \
@@ -64,33 +49,14 @@ xcodebuild \
   build
 ```
 
-The mobile build is also covered by `.github/workflows/mobile-ci.yml`.
+CI coverage:
 
-## Manual mobile validation matrix
+- `.github/workflows/ci.yml`
+- `.github/workflows/mobile-ci.yml`
 
-Run at least three attempts on an iPhone simulator or device and three attempts on an iPad simulator or device.
+## Result
 
-Confirm:
-
-- Touch down starts the run.
-- Holding the touch fires repeatedly.
-- Dragging moves without requiring the finger to cover the ship.
-- Releasing stops movement and firing.
-- HP, score, route progress, and active power remain visible.
-- Portrait and landscape transitions resize cleanly.
-- iPad split-view or resizable simulator windows update the scene without stretching stale coordinates.
-- Moving the app to the background pauses gameplay and clears touch state.
-- Returning to the app resumes without a large time jump.
-- Completion, failure, and restart remain functional.
-
-## M2 completion gate
-
-M2 can be marked complete after:
-
-1. `swift test` passes.
-2. The mobile Xcode target builds for the iOS Simulator.
-3. The mobile manual validation matrix passes.
-4. No deterministic-core regression is observed.
+M2 acceptance criteria passed with no observed deterministic-core regressions.
 
 ## Deferred polish
 
