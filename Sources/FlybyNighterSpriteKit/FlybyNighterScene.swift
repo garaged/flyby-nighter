@@ -65,8 +65,43 @@ public final class FlybyNighterScene: SKScene {
     }
 
     #if os(iOS) || os(tvOS)
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if game.state.runState != .playing {
+            startOrRestartRun()
+        }
+
+        guard game.state.runState == .playing, let touch = touches.first else { return }
+        setFiring(true)
+        updateTouchMovement(touch)
+    }
+
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard game.state.runState == .playing, let touch = touches.first else { return }
+        updateTouchMovement(touch)
+    }
+
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        startOrRestartRun()
+        setMovement(Vector2())
+        setFiring(false)
+    }
+
+    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        setMovement(Vector2())
+        setFiring(false)
+    }
+
+    private func updateTouchMovement(_ touch: UITouch) {
+        let location = touch.location(in: self)
+        let playerPosition = game.state.player.position
+        let dx = Double(location.x) - playerPosition.x
+        let dy = Double(location.y) - playerPosition.y
+        let deadzone = 18.0
+        let scale = 120.0
+
+        let x = abs(dx) < deadzone ? 0 : Swift.min(Swift.max(dx / scale, -1), 1)
+        let y = abs(dy) < deadzone ? 0 : Swift.min(Swift.max(dy / scale, -1), 1)
+
+        setMovement(Vector2(x: x, y: y))
     }
     #endif
 
