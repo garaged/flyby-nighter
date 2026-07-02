@@ -5,7 +5,7 @@ import FlybyNighterCore
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 public final class FlybyNighterScene: SKScene {
-    private var game = FlybyNighterGame()
+    private var game = FlybyNighterGame(config: .m1)
     private var input = GameInput()
     private var lastUpdateTime: TimeInterval?
     private var playerFlashRemaining: TimeInterval = 0
