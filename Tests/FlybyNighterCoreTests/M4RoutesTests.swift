@@ -6,7 +6,6 @@ final class M4RoutesTests: XCTestCase {
         let routes = RouteCatalog.all
 
         XCTAssertEqual(routes.map(\.id), [.neonRift, .glassTide])
-        XCTAssertEqual(Set(routes.map(\.id)).count, 2)
         XCTAssertEqual(Set(routes.map(\.displayName)).count, 2)
         XCTAssertTrue(routes.allSatisfy { !$0.summary.isEmpty })
         XCTAssertTrue(routes.allSatisfy { $0.segmentNames.count == 7 })
@@ -40,8 +39,8 @@ final class M4RoutesTests: XCTestCase {
     func testGlassTideIncludesEveryGiftWithDifferentTeachingOrder() {
         let gifts = RouteCatalog.definition(for: .glassTide).config.initialContent.gifts
 
+        XCTAssertEqual(gifts.count, 3)
         XCTAssertEqual(gifts.map(\.kind), [.shield, .rapid, .spread])
-        XCTAssertEqual(Set(gifts.map(\.kind)).count, 3)
     }
 
     func testGlassTideRouteConfigurationCanReachCompletion() {
