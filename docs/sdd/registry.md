@@ -18,6 +18,9 @@
 | SPEC-0016 | Apple app shell | Proposed | M2 | Real app shell, scene hosting, lifecycle basics, launch validation. |
 | SPEC-0017 | Touch controls | Proposed | M2 | iPhone/iPad movement, fire, start, restart, and visibility rules. |
 | SPEC-0018 | macOS controls | Proposed | M2 | Keyboard movement, firing, focus, start/restart, local playtest path. |
+| SPEC-0019 | Audio event adapter | Proposed | M3 | Adapter-side mapping from game events to sounds. |
+| SPEC-0020 | Placeholder SFX | Proposed | M3 | Original temporary sound effects for playtesting. |
+| SPEC-0021 | Feedback events | Proposed | M3 | Visual feedback for major gameplay events. |
 
 ## Implementation rule
 
