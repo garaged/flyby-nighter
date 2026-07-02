@@ -1,6 +1,6 @@
 # M2: Apple App Shell
 
-Status: Proposed  
+Status: In Progress  
 Milestone: M2
 
 ## Goal
@@ -36,11 +36,12 @@ M2 is governed by:
 
 ## Implementation slices
 
-1. Create app target or project structure.
-2. Host the SpriteKit scene from the app shell.
-3. Add iPhone/iPad touch controls.
-4. Preserve and refine macOS controls.
-5. Add app launch validation notes.
+1. App target and native macOS shell — implemented.
+2. Shared SpriteKit scene hosting — implemented.
+3. macOS keyboard and click controls — implemented and manually validated.
+4. macOS pause/resume and stale-input clearing — implemented; local validation pending.
+5. iPhone/iPad app shell and touch controls — deferred to the next M2 slice.
+6. Final cross-platform launch validation — pending.
 
 ## Acceptance criteria
 
