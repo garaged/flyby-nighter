@@ -11,6 +11,7 @@ public final class FlybyNighterScene: SKScene {
     private var playerFlashRemaining: TimeInterval = 0
     private var hudPulseRemaining: TimeInterval = 0
 
+    private let routeBackdropNode = RouteBackdropNode()
     private let worldLayer = SKNode()
     private let obstacleLayer = SKNode()
     private let giftLayer = SKNode()
@@ -136,6 +137,7 @@ public final class FlybyNighterScene: SKScene {
     private func configureSceneGraphIfNeeded() {
         guard children.isEmpty else { return }
 
+        addChild(routeBackdropNode)
         addChild(worldLayer)
         worldLayer.addChild(obstacleLayer)
         worldLayer.addChild(giftLayer)
@@ -191,6 +193,12 @@ public final class FlybyNighterScene: SKScene {
     private func render() {
         guard playerNode.parent != nil else { return }
 
+        routeBackdropNode.render(
+            routeProgress: game.state.routeProgress,
+            routeLength: game.config.routeLength,
+            sceneSize: size,
+            visible: game.state.runState != .title
+        )
         renderHUD()
         renderPlayer()
         worldLayer.isHidden = game.state.runState == .title
