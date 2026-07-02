@@ -26,6 +26,7 @@ final class MobileGameModel: ObservableObject {
 
     init() {
         scene.scaleMode = .resizeFill
+        scene.setAudioEnabled(!ProcessInfo.processInfo.arguments.contains("--mute-audio"))
     }
 
     func resize(to size: CGSize) {
