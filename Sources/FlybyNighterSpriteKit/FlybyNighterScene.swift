@@ -5,7 +5,8 @@ import FlybyNighterCore
 
 @available(iOS 15.0, macOS 12.0, tvOS 15.0, *)
 public final class FlybyNighterScene: SKScene {
-    private var game = FlybyNighterGame(config: .m1)
+    private var routeSelection = RouteSelectionState()
+    private var game = FlybyNighterGame(config: RouteCatalog.definition(for: .neonRift).config)
     private var input = GameInput()
     private var lastUpdateTime: TimeInterval?
     private var playerFlashRemaining: TimeInterval = 0
@@ -27,7 +28,21 @@ public final class FlybyNighterScene: SKScene {
     private let progressTrackNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 220, height: 8), cornerRadius: 4)
     private let progressFillNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 2, height: 8), cornerRadius: 4)
     private let titleLabel = SKLabelNode(fontNamed: "Menlo-Bold")
-    private let resultLabel = SKLabelNode(fontNamed: "Menlo-Bold")
+    private let routeLabel = SKLabelNode(fontNamed: "Menlo-Bold")
+    private let resultLabel = SKLabelNode(fontNamed: "Menlo")
+    private let instructionLabel = SKLabelNode(fontNamed: "Menlo")
+
+    public var selectedRouteID: RouteID {
+        routeSelection.selectedRouteID
+    }
+
+    public var selectedRouteDisplayName: String {
+        routeSelection.selectedRoute.displayName
+    }
+
+    public var isRouteSelectionAvailable: Bool {
+        game.state.runState != .playing
+    }
 
     public override init(size: CGSize) {
         super.init(size: size)
@@ -94,6 +109,35 @@ public final class FlybyNighterScene: SKScene {
         isPaused = paused
     }
 
+    @discardableResult
+    public func selectNextRoute() -> Bool {
+        guard isRouteSelectionAvailable else { return false }
+        routeSelection.selectNext()
+        resetForSelectedRoute()
+        return true
+    }
+
+    @discardableResult
+    public func selectPreviousRoute() -> Bool {
+        guard isRouteSelectionAvailable else { return false }
+        routeSelection.selectPrevious()
+        resetForSelectedRoute()
+        return true
+    }
+
+    @discardableResult
+    public func handleRouteSelectionPointer(normalizedX: CGFloat) -> Bool {
+        guard isRouteSelectionAvailable else { return false }
+
+        if normalizedX < 0.34 {
+            return selectPreviousRoute()
+        }
+        if normalizedX > 0.66 {
+            return selectNextRoute()
+        }
+        return false
+    }
+
     public func startOrRestartRun() {
         switch game.state.runState {
         case .title, .completed, .failed:
@@ -110,11 +154,18 @@ public final class FlybyNighterScene: SKScene {
 
     #if os(iOS) || os(tvOS)
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+
         if game.state.runState != .playing {
+            let location = touch.location(in: self)
+            let normalizedX = size.width > 0 ? location.x / size.width : 0.5
+            if handleRouteSelectionPointer(normalizedX: normalizedX) {
+                return
+            }
             startOrRestartRun()
         }
 
-        guard game.state.runState == .playing, let touch = touches.first else { return }
+        guard game.state.runState == .playing else { return }
         setFiring(true)
         updateTouchMovement(touch)
     }
@@ -151,9 +202,24 @@ public final class FlybyNighterScene: SKScene {
 
     #if os(macOS)
     public override func mouseUp(with event: NSEvent) {
-        startOrRestartRun()
+        let normalizedX = size.width > 0 ? event.location(in: self).x / size.width : 0.5
+        if !handleRouteSelectionPointer(normalizedX: normalizedX) {
+            startOrRestartRun()
+        }
     }
     #endif
+
+    private func resetForSelectedRoute() {
+        game = FlybyNighterGame(config: routeSelection.selectedRoute.config)
+        input = GameInput()
+        lastUpdateTime = nil
+        playerFlashRemaining = 0
+        hudPulseRemaining = 0
+        feedbackLayer.removeAllChildren()
+        worldLayer.removeAction(forKey: "cameraImpulse")
+        worldLayer.position = .zero
+        render()
+    }
 
     private func configureSceneGraphIfNeeded() {
         guard children.isEmpty else { return }
@@ -193,11 +259,24 @@ public final class FlybyNighterScene: SKScene {
         titleLabel.fontColor = .cyan
         addChild(titleLabel)
 
-        resultLabel.fontSize = 22
+        routeLabel.fontSize = 19
+        routeLabel.horizontalAlignmentMode = .center
+        routeLabel.verticalAlignmentMode = .center
+        routeLabel.fontColor = .yellow
+        addChild(routeLabel)
+
+        resultLabel.fontSize = 14
         resultLabel.horizontalAlignmentMode = .center
         resultLabel.verticalAlignmentMode = .center
         resultLabel.fontColor = .white
+        resultLabel.numberOfLines = 2
         addChild(resultLabel)
+
+        instructionLabel.fontSize = 11
+        instructionLabel.horizontalAlignmentMode = .center
+        instructionLabel.verticalAlignmentMode = .center
+        instructionLabel.fontColor = .lightGray
+        addChild(instructionLabel)
     }
 
     private func configureHUDLabel(_ label: SKLabelNode, fontSize: CGFloat) {
@@ -221,8 +300,14 @@ public final class FlybyNighterScene: SKScene {
         progressLabel.position = CGPoint(x: progressX, y: top - 20)
         progressTrackNode.position = CGPoint(x: left, y: top - 46)
         progressFillNode.position = progressTrackNode.position
-        titleLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        resultLabel.position = CGPoint(x: size.width / 2, y: size.height / 2 - 48)
+
+        let centerX = size.width / 2
+        let centerY = size.height / 2
+        titleLabel.position = CGPoint(x: centerX, y: centerY + 54)
+        routeLabel.position = CGPoint(x: centerX, y: centerY + 12)
+        resultLabel.position = CGPoint(x: centerX, y: centerY - 25)
+        resultLabel.preferredMaxLayoutWidth = max(220, min(size.width - 40, 560))
+        instructionLabel.position = CGPoint(x: centerX, y: centerY - 70)
     }
 
     private func handleGameEvents(_ events: [GameEvent]) {
@@ -361,9 +446,9 @@ public final class FlybyNighterScene: SKScene {
         )
         progressFillNode.isHidden = game.state.runState == .title
         progressTrackNode.isHidden = game.state.runState == .title
-        progressLabel.text = "Route \(Int(progress * 100))%"
+        progressLabel.text = "\(selectedRouteDisplayName) \(Int(progress * 100))%"
         progressLabel.isHidden = game.state.runState == .title
-        segmentLabel.text = routeSegmentName
+        segmentLabel.text = routeSelection.segmentName(at: progress)
         segmentLabel.isHidden = game.state.runState == .title
     }
 
@@ -396,25 +481,6 @@ public final class FlybyNighterScene: SKScene {
     private var routeProgressFraction: Double {
         guard game.config.routeLength > 0 else { return 0 }
         return min(max(game.state.routeProgress / game.config.routeLength, 0), 1)
-    }
-
-    private var routeSegmentName: String {
-        switch routeProgressFraction {
-        case 0..<0.15:
-            return "Sector 01 Entry"
-        case 0.15..<0.30:
-            return "Sector 02 Narrow"
-        case 0.30..<0.45:
-            return "Sector 03 Gates"
-        case 0.45..<0.62:
-            return "Sector 04 Midway"
-        case 0.62..<0.75:
-            return "Sector 05 Cache"
-        case 0.75..<0.90:
-            return "Sector 06 Spine"
-        default:
-            return "Sector 07 Exit"
-        }
     }
 
     private func renderEnemies() {
@@ -496,24 +562,33 @@ public final class FlybyNighterScene: SKScene {
     private func renderOverlay() {
         switch game.state.runState {
         case .title:
-            titleLabel.isHidden = false
-            resultLabel.isHidden = false
+            setOverlayHidden(false)
             titleLabel.text = "Flyby Nighter"
-            resultLabel.text = "Tap/click to start"
+            routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
+            resultLabel.text = routeSelection.selectedRoute.summary
+            instructionLabel.text = "Side tap or ←/→: select   •   Center tap or Return: start"
         case .playing:
-            titleLabel.isHidden = true
-            resultLabel.isHidden = true
+            setOverlayHidden(true)
         case .completed:
-            titleLabel.isHidden = false
-            resultLabel.isHidden = false
+            setOverlayHidden(false)
             titleLabel.text = "Route Complete"
-            resultLabel.text = "Score \(game.state.score) — Tap/click to restart"
+            routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
+            resultLabel.text = "Score \(game.state.score)"
+            instructionLabel.text = "Side tap or ←/→: change route   •   Center tap or Return: replay"
         case .failed:
-            titleLabel.isHidden = false
-            resultLabel.isHidden = false
+            setOverlayHidden(false)
             titleLabel.text = "Run Failed"
-            resultLabel.text = "Score \(game.state.score) — Tap/click to restart"
+            routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
+            resultLabel.text = "Score \(game.state.score)"
+            instructionLabel.text = "Side tap or ←/→: change route   •   Center tap or Return: retry"
         }
+    }
+
+    private func setOverlayHidden(_ hidden: Bool) {
+        titleLabel.isHidden = hidden
+        routeLabel.isHidden = hidden
+        resultLabel.isHidden = hidden
+        instructionLabel.isHidden = hidden
     }
 
     private static func cgPoint(_ vector: Vector2) -> CGPoint {
