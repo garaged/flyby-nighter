@@ -21,6 +21,10 @@ let package = Package(
         .executable(
             name: "FlybyNighterMac",
             targets: ["FlybyNighterMac"]
+        ),
+        .executable(
+            name: "FlybyNighterApp",
+            targets: ["FlybyNighterApp"]
         )
     ],
     targets: [
@@ -35,6 +39,12 @@ let package = Package(
             name: "FlybyNighterMac",
             dependencies: [
                 "FlybyNighterCore",
+                "FlybyNighterSpriteKit"
+            ]
+        ),
+        .executableTarget(
+            name: "FlybyNighterApp",
+            dependencies: [
                 "FlybyNighterSpriteKit"
             ]
         ),
