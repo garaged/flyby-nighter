@@ -60,11 +60,11 @@ public final class FlybyNighterScene: SKScene {
         render()
     }
 
+    #if os(iOS) || os(tvOS)
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        #if os(iOS) || os(tvOS)
         startOrRestartRun()
-        #endif
     }
+    #endif
 
     #if os(macOS)
     public override func mouseUp(with event: NSEvent) {
