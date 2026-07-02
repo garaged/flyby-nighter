@@ -1,6 +1,6 @@
 # SPEC-0022: Second Route
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M4
 
 ## Goal
@@ -22,7 +22,7 @@ Add a second original playable route that reuses the existing deterministic syst
 
 The second route is **The Glass Tide**.
 
-Its initial identity is rhythm-first rather than pressure-first:
+Its identity is rhythm-first rather than pressure-first:
 
 - An early pulse gate introduces timing before the first enemy wave.
 - Shield appears before offensive gifts.
@@ -46,7 +46,7 @@ Its initial identity is rhythm-first rather than pressure-first:
 - No new enemy or hazard family in M4-A or M4-B.
 - No score persistence in this spec.
 
-## Acceptance criteria
+## Acceptance results
 
 1. The second route is selectable on macOS, iPhone, and iPad.
 2. It has a distinct pacing identity from the first route.
@@ -56,8 +56,8 @@ Its initial identity is rhythm-first rather than pressure-first:
 6. Route-specific HUD segment names are visible.
 7. Existing movement, firing, lifecycle, and restart controls do not regress.
 
-## Implementation status
+## Validation
 
-The route catalog, Glass Tide content, cross-platform route selection, and route-specific HUD are implemented. Manual completion, fairness, and regression validation remain before this spec can be marked Implemented.
+Implemented and validated on July 2, 2026.
 
 See `docs/implementation/M4A-validation.md` and `docs/implementation/M4B-validation.md`.
