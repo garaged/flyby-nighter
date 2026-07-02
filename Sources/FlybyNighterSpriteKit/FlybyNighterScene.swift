@@ -11,8 +11,10 @@ public final class FlybyNighterScene: SKScene {
     private var playerFlashRemaining: TimeInterval = 0
     private var hudPulseRemaining: TimeInterval = 0
 
+    private let audioPlayer = PlaceholderAudioPlayer()
     private let routeBackdropNode = RouteBackdropNode()
     private let worldLayer = SKNode()
+    private let feedbackLayer = SKNode()
     private let obstacleLayer = SKNode()
     private let giftLayer = SKNode()
     private let enemyLayer = SKNode()
@@ -42,6 +44,13 @@ public final class FlybyNighterScene: SKScene {
     public override func didMove(to view: SKView) {
         super.didMove(to: view)
         configureSceneGraphIfNeeded()
+        layoutScene()
+        render()
+    }
+
+    public override func didChangeSize(_ oldSize: CGSize) {
+        super.didChangeSize(oldSize)
+        layoutScene()
         render()
     }
 
@@ -51,7 +60,8 @@ public final class FlybyNighterScene: SKScene {
 
         let previousHP = game.state.player.hp
         let previousScore = game.state.score
-        _ = game.update(deltaTime: deltaTime, input: input)
+        let events = game.update(deltaTime: deltaTime, input: input)
+        handleGameEvents(events)
 
         if game.state.player.hp < previousHP {
             playerFlashRemaining = 0.22
@@ -74,10 +84,21 @@ public final class FlybyNighterScene: SKScene {
         input.isFiring = isFiring
     }
 
+    public func setAudioEnabled(_ enabled: Bool) {
+        audioPlayer.isEnabled = enabled
+    }
+
+    public func setLifecyclePaused(_ paused: Bool) {
+        input = GameInput()
+        lastUpdateTime = nil
+        isPaused = paused
+    }
+
     public func startOrRestartRun() {
         switch game.state.runState {
         case .title, .completed, .failed:
-            _ = game.restartRun()
+            let events = game.restartRun()
+            handleGameEvents(events)
             playerFlashRemaining = 0
             hudPulseRemaining = 0
             lastUpdateTime = nil
@@ -149,45 +170,160 @@ public final class FlybyNighterScene: SKScene {
         playerNode.lineWidth = 1.5
         worldLayer.addChild(playerNode)
 
-        configureHUDLabel(hudLabel, fontSize: 14, position: CGPoint(x: 16, y: size.height - 16))
-        configureHUDLabel(powerLabel, fontSize: 13, position: CGPoint(x: 16, y: size.height - 36))
-        configureHUDLabel(progressLabel, fontSize: 12, position: CGPoint(x: 246, y: size.height - 36))
-        configureHUDLabel(segmentLabel, fontSize: 13, position: CGPoint(x: 246, y: size.height - 16))
+        addChild(feedbackLayer)
+
+        configureHUDLabel(hudLabel, fontSize: 14)
+        configureHUDLabel(powerLabel, fontSize: 13)
+        configureHUDLabel(progressLabel, fontSize: 12)
+        configureHUDLabel(segmentLabel, fontSize: 13)
         segmentLabel.fontColor = .cyan
 
         progressTrackNode.fillColor = .darkGray
         progressTrackNode.strokeColor = .white
         progressTrackNode.lineWidth = 1
-        progressTrackNode.position = CGPoint(x: 16, y: size.height - 62)
         addChild(progressTrackNode)
 
         progressFillNode.fillColor = .cyan
         progressFillNode.strokeColor = .clear
-        progressFillNode.position = progressTrackNode.position
         addChild(progressFillNode)
 
         titleLabel.fontSize = 28
         titleLabel.horizontalAlignmentMode = .center
         titleLabel.verticalAlignmentMode = .center
         titleLabel.fontColor = .cyan
-        titleLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
         addChild(titleLabel)
 
         resultLabel.fontSize = 22
         resultLabel.horizontalAlignmentMode = .center
         resultLabel.verticalAlignmentMode = .center
         resultLabel.fontColor = .white
-        resultLabel.position = CGPoint(x: size.width / 2, y: size.height / 2 - 48)
         addChild(resultLabel)
     }
 
-    private func configureHUDLabel(_ label: SKLabelNode, fontSize: CGFloat, position: CGPoint) {
+    private func configureHUDLabel(_ label: SKLabelNode, fontSize: CGFloat) {
         label.fontSize = fontSize
         label.horizontalAlignmentMode = .left
         label.verticalAlignmentMode = .top
         label.fontColor = .white
-        label.position = position
         addChild(label)
+    }
+
+    private func layoutScene() {
+        guard !children.isEmpty else { return }
+
+        let left: CGFloat = 16
+        let top = size.height - 16
+        let progressX = min(max(246, size.width * 0.42), max(16, size.width - 230))
+
+        hudLabel.position = CGPoint(x: left, y: top)
+        powerLabel.position = CGPoint(x: left, y: top - 20)
+        segmentLabel.position = CGPoint(x: progressX, y: top)
+        progressLabel.position = CGPoint(x: progressX, y: top - 20)
+        progressTrackNode.position = CGPoint(x: left, y: top - 46)
+        progressFillNode.position = progressTrackNode.position
+        titleLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        resultLabel.position = CGPoint(x: size.width / 2, y: size.height / 2 - 48)
+    }
+
+    private func handleGameEvents(_ events: [GameEvent]) {
+        for event in events {
+            guard let feedback = GameEventFeedbackMapper.feedback(for: event) else { continue }
+
+            if let audioCue = feedback.audioCue {
+                audioPlayer.play(audioCue)
+            }
+            if let visualCue = feedback.visualCue {
+                applyVisualFeedback(visualCue)
+            }
+        }
+    }
+
+    private func applyVisualFeedback(_ cue: VisualFeedbackCue) {
+        switch cue {
+        case .playerShot:
+            showPulse(
+                at: CGPoint(x: playerNode.position.x + 22, y: playerNode.position.y),
+                color: .yellow,
+                radius: 5,
+                duration: 0.08
+            )
+        case .enemyRemoved:
+            flashOverlay(color: .orange, alpha: 0.07, duration: 0.12)
+            runCameraImpulse(magnitude: 2)
+        case .playerDamaged:
+            flashOverlay(color: .red, alpha: 0.22, duration: 0.20)
+            runCameraImpulse(magnitude: 7)
+        case .giftCollected:
+            flashOverlay(color: .green, alpha: 0.12, duration: 0.16)
+            showPulse(at: playerNode.position, color: .green, radius: 18, duration: 0.20)
+        case .shieldUsed:
+            flashOverlay(color: .cyan, alpha: 0.15, duration: 0.18)
+            showPulse(at: playerNode.position, color: .cyan, radius: 22, duration: 0.22)
+        case .powerExpired:
+            flashOverlay(color: .gray, alpha: 0.06, duration: 0.12)
+        case .runCompleted:
+            flashOverlay(color: .green, alpha: 0.18, duration: 0.36)
+            runCameraImpulse(magnitude: 3)
+        case .runFailed:
+            flashOverlay(color: .red, alpha: 0.22, duration: 0.36)
+            runCameraImpulse(magnitude: 5)
+        }
+    }
+
+    private func flashOverlay(color: SKColor, alpha: CGFloat, duration: TimeInterval) {
+        trimFeedbackNodes()
+        let node = SKShapeNode(rectOf: size)
+        node.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        node.fillColor = color
+        node.strokeColor = .clear
+        node.alpha = alpha
+        feedbackLayer.addChild(node)
+        node.run(.sequence([.fadeOut(withDuration: duration), .removeFromParent()]))
+    }
+
+    private func showPulse(
+        at position: CGPoint,
+        color: SKColor,
+        radius: CGFloat,
+        duration: TimeInterval
+    ) {
+        trimFeedbackNodes()
+        let node = SKShapeNode(circleOfRadius: radius)
+        node.position = position
+        node.fillColor = .clear
+        node.strokeColor = color
+        node.lineWidth = 2
+        feedbackLayer.addChild(node)
+        node.run(
+            .sequence([
+                .group([
+                    .scale(to: 1.8, duration: duration),
+                    .fadeOut(withDuration: duration)
+                ]),
+                .removeFromParent()
+            ])
+        )
+    }
+
+    private func runCameraImpulse(magnitude: CGFloat) {
+        worldLayer.removeAction(forKey: "cameraImpulse")
+        worldLayer.position = .zero
+        let half = magnitude * 0.5
+        worldLayer.run(
+            .sequence([
+                .moveBy(x: magnitude, y: half, duration: 0.025),
+                .moveBy(x: -magnitude * 1.7, y: -magnitude, duration: 0.035),
+                .moveBy(x: magnitude * 0.7, y: half, duration: 0.035),
+                .run { [weak self] in self?.worldLayer.position = .zero }
+            ]),
+            withKey: "cameraImpulse"
+        )
+    }
+
+    private func trimFeedbackNodes() {
+        while feedbackLayer.children.count >= 12 {
+            feedbackLayer.children.first?.removeFromParent()
+        }
     }
 
     private func render() {
