@@ -1,0 +1,12 @@
+name: Mobile CI
+
+on:
+  pull_request:
+
+jobs:
+  ios-build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build iPhone and iPad target
+        run: xcodebuild -project Apps/FlybyNighterMobile/FlybyNighterMobile.xcodeproj -scheme FlybyNighterMobile -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
