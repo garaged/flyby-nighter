@@ -20,6 +20,7 @@ public final class FlybyNighterScene: SKScene {
     private let hudLabel = SKLabelNode(fontNamed: "Menlo")
     private let powerLabel = SKLabelNode(fontNamed: "Menlo")
     private let progressLabel = SKLabelNode(fontNamed: "Menlo")
+    private let segmentLabel = SKLabelNode(fontNamed: "Menlo-Bold")
     private let progressTrackNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 220, height: 8), cornerRadius: 4)
     private let progressFillNode = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 2, height: 8), cornerRadius: 4)
     private let titleLabel = SKLabelNode(fontNamed: "Menlo-Bold")
@@ -149,6 +150,8 @@ public final class FlybyNighterScene: SKScene {
         configureHUDLabel(hudLabel, fontSize: 14, position: CGPoint(x: 16, y: size.height - 16))
         configureHUDLabel(powerLabel, fontSize: 13, position: CGPoint(x: 16, y: size.height - 36))
         configureHUDLabel(progressLabel, fontSize: 12, position: CGPoint(x: 246, y: size.height - 36))
+        configureHUDLabel(segmentLabel, fontSize: 13, position: CGPoint(x: 246, y: size.height - 16))
+        segmentLabel.fontColor = .cyan
 
         progressTrackNode.fillColor = .darkGray
         progressTrackNode.strokeColor = .white
@@ -216,6 +219,8 @@ public final class FlybyNighterScene: SKScene {
         progressTrackNode.isHidden = game.state.runState == .title
         progressLabel.text = "Route \(Int(progress * 100))%"
         progressLabel.isHidden = game.state.runState == .title
+        segmentLabel.text = routeSegmentName
+        segmentLabel.isHidden = game.state.runState == .title
     }
 
     private func renderPlayer() {
@@ -247,6 +252,25 @@ public final class FlybyNighterScene: SKScene {
     private var routeProgressFraction: Double {
         guard game.config.routeLength > 0 else { return 0 }
         return min(max(game.state.routeProgress / game.config.routeLength, 0), 1)
+    }
+
+    private var routeSegmentName: String {
+        switch routeProgressFraction {
+        case 0..<0.15:
+            return "Sector 01 Entry"
+        case 0.15..<0.30:
+            return "Sector 02 Narrow"
+        case 0.30..<0.45:
+            return "Sector 03 Gates"
+        case 0.45..<0.62:
+            return "Sector 04 Midway"
+        case 0.62..<0.75:
+            return "Sector 05 Cache"
+        case 0.75..<0.90:
+            return "Sector 06 Spine"
+        default:
+            return "Sector 07 Exit"
+        }
     }
 
     private func renderEnemies() {
