@@ -1,6 +1,6 @@
 # SPEC-0021: Feedback Events
 
-Status: Proposed  
+Status: Implemented  
 Milestone: M3
 
 ## Goal
@@ -32,3 +32,7 @@ Feedback for:
 3. Feedback works without audio.
 4. Repeated events do not create excessive clutter.
 5. `swift test` passes.
+
+## Validation
+
+Validated successfully across the Apple app shells. See `docs/implementation/M3-validation.md`.
