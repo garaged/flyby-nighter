@@ -15,7 +15,23 @@ public final class MacKeyboardGameView: SKView {
 
     public override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()
-        window?.makeFirstResponder(self)
+        requestKeyboardFocus()
+    }
+
+    public override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
+        true
+    }
+
+    public func requestKeyboardFocus() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self, let window = self.window else { return }
+            window.makeFirstResponder(self)
+        }
+    }
+
+    public override func mouseDown(with event: NSEvent) {
+        requestKeyboardFocus()
+        super.mouseDown(with: event)
     }
 
     public override func keyDown(with event: NSEvent) {
@@ -42,6 +58,7 @@ public final class MacKeyboardGameView: SKView {
     }
 
     public override func mouseUp(with event: NSEvent) {
+        requestKeyboardFocus()
         gameScene?.startOrRestartRun()
     }
 
