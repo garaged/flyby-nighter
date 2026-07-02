@@ -1,6 +1,6 @@
 # SPEC-0022: Second Route
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M4
 
 ## Goal
@@ -16,9 +16,9 @@ Add a second original playable route that reuses the existing deterministic syst
 - Route-specific obstacle and hazard placement.
 - Route-specific segment names.
 - Deterministic tests for route content.
-- Playable route selection in a follow-up slice.
+- Playable selection across macOS, iPhone, and iPad.
 
-## Accepted route identity
+## Route identity
 
 The second route is **The Glass Tide**.
 
@@ -29,22 +29,35 @@ Its initial identity is rhythm-first rather than pressure-first:
 - Cross-lane Needler movement arrives later than the opening gate lesson.
 - The final third increases speed and alternates Sentry, Drifter, and Needler pressure.
 
+## Selection behavior
+
+- The Neon Rift is selected by default.
+- Previous and next selection wrap across the route catalog.
+- Selection is available on title, completion, and failure screens.
+- Selection is disabled during active play.
+- Starting a route creates a deterministic game using the selected route configuration.
+- HUD progress and segment names reflect the selected route.
+
 ## Non-goals
 
 - No procedural generation.
 - No copied map layout from any legacy game.
 - No final art pass.
-- No new enemy or hazard family in the M4-A content-model slice.
+- No new enemy or hazard family in M4-A or M4-B.
 - No score persistence in this spec.
 
 ## Acceptance criteria
 
-1. Second route is selectable or reachable.
+1. The second route is selectable on macOS, iPhone, and iPad.
 2. It has a distinct pacing identity from the first route.
 3. It is completable after learning.
 4. It uses original layout and naming.
 5. Deterministic tests cover content availability and completion configuration.
+6. Route-specific HUD segment names are visible.
+7. Existing movement, firing, lifecycle, and restart controls do not regress.
 
 ## Implementation status
 
-M4-A implements the route catalog and deterministic Glass Tide content model. Playable shell selection and manual route tuning remain pending before this spec can be marked Implemented.
+The route catalog, Glass Tide content, cross-platform route selection, and route-specific HUD are implemented. Manual completion, fairness, and regression validation remain before this spec can be marked Implemented.
+
+See `docs/implementation/M4A-validation.md` and `docs/implementation/M4B-validation.md`.
