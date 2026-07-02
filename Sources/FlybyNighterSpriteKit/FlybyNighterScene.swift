@@ -9,8 +9,12 @@ public final class FlybyNighterScene: SKScene {
     private var input = GameInput()
     private var lastUpdateTime: TimeInterval?
 
-    private let playerNode = SKShapeNode(path: FlybyNighterScene.makePlayerPath())
+    private let worldLayer = SKNode()
+    private let obstacleLayer = SKNode()
+    private let giftLayer = SKNode()
+    private let enemyLayer = SKNode()
     private let projectileLayer = SKNode()
+    private let playerNode = SKShapeNode(path: FlybyNighterScene.makePlayerPath())
     private let hudLabel = SKLabelNode(fontNamed: "Menlo")
     private let titleLabel = SKLabelNode(fontNamed: "Menlo-Bold")
     private let resultLabel = SKLabelNode(fontNamed: "Menlo-Bold")
@@ -75,12 +79,16 @@ public final class FlybyNighterScene: SKScene {
     private func configureSceneGraphIfNeeded() {
         guard children.isEmpty else { return }
 
-        addChild(projectileLayer)
+        addChild(worldLayer)
+        worldLayer.addChild(obstacleLayer)
+        worldLayer.addChild(giftLayer)
+        worldLayer.addChild(enemyLayer)
+        worldLayer.addChild(projectileLayer)
 
         playerNode.fillColor = .cyan
         playerNode.strokeColor = .white
         playerNode.lineWidth = 1.5
-        addChild(playerNode)
+        worldLayer.addChild(playerNode)
 
         hudLabel.fontSize = 14
         hudLabel.horizontalAlignmentMode = .left
@@ -109,8 +117,11 @@ public final class FlybyNighterScene: SKScene {
 
         hudLabel.text = "HP \(game.state.player.hp)   Score \(game.state.score)   Power \(activePowerText)"
         playerNode.position = CGPoint(x: game.state.player.position.x, y: game.state.player.position.y)
-        playerNode.isHidden = game.state.runState == .title
+        worldLayer.isHidden = game.state.runState == .title
 
+        renderObstacles()
+        renderGifts()
+        renderEnemies()
         renderProjectiles()
         renderOverlay()
     }
@@ -127,6 +138,66 @@ public final class FlybyNighterScene: SKScene {
             return "Rapid"
         case .spread:
             return "Spread"
+        }
+    }
+
+    private func renderEnemies() {
+        enemyLayer.removeAllChildren()
+        for enemy in game.state.enemies where enemy.isActive && !enemy.isRemoved {
+            let node: SKShapeNode
+            switch enemy.kind {
+            case .drifter:
+                node = SKShapeNode(circleOfRadius: CGFloat(enemy.collisionRadius))
+                node.fillColor = .magenta
+            case .needler:
+                node = SKShapeNode(path: Self.makeNeedlerPath(radius: enemy.collisionRadius))
+                node.fillColor = .orange
+            case .sentry:
+                node = SKShapeNode(rectOf: CGSize(width: enemy.collisionRadius * 2, height: enemy.collisionRadius * 2))
+                node.fillColor = .purple
+            }
+            node.strokeColor = .white
+            node.lineWidth = 1
+            node.position = CGPoint(x: enemy.position.x, y: enemy.position.y)
+            enemyLayer.addChild(node)
+        }
+    }
+
+    private func renderGifts() {
+        giftLayer.removeAllChildren()
+        for gift in game.state.gifts where gift.isActive && !gift.isCollected {
+            let node = SKShapeNode(circleOfRadius: CGFloat(gift.collisionRadius))
+            switch gift.kind {
+            case .rapid:
+                node.fillColor = .green
+            case .spread:
+                node.fillColor = .blue
+            case .shield:
+                node.fillColor = .cyan
+            }
+            node.strokeColor = .white
+            node.lineWidth = 1.5
+            node.position = CGPoint(x: gift.position.x, y: gift.position.y)
+            giftLayer.addChild(node)
+        }
+    }
+
+    private func renderObstacles() {
+        obstacleLayer.removeAllChildren()
+        for obstacle in game.state.obstacles where obstacle.isActive {
+            let size = CGSize(width: obstacle.collisionBox.halfWidth * 2, height: obstacle.collisionBox.halfHeight * 2)
+            let node = SKShapeNode(rectOf: size)
+            switch obstacle.kind {
+            case .staticObstacle:
+                node.fillColor = .darkGray
+                node.strokeColor = .red
+            case .pulseGate:
+                node.fillColor = obstacle.isDangerous(elapsedTime: game.state.elapsedTime) ? .red : .clear
+                node.strokeColor = .cyan
+            }
+            node.lineWidth = 2
+            node.position = CGPoint(x: obstacle.position.x, y: obstacle.position.y)
+            obstacleLayer.addChild(node)
         }
     }
 
@@ -171,6 +242,16 @@ public final class FlybyNighterScene: SKScene {
         path.addLine(to: CGPoint(x: -14, y: 12))
         path.addLine(to: CGPoint(x: -8, y: 0))
         path.addLine(to: CGPoint(x: -14, y: -12))
+        path.closeSubpath()
+        return path
+    }
+
+    private static func makeNeedlerPath(radius: Double) -> CGPath {
+        let r = CGFloat(radius)
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: -r, y: r * 0.7))
+        path.addLine(to: CGPoint(x: r, y: 0))
+        path.addLine(to: CGPoint(x: -r, y: -r * 0.7))
         path.closeSubpath()
         return path
     }
