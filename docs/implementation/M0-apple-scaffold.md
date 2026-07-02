@@ -28,6 +28,17 @@ This branch starts M0 implementation with an Apple-first Swift package structure
 - Post-hit invulnerability window.
 - Enemy removal score event.
 - Route completion score.
+- Authored M0 content model.
+- Drifter, Needler, and Sentry enemy records.
+- Enemy spawn triggers based on route progress.
+- Enemy projectile emission events.
+- Rapid, Spread, and Shield gift records.
+- Gift pickup collision and effect application.
+- Static obstacle and pulse gate records.
+- Obstacle collision and pulse-gate danger phase checks.
+- Projectile/enemy collision.
+- Enemy projectile/player collision.
+- Enemy body/player collision.
 - Deterministic event emission for adapter layers.
 
 ## Current SpriteKit adapter behavior
@@ -37,6 +48,10 @@ This branch starts M0 implementation with an Apple-first Swift package structure
 - `FlybyNighterScene` as a thin `SKScene` adapter.
 - Placeholder player shape.
 - Placeholder projectile shapes.
+- Placeholder enemy shapes for Drifter, Needler, and Sentry.
+- Placeholder gift shapes for Rapid, Spread, and Shield.
+- Placeholder obstacle shapes for static obstacles and pulse gates.
+- Visible pulse-gate dangerous/safe state.
 - HUD text for HP, score, and active power.
 - Title overlay.
 - Completion/failed-run overlays.
@@ -48,10 +63,8 @@ This branch starts M0 implementation with an Apple-first Swift package structure
 - Real Xcode app target/project wrapper.
 - Keyboard mapping into `setMovement` and `setFiring`.
 - Touch virtual controls.
-- Authored M0 map data.
-- Enemy entities and collision resolution.
-- Obstacles and pulse gates.
-- Gift placement/collision.
+- Tuned authored map layout and pacing.
+- Richer enemy movement and attack patterns.
 - Placeholder audio playback.
 - CI workflow.
 
