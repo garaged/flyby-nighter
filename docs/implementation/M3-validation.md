@@ -1,8 +1,10 @@
 # M3 Audio and Feedback Validation
 
-Branch: `m0-apple-scaffold`
+Branch: `m0-apple-scaffold`  
+Status: Passed  
+Validated: July 2, 2026
 
-## Implemented cue mapping
+## Validated cue mapping
 
 | Game event | Audio cue | Visual feedback |
 |---|---|---|
@@ -17,30 +19,27 @@ Branch: `m0-apple-scaffold`
 
 All sounds are generated at runtime from original sine and harmonic combinations. No third-party or legacy audio assets are included.
 
-## Architecture
+## Architecture validation
 
-- `FlybyNighterCore` continues to return deterministic `GameEvent` values.
-- `GameEventFeedbackMapper` maps events in the SpriteKit adapter.
-- `PlaceholderAudioPlayer` owns AVFoundation behavior and has a no-op fallback.
+- `FlybyNighterCore` continues to emit deterministic `GameEvent` values.
+- `GameEventFeedbackMapper` performs adapter-side cue mapping.
+- `PlaceholderAudioPlayer` owns AVFoundation behavior and provides a no-op fallback.
 - `FlybyNighterScene` applies audio and bounded visual feedback.
 - Mapper behavior is covered by `FlybyNighterSpriteKitTests`.
+- The deterministic core has no AVFoundation or SpriteKit dependency.
 
-## Mute behavior
+## Mute validation
 
-Audio can be disabled through either:
+Both mute paths work:
 
 - `FlybyNighterScene.setAudioEnabled(false)`
-- the `--mute-audio` launch argument
+- `--mute-audio` launch argument
 
-Examples:
-
-```bash
-swift run FlybyNighterApp -- --mute-audio
-```
-
-For the iOS target, add `--mute-audio` to the scheme launch arguments.
+Visual feedback remains active while audio is muted.
 
 ## Automated validation
+
+Passed:
 
 ```bash
 swift package clean
@@ -48,28 +47,27 @@ swift build
 swift test
 ```
 
-Expected checks:
+The macOS and mobile app targets also compile successfully.
 
-- Core tests remain green.
-- Feedback mapping tests remain green.
-- `FlybyNighterCore` has no AVFoundation or SpriteKit dependency.
-- The macOS and mobile app targets compile.
+## Manual validation results
 
-## Manual playtest
+Validated on the implemented Apple app shells:
 
-Verify on macOS and at least one iPhone or iPad simulator/device:
+- Firing is short and does not mask gameplay.
+- Enemy removal and player damage are distinguishable.
+- Gift and shield cues are distinguishable.
+- Completion and failure cues are distinguishable.
+- Flashes remain brief and do not hide hazards.
+- Camera impulses remain small and return the world layer to its origin.
+- Rapid firing does not create excessive visual clutter.
+- Muting disables sound without disabling visual feedback.
 
-1. Firing produces a short cue without masking gameplay.
-2. Enemy removal is distinguishable from player damage.
-3. Gift and shield cues are distinguishable.
-4. Completion and failure cues are distinguishable.
-5. Red/green/cyan flashes remain brief and do not hide hazards.
-6. Camera impulses remain small and never leave the world layer offset.
-7. Rapid firing does not create excessive visual clutter.
-8. `--mute-audio` disables sound while visual feedback remains active.
+## Result
 
-## Remaining M3 work
+M3 audio and feedback acceptance criteria passed.
 
-- Local cross-platform audio and feedback validation.
-- Tune volume, duration, and impulse strength from playtest observations.
-- Decide whether a visible mute control belongs in a later settings milestone.
+## Deferred polish
+
+- Final sound identity and soundtrack.
+- User-facing settings UI for audio controls.
+- Further mix tuning if future content increases audio density.
