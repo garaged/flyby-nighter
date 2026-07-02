@@ -13,7 +13,7 @@ enum PlaceholderAudioCue: Equatable {
 }
 
 final class PlaceholderAudioPlayer {
-    var isEnabled = true
+    var isEnabled = !ProcessInfo.processInfo.arguments.contains("--mute-audio")
 
     private let engine = AVAudioEngine()
     private let player = AVAudioPlayerNode()
