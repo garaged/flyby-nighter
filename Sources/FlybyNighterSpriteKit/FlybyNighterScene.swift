@@ -7,11 +7,14 @@ import FlybyNighterCore
 public final class FlybyNighterScene: SKScene {
     private var routeSelection = RouteSelectionState()
     private var game = FlybyNighterGame(config: RouteCatalog.definition(for: .neonRift).config)
+    private var scoreLedger = ScoreLedger()
     private var input = GameInput()
     private var lastUpdateTime: TimeInterval?
     private var playerFlashRemaining: TimeInterval = 0
     private var hudPulseRemaining: TimeInterval = 0
+    private var didSetNewBest = false
 
+    private let highScoreStore = UserDefaultsHighScoreStore()
     private let audioPlayer = PlaceholderAudioPlayer()
     private let routeBackdropNode = RouteBackdropNode()
     private let worldLayer = SKNode()
@@ -38,6 +41,10 @@ public final class FlybyNighterScene: SKScene {
 
     public var selectedRouteDisplayName: String {
         routeSelection.selectedRoute.displayName
+    }
+
+    public var selectedRouteBestScore: Int {
+        highScoreStore.bestScore(for: selectedRouteID)
     }
 
     public var isRouteSelectionAvailable: Bool {
@@ -141,6 +148,8 @@ public final class FlybyNighterScene: SKScene {
     public func startOrRestartRun() {
         switch game.state.runState {
         case .title, .completed, .failed:
+            scoreLedger.reset()
+            didSetNewBest = false
             let events = game.restartRun()
             handleGameEvents(events)
             playerFlashRemaining = 0
@@ -211,6 +220,8 @@ public final class FlybyNighterScene: SKScene {
 
     private func resetForSelectedRoute() {
         game = FlybyNighterGame(config: routeSelection.selectedRoute.config)
+        scoreLedger.reset()
+        didSetNewBest = false
         input = GameInput()
         lastUpdateTime = nil
         playerFlashRemaining = 0
@@ -265,11 +276,11 @@ public final class FlybyNighterScene: SKScene {
         routeLabel.fontColor = .yellow
         addChild(routeLabel)
 
-        resultLabel.fontSize = 14
+        resultLabel.fontSize = 13
         resultLabel.horizontalAlignmentMode = .center
         resultLabel.verticalAlignmentMode = .center
         resultLabel.fontColor = .white
-        resultLabel.numberOfLines = 2
+        resultLabel.numberOfLines = 3
         addChild(resultLabel)
 
         instructionLabel.fontSize = 11
@@ -303,15 +314,24 @@ public final class FlybyNighterScene: SKScene {
 
         let centerX = size.width / 2
         let centerY = size.height / 2
-        titleLabel.position = CGPoint(x: centerX, y: centerY + 54)
-        routeLabel.position = CGPoint(x: centerX, y: centerY + 12)
-        resultLabel.position = CGPoint(x: centerX, y: centerY - 25)
-        resultLabel.preferredMaxLayoutWidth = max(220, min(size.width - 40, 560))
-        instructionLabel.position = CGPoint(x: centerX, y: centerY - 70)
+        titleLabel.position = CGPoint(x: centerX, y: centerY + 62)
+        routeLabel.position = CGPoint(x: centerX, y: centerY + 20)
+        resultLabel.position = CGPoint(x: centerX, y: centerY - 24)
+        resultLabel.preferredMaxLayoutWidth = max(220, min(size.width - 40, 600))
+        instructionLabel.position = CGPoint(x: centerX, y: centerY - 88)
     }
 
     private func handleGameEvents(_ events: [GameEvent]) {
         for event in events {
+            scoreLedger.record(event)
+
+            switch event {
+            case .routeCompleted(let score), .runFailed(let score):
+                didSetNewBest = highScoreStore.record(score: score, for: selectedRouteID)
+            default:
+                break
+            }
+
             guard let feedback = GameEventFeedbackMapper.feedback(for: event) else { continue }
 
             if let audioCue = feedback.audioCue {
@@ -432,7 +452,7 @@ public final class FlybyNighterScene: SKScene {
     }
 
     private func renderHUD() {
-        hudLabel.text = "HP \(game.state.player.hp)/\(game.config.maxHP)   Score \(game.state.score)"
+        hudLabel.text = "HP \(game.state.player.hp)/\(game.config.maxHP)   Score \(game.state.score)   Best \(selectedRouteBestScore)"
         hudLabel.setScale(hudPulseRemaining > 0 ? 1.08 : 1.0)
         powerLabel.text = powerDisplayText
 
@@ -483,6 +503,27 @@ public final class FlybyNighterScene: SKScene {
         return min(max(game.state.routeProgress / game.config.routeLength, 0), 1)
     }
 
+    private var scoreBreakdown: ScoreBreakdown {
+        scoreLedger.breakdown(
+            completed: game.state.runState == .completed,
+            remainingHP: game.state.player.hp,
+            config: game.config
+        )
+    }
+
+    private var scoreBreakdownText: String {
+        let breakdown = scoreBreakdown
+        return "Enemies \(breakdown.enemyPoints)  •  Gifts \(breakdown.giftPoints)  •  Clear \(breakdown.completionBonus)  •  HP \(breakdown.remainingHPBonus)"
+    }
+
+    private var bestMarker: String {
+        didSetNewBest ? "  •  NEW BEST" : ""
+    }
+
+    private var glassShearObstacleIDs: Set<Int> {
+        Set(routeSelection.selectedRoute.hazardFamilies.flatMap(\.obstacleIDs))
+    }
+
     private func renderEnemies() {
         enemyLayer.removeAllChildren()
         for enemy in game.state.enemies where enemy.isActive && !enemy.isRemoved {
@@ -527,6 +568,8 @@ public final class FlybyNighterScene: SKScene {
 
     private func renderObstacles() {
         obstacleLayer.removeAllChildren()
+        let shearIDs = glassShearObstacleIDs
+
         for obstacle in game.state.obstacles where obstacle.isActive {
             let size = CGSize(
                 width: CGFloat(obstacle.collisionBox.halfWidth * 2),
@@ -539,9 +582,9 @@ public final class FlybyNighterScene: SKScene {
                 node.strokeColor = .red
             case .pulseGate:
                 node.fillColor = obstacle.isDangerous(elapsedTime: game.state.elapsedTime) ? .red : .clear
-                node.strokeColor = .cyan
+                node.strokeColor = shearIDs.contains(obstacle.id) ? .yellow : .cyan
             }
-            node.lineWidth = 2
+            node.lineWidth = shearIDs.contains(obstacle.id) ? 3 : 2
             node.position = Self.cgPoint(obstacle.position)
             obstacleLayer.addChild(node)
         }
@@ -565,7 +608,7 @@ public final class FlybyNighterScene: SKScene {
             setOverlayHidden(false)
             titleLabel.text = "Flyby Nighter"
             routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
-            resultLabel.text = routeSelection.selectedRoute.summary
+            resultLabel.text = "\(routeSelection.selectedRoute.summary)\nBest \(selectedRouteBestScore)"
             instructionLabel.text = "Side tap or ←/→: select   •   Center tap or Return: start"
         case .playing:
             setOverlayHidden(true)
@@ -573,13 +616,13 @@ public final class FlybyNighterScene: SKScene {
             setOverlayHidden(false)
             titleLabel.text = "Route Complete"
             routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
-            resultLabel.text = "Score \(game.state.score)"
+            resultLabel.text = "Score \(game.state.score)  •  Best \(selectedRouteBestScore)\(bestMarker)\n\(scoreBreakdownText)"
             instructionLabel.text = "Side tap or ←/→: change route   •   Center tap or Return: replay"
         case .failed:
             setOverlayHidden(false)
             titleLabel.text = "Run Failed"
             routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
-            resultLabel.text = "Score \(game.state.score)"
+            resultLabel.text = "Score \(game.state.score)  •  Best \(selectedRouteBestScore)\(bestMarker)\n\(scoreBreakdownText)"
             instructionLabel.text = "Side tap or ←/→: change route   •   Center tap or Return: retry"
         }
     }
