@@ -11,14 +11,18 @@ public protocol LocalHighScoreStore: AnyObject {
 }
 
 public final class UserDefaultsHighScoreStore: LocalHighScoreStore {
+    public static let defaultSuiteName = "com.garaged.flyby-nighter.local-scores"
+
     private let userDefaults: UserDefaults
     private let keyPrefix: String
 
     public init(
-        userDefaults: UserDefaults = .standard,
+        userDefaults: UserDefaults? = nil,
         keyPrefix: String = "flyby-nighter.best-score"
     ) {
         self.userDefaults = userDefaults
+            ?? UserDefaults(suiteName: Self.defaultSuiteName)
+            ?? .standard
         self.keyPrefix = keyPrefix
 
         if ProcessInfo.processInfo.arguments.contains("--reset-high-scores") {
@@ -34,7 +38,9 @@ public final class UserDefaultsHighScoreStore: LocalHighScoreStore {
     public func record(score: Int, for routeID: RouteID) -> Bool {
         let candidate = max(0, score)
         guard candidate > bestScore(for: routeID) else { return false }
+
         userDefaults.set(candidate, forKey: key(for: routeID))
+        _ = userDefaults.synchronize()
         return true
     }
 
@@ -42,6 +48,7 @@ public final class UserDefaultsHighScoreStore: LocalHighScoreStore {
         for routeID in RouteID.allCases {
             userDefaults.removeObject(forKey: key(for: routeID))
         }
+        _ = userDefaults.synchronize()
     }
 
     private func key(for routeID: RouteID) -> String {
