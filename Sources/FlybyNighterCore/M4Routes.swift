@@ -35,7 +35,7 @@ public extension HazardFamilyID {
             return HazardFamilyDefinition(
                 id: self,
                 displayName: "Glass Shear",
-                summary: "A paired pulse-gate crossing that closes opposite diagonals and rewards reading the open lane.",
+                summary: "Two yellow pulse gates cross on opposing diagonals late in The Glass Tide; follow the opening between them.",
                 obstacleIDs: [106, 107]
             )
         }
@@ -81,8 +81,8 @@ public extension RouteID {
         case .neonRift:
             return RouteDefinition(
                 id: self,
-                displayName: "The Neon Rift",
-                summary: "A balanced entry route with readable gates and a steady pressure ramp.",
+                displayName: "ROUTE 1/2 — The Neon Rift",
+                summary: "Selected: Neon Rift. Press Right Arrow or tap/click the right side to select Glass Tide.",
                 segmentNames: [
                     "Sector 01 Entry",
                     "Sector 02 Narrow",
@@ -97,8 +97,8 @@ public extension RouteID {
         case .glassTide:
             return RouteDefinition(
                 id: self,
-                displayName: "The Glass Tide",
-                summary: "A rhythm-first route with early gates, cross-lane pressure, and the Glass Shear final push.",
+                displayName: "ROUTE 2/2 — The Glass Tide",
+                summary: "Selected: Glass Tide. Watch for Glass Shear: two yellow crossing pulse gates late in the route.",
                 segmentNames: [
                     "Tide 01 Threshold",
                     "Tide 02 Shards",
