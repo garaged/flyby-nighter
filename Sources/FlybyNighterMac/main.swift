@@ -69,6 +69,12 @@ final class KeyboardGameView: SKView {
     override func keyDown(with event: NSEvent) {
         guard !event.isARepeat else { return }
 
+        if event.keyCode == KeyCode.routeOne, selectRoute(.neonRift) {
+            return
+        }
+        if event.keyCode == KeyCode.routeTwo, selectRoute(.glassTide) {
+            return
+        }
         if event.keyCode == KeyCode.leftArrow, gameScene?.selectPreviousRoute() == true {
             return
         }
@@ -106,6 +112,14 @@ final class KeyboardGameView: SKView {
         gameScene?.startOrRestartRun()
     }
 
+    private func selectRoute(_ routeID: RouteID) -> Bool {
+        guard let gameScene, gameScene.isRouteSelectionAvailable else { return false }
+        guard gameScene.selectedRouteID != routeID else { return true }
+
+        _ = gameScene.selectNextRoute()
+        return gameScene.selectedRouteID == routeID
+    }
+
     private func applyInput() {
         var x = 0.0
         var y = 0.0
@@ -132,6 +146,8 @@ enum KeyCode {
     static let s: UInt16 = 1
     static let d: UInt16 = 2
     static let w: UInt16 = 13
+    static let routeOne: UInt16 = 18
+    static let routeTwo: UInt16 = 19
     static let space: UInt16 = 49
     static let returnKey: UInt16 = 36
     static let keypadEnter: UInt16 = 76
