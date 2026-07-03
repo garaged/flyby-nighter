@@ -108,7 +108,7 @@ public extension RouteID {
                     "Tide 06 Breakline",
                     "Tide 07 Whiteout"
                 ],
-                hazardFamilies: [.glassShear.definition],
+                hazardFamilies: [HazardFamilyID.glassShear.definition],
                 config: .m4GlassTide
             )
         }
