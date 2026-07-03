@@ -25,9 +25,18 @@ final class RouteSelectionStateTests: XCTestCase {
         state.selectNext()
         let glassConfig = state.selectedRoute.config
 
-        XCTAssertEqual(state.selectedRoute.displayName, "The Glass Tide")
+        XCTAssertEqual(state.selectedRoute.displayName, "ROUTE 2/2 — The Glass Tide")
+        XCTAssertTrue(state.selectedRoute.summary.contains("Glass Shear"))
         XCTAssertNotEqual(glassConfig.routeLength, neonConfig.routeLength)
         XCTAssertEqual(glassConfig.initialContent, .glassTide)
+    }
+
+    func testNeonRiftSummaryExplainsHowToSelectGlassTide() {
+        let state = RouteSelectionState(selectedRouteID: .neonRift)
+
+        XCTAssertTrue(state.selectedRoute.displayName.contains("ROUTE 1/2"))
+        XCTAssertTrue(state.selectedRoute.summary.contains("Right Arrow"))
+        XCTAssertTrue(state.selectedRoute.summary.contains("Glass Tide"))
     }
 
     func testSegmentNamesFollowSelectedRouteMetadata() {
