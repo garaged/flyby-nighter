@@ -1,7 +1,7 @@
 # M4-C/D/E Validation
 
 Branch: `m4-content-expansion`  
-Status: Automated validation passed; manual validation pending
+Status: Automated validation passed; corrective manual retest pending
 
 ## M4-C: Glass Shear hazard family
 
@@ -37,25 +37,6 @@ Visible score sources:
 - `NEW BEST` is shown on completion or failure when appropriate.
 - `--reset-high-scores` clears known route values for debugging.
 
-## Automated coverage
-
-Core tests cover:
-
-- Glass Shear registration and obstacle membership.
-- Opposing vertical gate movement.
-- Score-source accounting.
-- Completion and remaining-HP bonuses.
-- Ledger reset behavior.
-- Explicit no-combo policy.
-
-SpriteKit adapter tests cover:
-
-- Route-specific high-score separation.
-- Lower/equal score rejection.
-- Persistence across store instances.
-- Reset behavior.
-- Negative-score safety.
-
 ## Automated validation result
 
 Passed on PR #3:
@@ -79,23 +60,44 @@ xcodebuild \
   build
 ```
 
-## Manual validation matrix
+## First manual validation result
 
-Validate on `FlybyNighterApp`, one iPhone simulator/device, and one iPad simulator/device:
+Passed:
 
-1. The Glass Shear appears late in The Glass Tide as two yellow crossing pulse gates.
-2. The gates move on opposing vertical diagonals and remain readable.
-3. The pattern is avoidable after learning and does not create an unavoidable full-screen wall.
-4. Live score increases by the documented enemy and gift values.
-5. Completion adds the documented completion and remaining-HP bonuses.
-6. Failure adds neither completion nor remaining-HP bonus.
-7. Result-screen category values add up to the displayed total.
-8. The title and HUD display a separate best value for each route.
-9. A higher run shows `NEW BEST` and updates the route best.
-10. A lower or equal run does not replace the best.
-11. Quit and relaunch the same app shell; both route bests remain.
-12. Launch with `--reset-high-scores`; both route bests return to zero.
-13. Movement, firing, route selection, pause/resume, audio, and feedback do not regress.
+- Live enemy and gift scoring.
+- Completion and remaining-HP bonuses.
+- Failure bonus exclusion.
+- Result breakdown totals.
+- Lower/equal scores do not replace the best.
+- Movement, firing, route selection, pause/resume, audio, and feedback regressions were not observed.
+
+Not sufficiently visible or reliable:
+
+- Selecting The Glass Tide was not obvious.
+- Glass Shear could not be identified and evaluated.
+- Separate route bests were not clear.
+- Best scores did not reliably survive relaunch.
+
+## Corrective patch
+
+- Route names now show `ROUTE 1/2` and `ROUTE 2/2`.
+- Neon Rift explicitly explains how to select Glass Tide.
+- Glass Tide explicitly describes the two yellow Glass Shear gates.
+- macOS supports direct `1` and `2` route shortcuts in addition to arrows and click zones.
+- Local scores use the stable `com.garaged.flyby-nighter.local-scores` preferences suite.
+- Score writes and resets are explicitly synchronized before process exit.
+
+Package CI and Mobile CI pass after the corrective patch.
+
+## Focused manual retest
+
+1. On the title screen, confirm `ROUTE 1/2 — The Neon Rift` is visible.
+2. Press `2`, Right Arrow, or tap/click the right side and confirm `ROUTE 2/2 — The Glass Tide` is visible.
+3. Start Glass Tide and identify the two yellow crossing gates late in the route.
+4. Confirm the Glass Shear movement leaves a readable and avoidable opening.
+5. Record different best scores on the two routes and verify each appears when that route is selected.
+6. Quit and relaunch the same app shell and verify both best values remain.
+7. Launch with `--reset-high-scores` and verify both route bests return to zero.
 
 ## Completion gate
 
@@ -103,6 +105,6 @@ M4 is complete after:
 
 1. Package CI passes — passed.
 2. Mobile CI passes — passed.
-3. The manual validation matrix passes.
+3. The focused corrective retest passes.
 4. `SPEC-0023` and `SPEC-0024` are marked Implemented.
 5. The M4 milestone is marked Completed.
