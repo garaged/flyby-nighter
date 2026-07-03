@@ -15,4 +15,10 @@ jobs:
             tail -80 swift-build.log
             exit 1
           fi
+      - name: Upload package build log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swift-build-log
+          path: swift-build.log
       - run: swift test
