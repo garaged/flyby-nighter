@@ -43,6 +43,29 @@ final class M4RoutesTests: XCTestCase {
         XCTAssertEqual(gifts.map(\.kind), [.shield, .rapid, .spread])
     }
 
+    func testGlassShearIsRegisteredAsAnOriginalHazardFamily() {
+        let route = RouteCatalog.definition(for: .glassTide)
+        let family = try? XCTUnwrap(route.hazardFamilies.first)
+
+        XCTAssertEqual(family?.id, .glassShear)
+        XCTAssertEqual(family?.displayName, "Glass Shear")
+        XCTAssertEqual(family?.obstacleIDs, [106, 107])
+        XCTAssertFalse(family?.summary.isEmpty ?? true)
+    }
+
+    func testGlassShearUsesOpposingVerticalGateMovement() throws {
+        let obstacles = RouteCatalog.definition(for: .glassTide).config.initialContent.obstacles
+        let first = try XCTUnwrap(obstacles.first(where: { $0.id == 106 }))
+        let second = try XCTUnwrap(obstacles.first(where: { $0.id == 107 }))
+
+        XCTAssertEqual(first.kind, .pulseGate)
+        XCTAssertEqual(second.kind, .pulseGate)
+        XCTAssertGreaterThan(first.velocity.y, 0)
+        XCTAssertLessThan(second.velocity.y, 0)
+        XCTAssertEqual(first.collisionBox, second.collisionBox)
+        XCTAssertLessThan(first.spawnProgress, second.spawnProgress)
+    }
+
     func testGlassTideRouteConfigurationCanReachCompletion() {
         var config = RouteCatalog.definition(for: .glassTide).config
         config.initialContent = .empty
