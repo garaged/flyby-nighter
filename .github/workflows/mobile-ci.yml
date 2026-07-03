@@ -20,3 +20,9 @@ jobs:
             tail -120 mobile-build.log
             exit 1
           fi
+      - name: Upload mobile build log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-build-log
+          path: mobile-build.log
