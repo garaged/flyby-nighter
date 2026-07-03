@@ -68,6 +68,20 @@ final class KeyboardGameView: SKView {
 
     override func keyDown(with event: NSEvent) {
         guard !event.isARepeat else { return }
+
+        if event.keyCode == KeyCode.routeOne, selectRoute(.neonRift) {
+            return
+        }
+        if event.keyCode == KeyCode.routeTwo, selectRoute(.glassTide) {
+            return
+        }
+        if event.keyCode == KeyCode.leftArrow, gameScene?.selectPreviousRoute() == true {
+            return
+        }
+        if event.keyCode == KeyCode.rightArrow, gameScene?.selectNextRoute() == true {
+            return
+        }
+
         pressedKeyCodes.insert(event.keyCode)
 
         if event.keyCode == KeyCode.space {
@@ -90,7 +104,20 @@ final class KeyboardGameView: SKView {
     }
 
     override func mouseUp(with event: NSEvent) {
+        let location = convert(event.locationInWindow, from: nil)
+        let normalizedX = bounds.width > 0 ? location.x / bounds.width : 0.5
+        if gameScene?.handleRouteSelectionPointer(normalizedX: normalizedX) == true {
+            return
+        }
         gameScene?.startOrRestartRun()
+    }
+
+    private func selectRoute(_ routeID: RouteID) -> Bool {
+        guard let gameScene, gameScene.isRouteSelectionAvailable else { return false }
+        guard gameScene.selectedRouteID != routeID else { return true }
+
+        _ = gameScene.selectNextRoute()
+        return gameScene.selectedRouteID == routeID
     }
 
     private func applyInput() {
@@ -119,6 +146,8 @@ enum KeyCode {
     static let s: UInt16 = 1
     static let d: UInt16 = 2
     static let w: UInt16 = 13
+    static let routeOne: UInt16 = 18
+    static let routeTwo: UInt16 = 19
     static let space: UInt16 = 49
     static let returnKey: UInt16 = 36
     static let keypadEnter: UInt16 = 76

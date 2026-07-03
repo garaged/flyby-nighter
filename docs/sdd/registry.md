@@ -21,6 +21,9 @@
 | SPEC-0019 | Audio event adapter | Implemented | M3 | Adapter-side mapping from deterministic core events to tested audio and visual cues validated. |
 | SPEC-0020 | Placeholder SFX | Implemented | M3 | Original runtime-generated tones and mute behavior validated across app shells. |
 | SPEC-0021 | Feedback events | Implemented | M3 | Brief flashes, pulses, HUD emphasis, and bounded camera impulses manually validated. |
+| SPEC-0022 | Second route | Implemented | M4 | Glass Tide content, cross-platform selection, route-specific HUD, completion, and regression validation passed. |
+| SPEC-0023 | Score system | Validation Pending | M4 | Linear score breakdown implemented; explicit no-combo policy and result presentation await final validation. |
+| SPEC-0024 | Local high score | Validation Pending | M4 | Route-specific UserDefaults persistence, new-best feedback, and debug reset implemented; relaunch validation pending. |
 
 ## Implementation rule
 
