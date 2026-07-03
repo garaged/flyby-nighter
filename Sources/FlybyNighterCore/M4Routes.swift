@@ -5,11 +5,49 @@ public enum RouteID: String, CaseIterable, Equatable, Sendable {
     case glassTide = "glass-tide"
 }
 
+public enum HazardFamilyID: String, CaseIterable, Equatable, Sendable {
+    case glassShear = "glass-shear"
+}
+
+public struct HazardFamilyDefinition: Equatable, Sendable {
+    public var id: HazardFamilyID
+    public var displayName: String
+    public var summary: String
+    public var obstacleIDs: [Int]
+
+    public init(
+        id: HazardFamilyID,
+        displayName: String,
+        summary: String,
+        obstacleIDs: [Int]
+    ) {
+        self.id = id
+        self.displayName = displayName
+        self.summary = summary
+        self.obstacleIDs = obstacleIDs
+    }
+}
+
+public extension HazardFamilyID {
+    var definition: HazardFamilyDefinition {
+        switch self {
+        case .glassShear:
+            return HazardFamilyDefinition(
+                id: self,
+                displayName: "Glass Shear",
+                summary: "A paired pulse-gate crossing that closes opposite diagonals and rewards reading the open lane.",
+                obstacleIDs: [106, 107]
+            )
+        }
+    }
+}
+
 public struct RouteDefinition: Equatable, Sendable {
     public var id: RouteID
     public var displayName: String
     public var summary: String
     public var segmentNames: [String]
+    public var hazardFamilies: [HazardFamilyDefinition]
     public var config: GameConfig
 
     public init(
@@ -17,12 +55,14 @@ public struct RouteDefinition: Equatable, Sendable {
         displayName: String,
         summary: String,
         segmentNames: [String],
+        hazardFamilies: [HazardFamilyDefinition] = [],
         config: GameConfig
     ) {
         self.id = id
         self.displayName = displayName
         self.summary = summary
         self.segmentNames = segmentNames
+        self.hazardFamilies = hazardFamilies
         self.config = config
     }
 }
@@ -58,7 +98,7 @@ public extension RouteID {
             return RouteDefinition(
                 id: self,
                 displayName: "The Glass Tide",
-                summary: "A rhythm-first route with early gates, cross-lane pressure, and a faster final push.",
+                summary: "A rhythm-first route with early gates, cross-lane pressure, and the Glass Shear final push.",
                 segmentNames: [
                     "Tide 01 Threshold",
                     "Tide 02 Shards",
@@ -68,6 +108,7 @@ public extension RouteID {
                     "Tide 06 Breakline",
                     "Tide 07 Whiteout"
                 ],
+                hazardFamilies: [.glassShear.definition],
                 config: .m4GlassTide
             )
         }
@@ -196,6 +237,28 @@ public extension GameContent {
                 pulsePeriod: 2.0,
                 pulseDangerDuration: 0.58,
                 pulsePhaseOffset: 1.15
+            ),
+            ObstacleState(
+                id: 106,
+                kind: .pulseGate,
+                spawnProgress: 4_720,
+                position: Vector2(x: 382, y: 105),
+                velocity: Vector2(x: -118, y: 82),
+                collisionBox: CollisionBox(halfWidth: 10, halfHeight: 92),
+                pulsePeriod: 1.8,
+                pulseDangerDuration: 0.54,
+                pulsePhaseOffset: 0.2
+            ),
+            ObstacleState(
+                id: 107,
+                kind: .pulseGate,
+                spawnProgress: 4_760,
+                position: Vector2(x: 382, y: 495),
+                velocity: Vector2(x: -118, y: -82),
+                collisionBox: CollisionBox(halfWidth: 10, halfHeight: 92),
+                pulsePeriod: 1.8,
+                pulseDangerDuration: 0.54,
+                pulsePhaseOffset: 1.1
             )
         ]
     )
