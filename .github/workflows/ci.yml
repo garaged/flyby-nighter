@@ -9,5 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: swift --version
-      - run: swift build
+      - name: Build package
+        run: |
+          if ! swift build > swift-build.log 2>&1; then
+            tail -80 swift-build.log
+            exit 1
+          fi
       - run: swift test
