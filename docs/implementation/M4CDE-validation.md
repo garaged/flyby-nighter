@@ -1,7 +1,7 @@
 # M4-C/D/E Validation
 
 Branch: `m4-content-expansion`  
-Status: Automated and manual validation pending
+Status: Automated validation passed; manual validation pending
 
 ## M4-C: Glass Shear hazard family
 
@@ -56,17 +56,18 @@ SpriteKit adapter tests cover:
 - Reset behavior.
 - Negative-score safety.
 
-## Expected automated commands
+## Automated validation result
+
+Passed on PR #3:
 
 ```bash
-swift package clean
 swift build
 swift test
-swift build --product FlybyNighterApp
-swift build --product FlybyNighterMac
 ```
 
-Mobile build:
+Both macOS executable products compile successfully.
+
+Passed mobile target build:
 
 ```bash
 xcodebuild \
@@ -100,8 +101,8 @@ Validate on `FlybyNighterApp`, one iPhone simulator/device, and one iPad simulat
 
 M4 is complete after:
 
-1. Package CI passes.
-2. Mobile CI passes.
+1. Package CI passes — passed.
+2. Mobile CI passes — passed.
 3. The manual validation matrix passes.
 4. `SPEC-0023` and `SPEC-0024` are marked Implemented.
 5. The M4 milestone is marked Completed.
