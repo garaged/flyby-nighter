@@ -1,7 +1,7 @@
 # M5 Validation
 
 Branch: `m5-playtest-readiness`  
-Status: M5-A implemented; validation pending
+Status: M5-A implemented; automated validation pending
 
 ## Scope
 
@@ -26,6 +26,8 @@ The guide covers:
 
 Added `PlaytestGuideTests` to protect this copy coverage.
 
+The guide is now wired into the shared `FlybyNighterScene` title overlay so a first tester can see route-selection, score, best-score, reset, and mute guidance from inside the app before starting a run.
+
 ## Expected automated validation
 
 ```bash
@@ -47,7 +49,15 @@ xcodebuild \
 
 ## Manual validation matrix
 
-Pending implementation. The final matrix must include:
+M5-A title-overlay checks:
+
+1. The title screen explains how to select both routes.
+2. The title screen references route-specific best scores.
+3. The title screen exposes `--reset-high-scores`.
+4. The title screen exposes `--mute-audio`.
+5. Result screens still fit and remain readable after the title-overlay changes.
+
+Remaining M5 checks before milestone completion:
 
 1. A first tester can find and understand controls without source/docs.
 2. Route selection remains discoverable on macOS, iPhone, and iPad.
