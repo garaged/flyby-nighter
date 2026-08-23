@@ -27,6 +27,9 @@
 | SPEC-0025 | Playtest onboarding | Implemented | M5 | Title-overlay guide model, controls/scoring/best-score copy, and cross-platform readability validation passed. |
 | SPEC-0026 | Playtest reset and settings | Implemented | M5 | Reset/mute launch guidance is visible in app and documented for macOS and Xcode scheme use. |
 | SPEC-0027 | First tester packaging | Implemented | M5 | Local macOS and iPhone/iPad build handoff guide, smoke matrix, and evidence template validated. |
+| SPEC-0028 | Release identity | Accepted | M6 | Tester-visible app name, version, build, and channel identity. |
+| SPEC-0029 | Release candidate checklist | Accepted | M6 | Repeatable gates before sharing a first-tester build. |
+| SPEC-0030 | Distribution boundaries | Accepted | M6 | Deferred TestFlight/App Store/notarization/telemetry guardrails. |
 
 ## Implementation rule
 
