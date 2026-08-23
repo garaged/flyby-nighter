@@ -1,6 +1,6 @@
 # SPEC-0026: Playtest Reset and Settings
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M5
 
 ## Goal
@@ -22,6 +22,15 @@ Provide intentional, understandable reset and settings affordances for repeated 
 4. Reset and mute affordances must not change deterministic gameplay rules.
 5. Missing or reset best-score values must display safely as zero.
 
+## Implementation
+
+M5 documents and exposes two deliberate launch affordances:
+
+- `--reset-high-scores`
+- `--mute-audio`
+
+The title overlay references both arguments through `PlaytestGuide`, and `docs/implementation/M5-first-tester-handoff.md` provides exact macOS and Xcode scheme usage.
+
 ## Non-goals
 
 - No full settings screen unless needed by implementation.
@@ -38,4 +47,4 @@ Provide intentional, understandable reset and settings affordances for repeated 
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Manual reset/mute validation remains before this spec can be marked Implemented.
