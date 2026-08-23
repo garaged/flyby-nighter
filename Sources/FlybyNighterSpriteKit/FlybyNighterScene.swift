@@ -14,6 +14,7 @@ public final class FlybyNighterScene: SKScene {
     private var hudPulseRemaining: TimeInterval = 0
     private var didSetNewBest = false
 
+    private let playtestGuide = PlaytestGuide.current
     private let highScoreStore = UserDefaultsHighScoreStore()
     private let audioPlayer = PlaceholderAudioPlayer()
     private let routeBackdropNode = RouteBackdropNode()
@@ -276,11 +277,11 @@ public final class FlybyNighterScene: SKScene {
         routeLabel.fontColor = .yellow
         addChild(routeLabel)
 
-        resultLabel.fontSize = 13
+        resultLabel.fontSize = 12
         resultLabel.horizontalAlignmentMode = .center
         resultLabel.verticalAlignmentMode = .center
         resultLabel.fontColor = .white
-        resultLabel.numberOfLines = 3
+        resultLabel.numberOfLines = 7
         addChild(resultLabel)
 
         instructionLabel.fontSize = 11
@@ -314,11 +315,11 @@ public final class FlybyNighterScene: SKScene {
 
         let centerX = size.width / 2
         let centerY = size.height / 2
-        titleLabel.position = CGPoint(x: centerX, y: centerY + 62)
-        routeLabel.position = CGPoint(x: centerX, y: centerY + 20)
-        resultLabel.position = CGPoint(x: centerX, y: centerY - 24)
-        resultLabel.preferredMaxLayoutWidth = max(220, min(size.width - 40, 600))
-        instructionLabel.position = CGPoint(x: centerX, y: centerY - 88)
+        titleLabel.position = CGPoint(x: centerX, y: centerY + 96)
+        routeLabel.position = CGPoint(x: centerX, y: centerY + 56)
+        resultLabel.position = CGPoint(x: centerX, y: centerY - 4)
+        resultLabel.preferredMaxLayoutWidth = max(260, min(size.width - 40, 680))
+        instructionLabel.position = CGPoint(x: centerX, y: centerY - 118)
     }
 
     private func handleGameEvents(_ events: [GameEvent]) {
@@ -524,6 +525,15 @@ public final class FlybyNighterScene: SKScene {
         Set(routeSelection.selectedRoute.hazardFamilies.flatMap(\.obstacleIDs))
     }
 
+    private var titleGuideText: String {
+        let guideSummary = playtestGuide.titleScreenSummary(for: routeSelection.selectedRoute)
+        return "\(guideSummary)\nBest \(selectedRouteBestScore)"
+    }
+
+    private var titleInstructionText: String {
+        "Side tap or ←/→/1/2: select   •   Center tap or Return: start   •   Reset: --reset-high-scores   •   Mute: --mute-audio"
+    }
+
     private func renderEnemies() {
         enemyLayer.removeAllChildren()
         for enemy in game.state.enemies where enemy.isActive && !enemy.isRemoved {
@@ -608,8 +618,8 @@ public final class FlybyNighterScene: SKScene {
             setOverlayHidden(false)
             titleLabel.text = "Flyby Nighter"
             routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
-            resultLabel.text = "\(routeSelection.selectedRoute.summary)\nBest \(selectedRouteBestScore)"
-            instructionLabel.text = "Side tap or ←/→: select   •   Center tap or Return: start"
+            resultLabel.text = titleGuideText
+            instructionLabel.text = titleInstructionText
         case .playing:
             setOverlayHidden(true)
         case .completed:
