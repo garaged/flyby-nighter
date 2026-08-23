@@ -39,11 +39,24 @@ final class PlaytestGuideTests: XCTestCase {
         XCTAssertTrue(text.contains("--mute-audio"))
     }
 
-    func testTitleScreenSummaryIncludesRouteSpecificContext() {
+    func testGuideCoversReleaseIdentityForTesterFeedback() {
+        let guide = PlaytestGuide.current
+        let text = guide.fullText
+
+        XCTAssertEqual(guide.releaseIdentity, .firstTester)
+        XCTAssertTrue(text.contains("Flyby Nighter"))
+        XCTAssertTrue(text.contains("0.6.0"))
+        XCTAssertTrue(text.contains("m6-dev"))
+        XCTAssertTrue(text.contains("first-tester"))
+    }
+
+    func testTitleScreenSummaryIncludesRouteSpecificContextAndIdentity() {
         let summary = PlaytestGuide.current.titleScreenSummary(for: RouteID.glassTide.definition)
 
+        XCTAssertTrue(summary.contains("Flyby Nighter"))
         XCTAssertTrue(summary.contains("Glass Tide"))
         XCTAssertTrue(summary.contains("route"))
         XCTAssertTrue(summary.contains("Best scores"))
+        XCTAssertTrue(summary.contains("first-tester"))
     }
 }
