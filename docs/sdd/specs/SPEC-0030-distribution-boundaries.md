@@ -1,6 +1,6 @@
 # SPEC-0030: Distribution Boundaries
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M6
 
 ## Goal
@@ -22,6 +22,16 @@ Keep first-tester release-readiness work clear about what is supported now and w
 4. M6 must not introduce analytics or crash-reporting SDKs.
 5. M6 must preserve the existing Apple-first app shell architecture.
 
+## Implementation
+
+`docs/implementation/M6-distribution-boundaries.md` defines:
+
+- supported development and first-tester build paths
+- unsupported public distribution channels
+- development-build, first-tester-build, and public-release definitions
+- guardrails against telemetry, signing automation, notarization, App Store, and TestFlight work in M6
+- future milestone candidates requiring explicit approval
+
 ## Non-goals
 
 - No App Store release.
@@ -39,4 +49,4 @@ Keep first-tester release-readiness work clear about what is supported now and w
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and manual boundary validation remain before this spec can be marked Implemented.
