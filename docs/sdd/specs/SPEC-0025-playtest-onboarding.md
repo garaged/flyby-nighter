@@ -1,6 +1,6 @@
 # SPEC-0025: Playtest Onboarding
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M5
 
 ## Goal
@@ -33,7 +33,7 @@ A first tester should understand how to play, select routes, read scoring, and i
 - `PlaytestGuide` provides the canonical adapter-layer onboarding copy.
 - `PlaytestGuideTests` cover route selection, controls, scoring, best scores, reset, and mute guidance.
 - `FlybyNighterScene` renders the guide summary directly on the title overlay before active play.
-- Active gameplay still hides the overlay, so help does not block play.
+- Active gameplay hides the overlay, so help does not block play.
 
 ## Non-goals
 
@@ -42,7 +42,7 @@ A first tester should understand how to play, select routes, read scoring, and i
 - No localization pass.
 - No accessibility remediation pass beyond readable copy and layout.
 
-## Acceptance criteria
+## Acceptance results
 
 1. A tester can find controls and scoring information without reading repository docs.
 2. Existing route selection remains usable.
@@ -51,4 +51,6 @@ A first tester should understand how to play, select routes, read scoring, and i
 
 ## Validation
 
-Implementation is in place. Automated and cross-platform manual readability validation remain before this spec can be marked Implemented.
+Implemented and validated on August 23, 2026.
+
+See `docs/implementation/M5-validation.md`.
