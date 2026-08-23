@@ -1,6 +1,6 @@
 # SPEC-0027: First Tester Packaging
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M5
 
 ## Goal
@@ -25,7 +25,7 @@ Document a repeatable path for producing and validating first-tester builds with
 
 ## Implementation
 
-`docs/implementation/M5-first-tester-handoff.md` now defines:
+`docs/implementation/M5-first-tester-handoff.md` defines:
 
 - supported app shells
 - clean local validation commands
@@ -43,7 +43,7 @@ Document a repeatable path for producing and validating first-tester builds with
 - No crash-reporting SDK.
 - No analytics SDK.
 
-## Acceptance criteria
+## Acceptance results
 
 1. A maintainer can create a local macOS development build.
 2. A maintainer can run the iPhone/iPad target in Simulator or on a development device.
@@ -52,4 +52,6 @@ Document a repeatable path for producing and validating first-tester builds with
 
 ## Validation
 
-Implementation is in place. Automated and handoff-guide validation remain before this spec can be marked Implemented.
+Implemented and validated on August 23, 2026.
+
+See `docs/implementation/M5-validation.md` and `docs/implementation/M5-first-tester-handoff.md`.
