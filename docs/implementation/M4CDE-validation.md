@@ -1,11 +1,12 @@
 # M4-C/D/E Validation
 
 Branch: `m4-content-expansion`  
-Status: Automated validation passed; corrective manual retest pending
+Status: Passed  
+Validated: August 23, 2026
 
 ## M4-C: Glass Shear hazard family
 
-Implemented as an original composed hazard using existing deterministic obstacle primitives:
+Implemented and validated as an original composed hazard using existing deterministic obstacle primitives:
 
 - Two narrow pulse gates.
 - Opposing vertical velocities.
@@ -13,13 +14,13 @@ Implemented as an original composed hazard using existing deterministic obstacle
 - Distinct yellow rendering in the SpriteKit adapter.
 - Registered as the `glass-shear` hazard family on The Glass Tide.
 
-The pattern rewards reading the open diagonal lane instead of adding a new special-case collision system.
+The corrective patch made this discoverable with explicit `ROUTE 2/2 — The Glass Tide` text and a Glass Shear description before launch.
 
 ## M4-D: score-depth decision
 
 M4 keeps scoring linear and does not add a combo multiplier.
 
-Visible score sources:
+Validated score sources:
 
 - Enemy removals.
 - Gift pickups.
@@ -30,10 +31,12 @@ Visible score sources:
 
 ## M4-E: local high scores
 
+Validated behavior:
+
 - Stored per route with `UserDefaultsHighScoreStore`.
 - Missing values default to zero.
 - Only strictly higher values replace the best.
-- Best values persist across store and app instances in the same app domain.
+- Best values persist across relaunches in the same app shell.
 - `NEW BEST` is shown on completion or failure when appropriate.
 - `--reset-high-scores` clears known route values for debugging.
 
@@ -87,24 +90,20 @@ Not sufficiently visible or reliable:
 - Local scores use the stable `com.garaged.flyby-nighter.local-scores` preferences suite.
 - Score writes and resets are explicitly synchronized before process exit.
 
-Package CI and Mobile CI pass after the corrective patch.
+Package CI and Mobile CI passed after the corrective patch.
 
-## Focused manual retest
+## Focused corrective retest result
 
-1. On the title screen, confirm `ROUTE 1/2 — The Neon Rift` is visible.
-2. Press `2`, Right Arrow, or tap/click the right side and confirm `ROUTE 2/2 — The Glass Tide` is visible.
-3. Start Glass Tide and identify the two yellow crossing gates late in the route.
-4. Confirm the Glass Shear movement leaves a readable and avoidable opening.
-5. Record different best scores on the two routes and verify each appears when that route is selected.
-6. Quit and relaunch the same app shell and verify both best values remain.
-7. Launch with `--reset-high-scores` and verify both route bests return to zero.
+Passed:
 
-## Completion gate
+1. `ROUTE 1/2 — The Neon Rift` is visible on the title screen.
+2. `2`, Right Arrow, and side selection expose `ROUTE 2/2 — The Glass Tide`.
+3. Glass Shear appears late in The Glass Tide as two yellow crossing gates.
+4. The Glass Shear movement leaves a readable and avoidable opening.
+5. Separate route best scores are visible when each route is selected.
+6. Route best scores persist after quitting and relaunching the same app shell.
+7. `--reset-high-scores` resets both route bests to zero.
 
-M4 is complete after:
+## Result
 
-1. Package CI passes — passed.
-2. Mobile CI passes — passed.
-3. The focused corrective retest passes.
-4. `SPEC-0023` and `SPEC-0024` are marked Implemented.
-5. The M4 milestone is marked Completed.
+M4-C, M4-D, and M4-E acceptance criteria passed. M4 is complete.
