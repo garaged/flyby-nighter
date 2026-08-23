@@ -1,6 +1,6 @@
 # SPEC-0025: Playtest Onboarding
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M5
 
 ## Goal
@@ -28,6 +28,13 @@ A first tester should understand how to play, select routes, read scoring, and i
 5. The help surface must mention debug reset behavior only as a developer/playtest affordance.
 6. Help must not block active play unexpectedly.
 
+## Implementation
+
+- `PlaytestGuide` provides the canonical adapter-layer onboarding copy.
+- `PlaytestGuideTests` cover route selection, controls, scoring, best scores, reset, and mute guidance.
+- `FlybyNighterScene` renders the guide summary directly on the title overlay before active play.
+- Active gameplay still hides the overlay, so help does not block play.
+
 ## Non-goals
 
 - No tutorial campaign.
@@ -44,4 +51,4 @@ A first tester should understand how to play, select routes, read scoring, and i
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and cross-platform manual readability validation remain before this spec can be marked Implemented.
