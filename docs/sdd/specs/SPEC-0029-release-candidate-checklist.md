@@ -1,6 +1,6 @@
 # SPEC-0029: Release Candidate Checklist
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M6
 
 ## Goal
@@ -23,6 +23,19 @@ Define a repeatable checklist that must pass before sharing a first-tester build
 5. The checklist must capture release identity, date, platform, and tester/build notes.
 6. A failed checklist item must block sharing the build.
 
+## Implementation
+
+`docs/implementation/M6-release-candidate-checklist.md` defines:
+
+- release identity evidence fields
+- clean checkout commands
+- `swift build` and `swift test`
+- iPhone/iPad Simulator build command
+- macOS smoke checklist
+- iPhone/iPad smoke checklist
+- evidence fields
+- failure-handling steps that block sharing
+
 ## Non-goals
 
 - No automatic package signing.
@@ -39,4 +52,4 @@ Define a repeatable checklist that must pass before sharing a first-tester build
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and manual checklist validation remain before this spec can be marked Implemented.
