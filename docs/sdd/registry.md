@@ -24,9 +24,9 @@
 | SPEC-0022 | Second route | Implemented | M4 | Glass Tide content, cross-platform selection, route-specific HUD, completion, and regression validation passed. |
 | SPEC-0023 | Score system | Implemented | M4 | Linear score breakdown, explicit no-combo policy, and result presentation validated. |
 | SPEC-0024 | Local high score | Implemented | M4 | Route-specific local persistence, new-best feedback, relaunch behavior, and debug reset validated. |
-| SPEC-0025 | Playtest onboarding | Validation Pending | M5 | Playtest guide model and title-overlay onboarding are implemented; cross-platform readability validation pending. |
-| SPEC-0026 | Playtest reset and settings | Validation Pending | M5 | Reset/mute launch guidance is visible in app and documented for macOS and Xcode scheme use. |
-| SPEC-0027 | First tester packaging | Validation Pending | M5 | Local macOS and iPhone/iPad build handoff guide is implemented; smoke validation pending. |
+| SPEC-0025 | Playtest onboarding | Implemented | M5 | Title-overlay guide model, controls/scoring/best-score copy, and cross-platform readability validation passed. |
+| SPEC-0026 | Playtest reset and settings | Implemented | M5 | Reset/mute launch guidance is visible in app and documented for macOS and Xcode scheme use. |
+| SPEC-0027 | First tester packaging | Implemented | M5 | Local macOS and iPhone/iPad build handoff guide, smoke matrix, and evidence template validated. |
 
 ## Implementation rule
 
