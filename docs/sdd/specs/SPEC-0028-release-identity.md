@@ -1,6 +1,6 @@
 # SPEC-0028: Release Identity
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M6
 
 ## Goal
@@ -23,6 +23,14 @@ Expose a tester-visible app identity and version/build value so feedback can be 
 5. Tester-facing presentation must include app name, version, build, and channel.
 6. Release identity must not alter deterministic gameplay rules.
 
+## Implementation
+
+- `ReleaseIdentity` lives in `FlybyNighterCore` and imports only Foundation.
+- `ReleaseIdentity.firstTester` is `Flyby Nighter v0.6.0 (m6-dev) • first-tester`.
+- `ReleaseIdentity.feedbackToken` gives testers a copyable feedback token.
+- `PlaytestGuide` renders release identity in the title/help surface.
+- `ReleaseIdentityTests` and `PlaytestGuideTests` protect formatting and visibility.
+
 ## Non-goals
 
 - No App Store version automation.
@@ -39,4 +47,4 @@ Expose a tester-visible app identity and version/build value so feedback can be 
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and manual title visibility validation remain before this spec can be marked Implemented.
