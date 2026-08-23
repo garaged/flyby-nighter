@@ -8,6 +8,7 @@ public struct PlaytestGuide: Equatable, Sendable {
     public var scoring: [String]
     public var bestScores: String
     public var debugReset: String
+    public var releaseIdentity: ReleaseIdentity
 
     public init(
         title: String,
@@ -15,7 +16,8 @@ public struct PlaytestGuide: Equatable, Sendable {
         controls: [String],
         scoring: [String],
         bestScores: String,
-        debugReset: String
+        debugReset: String,
+        releaseIdentity: ReleaseIdentity = .firstTester
     ) {
         self.title = title
         self.routeSelection = routeSelection
@@ -23,6 +25,7 @@ public struct PlaytestGuide: Equatable, Sendable {
         self.scoring = scoring
         self.bestScores = bestScores
         self.debugReset = debugReset
+        self.releaseIdentity = releaseIdentity
     }
 
     public static let current = PlaytestGuide(
@@ -43,13 +46,14 @@ public struct PlaytestGuide: Equatable, Sendable {
     )
 
     public func titleScreenSummary(for route: RouteDefinition) -> String {
-        var lines = [route.summary]
+        var lines = [releaseIdentity.displayText]
+        lines.append(route.summary)
         lines.append(routeSelection)
         lines.append(bestScores)
         return lines.joined(separator: "\n")
     }
 
     public var fullText: String {
-        ([title, routeSelection] + controls + scoring + [bestScores, debugReset]).joined(separator: "\n")
+        ([title, releaseIdentity.displayText, routeSelection] + controls + scoring + [bestScores, debugReset]).joined(separator: "\n")
     }
 }
