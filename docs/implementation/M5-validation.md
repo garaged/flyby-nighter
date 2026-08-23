@@ -1,7 +1,7 @@
 # M5 Validation
 
 Branch: `m5-playtest-readiness`  
-Status: Pending implementation
+Status: M5-A implemented; validation pending
 
 ## Scope
 
@@ -10,6 +10,21 @@ M5 validates playtest readiness and usability:
 - In-game onboarding and controls reference.
 - Reset and mute affordances for repeated playtests.
 - First-tester packaging and handoff instructions.
+
+## M5-A implementation
+
+Added `PlaytestGuide` in the SpriteKit adapter layer as the canonical copy model for first-tester help text.
+
+The guide covers:
+
+- route selection on macOS, iPhone, and iPad
+- movement and firing controls
+- enemy, gift, completion, and HP score sources
+- route-specific best scores
+- `--reset-high-scores`
+- `--mute-audio`
+
+Added `PlaytestGuideTests` to protect this copy coverage.
 
 ## Expected automated validation
 
