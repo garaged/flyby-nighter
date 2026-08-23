@@ -1,6 +1,6 @@
 # SPEC-0023: Score System
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M4
 
 ## Goal
@@ -38,7 +38,7 @@ Failure receives no completion or remaining-HP bonus.
 - No hidden multiplier.
 - No timing-based combo in M4.
 
-## Acceptance criteria
+## Acceptance results
 
 1. Score sources are documented.
 2. Score changes are visible during play.
@@ -49,6 +49,6 @@ Failure receives no completion or remaining-HP bonus.
 
 ## Validation
 
-Implementation is complete. Automated and cross-platform presentation validation remain before this spec is marked Implemented.
+Implemented and validated on August 23, 2026.
 
 See `docs/implementation/M4CDE-validation.md`.
