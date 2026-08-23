@@ -1,7 +1,7 @@
 # M6 Validation
 
 Branch: `m6-release-readiness`  
-Status: Specification baseline created; implementation pending
+Status: Implementation complete; automated and manual validation pending
 
 ## Scope
 
@@ -12,6 +12,16 @@ M6 validates release readiness for a first-tester development build:
 - Release-candidate checklist.
 - Distribution-boundary documentation.
 - Confirmation that gameplay rules remain unchanged.
+
+## Implemented
+
+- `ReleaseIdentity` in `FlybyNighterCore`.
+- `ReleaseIdentityTests`.
+- Playtest title/help release identity presentation.
+- Release identity coverage in `PlaytestGuideTests`.
+- `docs/implementation/M6-release-candidate-checklist.md`.
+- `docs/implementation/M6-distribution-boundaries.md`.
+- Validation-pending SDD status for `SPEC-0028`, `SPEC-0029`, and `SPEC-0030`.
 
 ## Expected automated validation
 
@@ -33,8 +43,6 @@ xcodebuild \
 ```
 
 ## Manual validation matrix
-
-Pending implementation. The final matrix must include:
 
 1. Release identity is visible before a playtest.
 2. Release identity includes app name, version, build, and channel.
