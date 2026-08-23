@@ -1,6 +1,6 @@
 # M4: Content Expansion
 
-Status: Validation Pending  
+Status: Completed  
 Milestone: M4
 
 ## Goal
@@ -37,15 +37,15 @@ M4 is governed by:
 - `SPEC-0023-score-system.md`
 - `SPEC-0024-local-high-score.md`
 
-## Implementation status
+## Implementation results
 
 1. Second route content model — completed and validated.
 2. Cross-platform route selection and route-specific HUD — completed and validated.
-3. Glass Shear hazard family — implemented; validation pending.
-4. Score-depth decision and visible breakdown — implemented; validation pending.
-5. Local route-specific high scores — implemented; validation pending.
+3. Glass Shear hazard family — completed and validated.
+4. Score-depth decision and visible breakdown — completed and validated.
+5. Local route-specific high scores — completed and validated.
 
-## Acceptance criteria
+## Acceptance results
 
 A reviewer can:
 
@@ -56,5 +56,7 @@ A reviewer can:
 5. Reset local best scores through a debug launch argument.
 6. Replay without losing app stability.
 7. Run `swift test` with no failures.
+
+M4 was validated successfully on August 23, 2026.
 
 The final validation matrix is in `docs/implementation/M4CDE-validation.md`.
