@@ -1,6 +1,6 @@
 # SPEC-0026: Playtest Reset and Settings
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M5
 
 ## Goal
@@ -38,7 +38,7 @@ The title overlay references both arguments through `PlaytestGuide`, and `docs/i
 - No cloud profile.
 - No gameplay difficulty presets.
 
-## Acceptance criteria
+## Acceptance results
 
 1. A tester or developer can reset best scores using documented steps.
 2. Audio can be disabled for quiet/manual test runs.
@@ -47,4 +47,6 @@ The title overlay references both arguments through `PlaytestGuide`, and `docs/i
 
 ## Validation
 
-Implementation is in place. Manual reset/mute validation remains before this spec can be marked Implemented.
+Implemented and validated on August 23, 2026.
+
+See `docs/implementation/M5-validation.md` and `docs/implementation/M5-first-tester-handoff.md`.
