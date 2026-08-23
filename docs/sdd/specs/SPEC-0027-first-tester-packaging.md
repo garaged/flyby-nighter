@@ -1,6 +1,6 @@
 # SPEC-0027: First Tester Packaging
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M5
 
 ## Goal
@@ -23,6 +23,18 @@ Document a repeatable path for producing and validating first-tester builds with
 4. The guide must define what evidence to collect from a tester.
 5. The guide must keep App Store/TestFlight automation out of M5 unless explicitly approved later.
 
+## Implementation
+
+`docs/implementation/M5-first-tester-handoff.md` now defines:
+
+- supported app shells
+- clean local validation commands
+- macOS reset and quiet-test commands
+- Xcode launch-argument guidance for iPhone/iPad
+- first-tester smoke matrix
+- tester feedback template
+- M5 known limitations
+
 ## Non-goals
 
 - No notarization pipeline.
@@ -40,4 +52,4 @@ Document a repeatable path for producing and validating first-tester builds with
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and handoff-guide validation remain before this spec can be marked Implemented.
