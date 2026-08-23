@@ -1,6 +1,6 @@
 # SPEC-0024: Local High Score
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M4
 
 ## Goal
@@ -38,7 +38,7 @@ The Neon Rift and The Glass Tide have different encounter counts and pacing, so 
 - No anti-cheat.
 - No cross-app-container sharing between unrelated executable identities.
 
-## Acceptance criteria
+## Acceptance results
 
 1. Best score persists between launches on each supported app shell path.
 2. Best-score display is visible and understandable.
@@ -49,6 +49,6 @@ The Neon Rift and The Glass Tide have different encounter counts and pacing, so 
 
 ## Validation
 
-Implementation is complete. Automated and relaunch validation remain before this spec is marked Implemented.
+Implemented and validated on August 23, 2026.
 
 See `docs/implementation/M4CDE-validation.md`.
