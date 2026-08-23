@@ -1,6 +1,6 @@
 # M5: Playtest Readiness and Usability
 
-Status: Accepted  
+Status: Completed  
 Milestone: M5
 
 ## Goal
@@ -9,9 +9,7 @@ Make the current two-route playable version easier to hand to a tester, observe,
 
 M5 focuses on discoverability, repeatable playtest runs, and developer-operated distribution hygiene. It does not expand the game with more routes or scoring systems.
 
-## Scope
-
-M5 includes:
+## Completed scope
 
 - Clear in-game help and controls reference.
 - Playtest-safe settings and reset affordances.
@@ -36,7 +34,9 @@ M5 is governed by:
 - `SPEC-0026-playtest-reset-and-settings.md`
 - `SPEC-0027-first-tester-packaging.md`
 
-## Implementation slices
+All M5 specs are implemented.
+
+## Delivered slices
 
 1. In-game playtest help and controls reference.
 2. Playtest reset/settings affordances.
@@ -44,7 +44,7 @@ M5 is governed by:
 4. First-tester packaging notes for macOS and iPhone/iPad.
 5. Validation and milestone closure.
 
-## Acceptance criteria
+## Acceptance results
 
 A reviewer can:
 
@@ -56,4 +56,6 @@ A reviewer can:
 
 ## Validation
 
-Pending implementation.
+Completed and validated on August 23, 2026.
+
+See `docs/implementation/M5-validation.md` and `docs/implementation/M5-first-tester-handoff.md`.
