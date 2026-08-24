@@ -1,6 +1,6 @@
 # SPEC-0032: Icon and Launch Assets
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M7
 
 ## Goal
@@ -53,4 +53,4 @@ M7 intentionally does not add unreviewed binary artwork.
 
 ## Validation
 
-Implementation is in place. Manual checklist review remains before this spec can be marked Implemented.
+Implemented and validated in M7. The checklist is present, originality guardrails are documented, first-tester placeholder policy is explicit, and no unreviewed binary art was added.
