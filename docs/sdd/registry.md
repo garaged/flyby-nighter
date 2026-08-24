@@ -27,9 +27,9 @@
 | SPEC-0025 | Playtest onboarding | Implemented | M5 | Title-overlay guide model, controls/scoring/best-score copy, and cross-platform readability validation passed. |
 | SPEC-0026 | Playtest reset and settings | Implemented | M5 | Reset/mute launch guidance is visible in app and documented for macOS and Xcode scheme use. |
 | SPEC-0027 | First tester packaging | Implemented | M5 | Local macOS and iPhone/iPad build handoff guide, smoke matrix, and evidence template validated. |
-| SPEC-0028 | Release identity | Validation Pending | M6 | Release identity model, tests, feedback token, and title/help presentation implemented. |
-| SPEC-0029 | Release candidate checklist | Validation Pending | M6 | Release-candidate gates, smoke checks, evidence fields, and failure blocking implemented. |
-| SPEC-0030 | Distribution boundaries | Validation Pending | M6 | Deferred TestFlight/App Store/notarization/telemetry guardrails documented. |
+| SPEC-0028 | Release identity | Implemented | M6 | Tester-visible app name, version, build, channel, and feedback token validated. |
+| SPEC-0029 | Release candidate checklist | Implemented | M6 | Repeatable gates, smoke checks, evidence fields, and failure blocking validated. |
+| SPEC-0030 | Distribution boundaries | Implemented | M6 | Deferred TestFlight/App Store/notarization/telemetry guardrails validated. |
 
 ## Implementation rule
 
