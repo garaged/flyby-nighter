@@ -1,6 +1,6 @@
 # SPEC-0035: Release Bundle Manifest
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M8
 
 ## Goal
@@ -24,12 +24,12 @@ Define the evidence manifest that travels with a first-tester local development 
 5. The manifest must explicitly state that M8 bundles are local development/first-tester handoff artifacts, not public distribution artifacts.
 6. The manifest must avoid personal data, telemetry, analytics identifiers, or machine-specific secrets.
 
-## Implementation plan
+## Implementation
 
-- Add manifest generation support to `FirstTesterBuildPlan`.
-- Add a local packaging script that writes `MANIFEST.md`.
-- Add a handoff README to the generated bundle.
-- Document expected evidence capture.
+- `FirstTesterBuildPlan.manifest` generates test-covered manifest text.
+- `scripts/first-tester/package-macos.sh` writes `MANIFEST.md`.
+- The package script writes `README-FIRST-TESTER.md` into the generated bundle.
+- The manifest includes release identity, feedback token, commit, timestamp, validation status, validation commands, macOS playtest commands, distribution boundary, and feedback categories.
 
 ## Acceptance criteria
 
@@ -40,4 +40,4 @@ Define the evidence manifest that travels with a first-tester local development 
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and manual bundle validation pending.
