@@ -1,6 +1,6 @@
 # SPEC-0029: Release Candidate Checklist
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M6
 
 ## Goal
@@ -43,7 +43,7 @@ Define a repeatable checklist that must pass before sharing a first-tester build
 - No crash-reporting dashboard.
 - No automated UI screenshot capture.
 
-## Acceptance criteria
+## Acceptance results
 
 1. The checklist exists in the repository.
 2. The checklist maps to the implemented M4 and M5 behavior.
@@ -52,4 +52,6 @@ Define a repeatable checklist that must pass before sharing a first-tester build
 
 ## Validation
 
-Implementation is in place. Automated and manual checklist validation remain before this spec can be marked Implemented.
+Implemented and validated on August 23, 2026.
+
+See `docs/implementation/M6-validation.md`.
