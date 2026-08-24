@@ -1,6 +1,6 @@
 # SPEC-0033: Title and Menu Polish
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M7
 
 ## Goal
@@ -26,6 +26,8 @@ Improve the first-tester title/menu surface so it feels intentional, branded, re
 ## Implementation
 
 - `PlaytestGuide.titleScreenSummary` includes the M7 tagline before release identity and route copy.
+- The title overlay separates title, route selector, guide body, and footer instructions into clearer rows.
+- Footer instructions wrap instead of overflowing horizontally.
 - `docs/implementation/M7-title-menu-polish.md` defines title hierarchy and readability rules.
 - Existing result-screen score, best-score, replay, and change-route guidance is preserved.
 - No gameplay rule changes are introduced.
@@ -48,4 +50,4 @@ Improve the first-tester title/menu surface so it feels intentional, branded, re
 
 ## Validation
 
-Implementation is in place. Automated and manual title/menu validation remain before this spec can be marked Implemented.
+Implemented and validated in M7. Automated validation passes, the initial cluttered title-screen regression was corrected, and the corrected surface was manually accepted.
