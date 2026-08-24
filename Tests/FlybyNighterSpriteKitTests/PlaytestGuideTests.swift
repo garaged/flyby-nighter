@@ -24,16 +24,16 @@ final class PlaytestGuideTests: XCTestCase {
     func testGuideCoversEveryScoreSource() {
         let scoringText = PlaytestGuide.current.scoring.joined(separator: "\n")
 
-        XCTAssertTrue(scoringText.contains("Enemy"))
-        XCTAssertTrue(scoringText.contains("Gift"))
+        XCTAssertTrue(scoringText.contains("enemies"))
+        XCTAssertTrue(scoringText.contains("gifts"))
         XCTAssertTrue(scoringText.contains("clear bonus"))
-        XCTAssertTrue(scoringText.contains("HP bonus"))
+        XCTAssertTrue(scoringText.contains("remaining HP"))
     }
 
     func testGuideCoversBestScoresAndDebugLaunchArguments() {
         let text = PlaytestGuide.current.fullText
 
-        XCTAssertTrue(text.contains("Best scores"))
+        XCTAssertTrue(text.contains("Best score"))
         XCTAssertTrue(text.contains("separately per route"))
         XCTAssertTrue(text.contains("--reset-high-scores"))
         XCTAssertTrue(text.contains("--mute-audio"))
@@ -50,13 +50,24 @@ final class PlaytestGuideTests: XCTestCase {
         XCTAssertTrue(text.contains("first-tester"))
     }
 
-    func testTitleScreenSummaryIncludesRouteSpecificContextAndIdentity() {
-        let summary = PlaytestGuide.current.titleScreenSummary(for: RouteID.glassTide.definition)
+    func testGuideCoversVisualIdentityForTitleSurface() {
+        let guide = PlaytestGuide.current
+        let text = guide.fullText
 
-        XCTAssertTrue(summary.contains("Flyby Nighter"))
-        XCTAssertTrue(summary.contains("Glass Tide"))
-        XCTAssertTrue(summary.contains("route"))
-        XCTAssertTrue(summary.contains("Best scores"))
+        XCTAssertEqual(guide.visualIdentity, .current)
+        XCTAssertTrue(text.contains("Arcade night flight"))
+        XCTAssertTrue(text.contains("Flyby Nighter —"))
+    }
+
+    func testTitleScreenSummaryIsCompactAndIdentityFocused() {
+        let summary = PlaytestGuide.current.titleScreenSummary(for: RouteID.glassTide.definition)
+        let lines = summary.split(separator: "\n")
+
+        XCTAssertLessThanOrEqual(lines.count, 6)
+        XCTAssertTrue(summary.contains("Arcade night flight"))
+        XCTAssertTrue(summary.contains("Routes:"))
+        XCTAssertTrue(summary.contains("Best score"))
         XCTAssertTrue(summary.contains("first-tester"))
+        XCTAssertFalse(summary.contains("Selected:"))
     }
 }

@@ -9,6 +9,7 @@ public struct PlaytestGuide: Equatable, Sendable {
     public var bestScores: String
     public var debugReset: String
     public var releaseIdentity: ReleaseIdentity
+    public var visualIdentity: VisualIdentity
 
     public init(
         title: String,
@@ -17,7 +18,8 @@ public struct PlaytestGuide: Equatable, Sendable {
         scoring: [String],
         bestScores: String,
         debugReset: String,
-        releaseIdentity: ReleaseIdentity = .firstTester
+        releaseIdentity: ReleaseIdentity = .firstTester,
+        visualIdentity: VisualIdentity = .current
     ) {
         self.title = title
         self.routeSelection = routeSelection
@@ -26,34 +28,36 @@ public struct PlaytestGuide: Equatable, Sendable {
         self.bestScores = bestScores
         self.debugReset = debugReset
         self.releaseIdentity = releaseIdentity
+        self.visualIdentity = visualIdentity
     }
 
     public static let current = PlaytestGuide(
         title: "How to play",
-        routeSelection: "Select ROUTE 1/2 Neon Rift or ROUTE 2/2 Glass Tide before a run. On macOS use 1/2, arrows, or side clicks; on iPhone/iPad tap the left or right side.",
+        routeSelection: "Routes: ROUTE 1/2 or ROUTE 2/2. macOS: 1/2 or arrows; iPhone/iPad: side taps.",
         controls: [
-            "macOS: WASD or arrows move, Space fires, Return starts or replays.",
-            "iPhone/iPad: center tap starts, hold to fire, drag to steer."
+            "Start/replay: center tap/click or Return.",
+            "Move: WASD/arrows on macOS, drag on touch.",
+            "Fire: Space on macOS, hold to fire on touch."
         ],
         scoring: [
-            "Enemy removals add enemy points.",
-            "Gift pickups add gift points.",
-            "Completing a route adds the clear bonus.",
-            "Finishing with HP remaining adds an HP bonus."
+            "Score: enemies + gifts + clear bonus + remaining HP.",
+            "Glass Tide includes the yellow Glass Shear gate pattern."
         ],
-        bestScores: "Best scores are stored separately per route and only improve when a run beats the current route best.",
-        debugReset: "For a clean playtest, launch with --reset-high-scores. For quiet testing, launch with --mute-audio."
+        bestScores: "Best score is saved separately per route.",
+        debugReset: "Reset scores: --reset-high-scores. Quiet test: --mute-audio."
     )
 
     public func titleScreenSummary(for route: RouteDefinition) -> String {
-        var lines = [releaseIdentity.displayText]
-        lines.append(route.summary)
+        var lines = [visualIdentity.tagline]
+        lines.append(releaseIdentity.displayText)
         lines.append(routeSelection)
+        lines.append(controls.joined(separator: " "))
+        lines.append(scoring.joined(separator: " "))
         lines.append(bestScores)
         return lines.joined(separator: "\n")
     }
 
     public var fullText: String {
-        ([title, releaseIdentity.displayText, routeSelection] + controls + scoring + [bestScores, debugReset]).joined(separator: "\n")
+        ([visualIdentity.titleLine, title, releaseIdentity.displayText, routeSelection] + controls + scoring + [bestScores, debugReset]).joined(separator: "\n")
     }
 }

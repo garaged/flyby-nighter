@@ -30,6 +30,9 @@
 | SPEC-0028 | Release identity | Implemented | M6 | Tester-visible app name, version, build, channel, and feedback token validated. |
 | SPEC-0029 | Release candidate checklist | Implemented | M6 | Repeatable gates, smoke checks, evidence fields, and failure blocking validated. |
 | SPEC-0030 | Distribution boundaries | Implemented | M6 | Deferred TestFlight/App Store/notarization/telemetry guardrails validated. |
+| SPEC-0031 | Visual identity system | Implemented | M7 | Original title/tagline/palette token model and tests validated. |
+| SPEC-0032 | Icon and launch assets | Implemented | M7 | Placeholder policy and future binary art checklist validated. |
+| SPEC-0033 | Title and menu polish | Implemented | M7 | Corrected title/help tagline integration and readability validation passed. |
 
 ## Implementation rule
 
