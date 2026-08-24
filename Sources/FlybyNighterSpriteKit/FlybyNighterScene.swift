@@ -271,23 +271,24 @@ public final class FlybyNighterScene: SKScene {
         titleLabel.fontColor = .cyan
         addChild(titleLabel)
 
-        routeLabel.fontSize = 19
+        routeLabel.fontSize = 17
         routeLabel.horizontalAlignmentMode = .center
         routeLabel.verticalAlignmentMode = .center
         routeLabel.fontColor = .yellow
         addChild(routeLabel)
 
-        resultLabel.fontSize = 12
+        resultLabel.fontSize = 11
         resultLabel.horizontalAlignmentMode = .center
-        resultLabel.verticalAlignmentMode = .center
+        resultLabel.verticalAlignmentMode = .top
         resultLabel.fontColor = .white
         resultLabel.numberOfLines = 7
         addChild(resultLabel)
 
-        instructionLabel.fontSize = 11
+        instructionLabel.fontSize = 10
         instructionLabel.horizontalAlignmentMode = .center
-        instructionLabel.verticalAlignmentMode = .center
+        instructionLabel.verticalAlignmentMode = .top
         instructionLabel.fontColor = .lightGray
+        instructionLabel.numberOfLines = 2
         addChild(instructionLabel)
     }
 
@@ -315,11 +316,14 @@ public final class FlybyNighterScene: SKScene {
 
         let centerX = size.width / 2
         let centerY = size.height / 2
-        titleLabel.position = CGPoint(x: centerX, y: centerY + 96)
-        routeLabel.position = CGPoint(x: centerX, y: centerY + 56)
-        resultLabel.position = CGPoint(x: centerX, y: centerY - 4)
-        resultLabel.preferredMaxLayoutWidth = max(260, min(size.width - 40, 680))
+        let maxTextWidth = max(260, min(size.width - 56, 620))
+
+        titleLabel.position = CGPoint(x: centerX, y: centerY + 148)
+        routeLabel.position = CGPoint(x: centerX, y: centerY + 106)
+        resultLabel.position = CGPoint(x: centerX, y: centerY + 72)
+        resultLabel.preferredMaxLayoutWidth = maxTextWidth
         instructionLabel.position = CGPoint(x: centerX, y: centerY - 118)
+        instructionLabel.preferredMaxLayoutWidth = maxTextWidth
     }
 
     private func handleGameEvents(_ events: [GameEvent]) {
@@ -527,11 +531,11 @@ public final class FlybyNighterScene: SKScene {
 
     private var titleGuideText: String {
         let guideSummary = playtestGuide.titleScreenSummary(for: routeSelection.selectedRoute)
-        return "\(guideSummary)\nBest \(selectedRouteBestScore)"
+        return "\(guideSummary)\nBest: \(selectedRouteBestScore)"
     }
 
     private var titleInstructionText: String {
-        "Side tap or ←/→/1/2: select   •   Center tap or Return: start   •   Reset: --reset-high-scores   •   Mute: --mute-audio"
+        "Select: side tap/click or ←/→/1/2   •   Start: center tap/click or Return\nReset: --reset-high-scores   •   Mute: --mute-audio"
     }
 
     private func renderEnemies() {
@@ -616,7 +620,7 @@ public final class FlybyNighterScene: SKScene {
         switch game.state.runState {
         case .title:
             setOverlayHidden(false)
-            titleLabel.text = "Flyby Nighter"
+            titleLabel.text = playtestGuide.visualIdentity.appTitle
             routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
             resultLabel.text = titleGuideText
             instructionLabel.text = titleInstructionText
@@ -627,13 +631,13 @@ public final class FlybyNighterScene: SKScene {
             titleLabel.text = "Route Complete"
             routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
             resultLabel.text = "Score \(game.state.score)  •  Best \(selectedRouteBestScore)\(bestMarker)\n\(scoreBreakdownText)"
-            instructionLabel.text = "Side tap or ←/→: change route   •   Center tap or Return: replay"
+            instructionLabel.text = "Side tap/click or ←/→: change route\nCenter tap/click or Return: replay"
         case .failed:
             setOverlayHidden(false)
             titleLabel.text = "Run Failed"
             routeLabel.text = "‹  \(selectedRouteDisplayName)  ›"
             resultLabel.text = "Score \(game.state.score)  •  Best \(selectedRouteBestScore)\(bestMarker)\n\(scoreBreakdownText)"
-            instructionLabel.text = "Side tap or ←/→: change route   •   Center tap or Return: retry"
+            instructionLabel.text = "Side tap/click or ←/→: change route\nCenter tap/click or Return: retry"
         }
     }
 
