@@ -1,6 +1,6 @@
 # SPEC-0028: Release Identity
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M6
 
 ## Goal
@@ -38,7 +38,7 @@ Expose a tester-visible app identity and version/build value so feedback can be 
 - No git-SHA injection.
 - No localization pass.
 
-## Acceptance criteria
+## Acceptance results
 
 1. Release identity has automated tests.
 2. A tester can see the release identity before or during a playtest.
@@ -47,4 +47,6 @@ Expose a tester-visible app identity and version/build value so feedback can be 
 
 ## Validation
 
-Implementation is in place. Automated and manual title visibility validation remain before this spec can be marked Implemented.
+Implemented and validated on August 23, 2026.
+
+See `docs/implementation/M6-validation.md`.
