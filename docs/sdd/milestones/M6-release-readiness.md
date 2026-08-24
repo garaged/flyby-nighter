@@ -1,6 +1,6 @@
 # M6: Release Readiness
 
-Status: Accepted  
+Status: Completed  
 Milestone: M6
 
 ## Goal
@@ -9,9 +9,7 @@ Prepare the first-tester build for repeatable release-candidate validation witho
 
 M6 focuses on visible product identity, version/build hygiene, release-candidate checks, and a deterministic acceptance checklist.
 
-## Scope
-
-M6 includes:
+## Completed scope
 
 - Visible app identity and version/build metadata in presentation surfaces.
 - A deterministic release-info model that can be tested without platform dependencies.
@@ -37,15 +35,17 @@ M6 is governed by:
 - `SPEC-0029-release-candidate-checklist.md`
 - `SPEC-0030-distribution-boundaries.md`
 
-## Implementation slices
+All M6 specs are implemented.
+
+## Delivered slices
 
 1. Release identity model and tests.
-2. Visible version/build presentation in the app shell or title/help surface.
+2. Visible version/build presentation in the app title/help surface.
 3. Release-candidate checklist and validation record.
 4. Distribution-boundary documentation.
 5. Validation and milestone closure.
 
-## Acceptance criteria
+## Acceptance results
 
 A reviewer can:
 
@@ -57,4 +57,6 @@ A reviewer can:
 
 ## Validation
 
-Pending implementation.
+Completed and validated on August 23, 2026.
+
+See `docs/implementation/M6-validation.md`, `docs/implementation/M6-release-candidate-checklist.md`, and `docs/implementation/M6-distribution-boundaries.md`.
