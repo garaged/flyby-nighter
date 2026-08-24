@@ -1,6 +1,6 @@
 # SPEC-0032: Icon and Launch Assets
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M7
 
 ## Goal
@@ -23,6 +23,18 @@ Define safe, original icon and launch asset requirements for a first-tester buil
 4. Binary art generation or replacement must be a deliberate future task with explicit asset review.
 5. M7 must document what is acceptable for first-tester placeholder identity.
 
+## Implementation
+
+`docs/implementation/M7-icon-launch-assets.md` defines:
+
+- originality guardrails
+- app icon direction
+- launch/title surface direction
+- first-tester placeholder policy
+- deferred final art work
+
+M7 intentionally does not add unreviewed binary artwork.
+
 ## Non-goals
 
 - No App Store marketing screenshots.
@@ -41,4 +53,4 @@ Define safe, original icon and launch asset requirements for a first-tester buil
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Manual checklist review remains before this spec can be marked Implemented.
