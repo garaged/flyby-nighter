@@ -1,6 +1,6 @@
 # M8: First-Tester Automation
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M8
 
 ## Goal
@@ -58,6 +58,10 @@ A reviewer can:
 6. Confirm no public distribution, telemetry, signing, or notarization automation was added.
 7. Run `swift build`, `swift test`, and the iPhone/iPad Simulator build successfully.
 
+## Implementation status
+
+Implementation is in place across the build plan model, tests, root `Makefile`, local scripts, handoff docs, and validation matrix.
+
 ## Validation
 
-Pending implementation.
+Automated and manual validation pending.
