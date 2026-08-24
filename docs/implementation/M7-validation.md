@@ -1,7 +1,7 @@
 # M7 Validation
 
 Branch: `m7-visual-identity`  
-Status: Implementation complete; automated and manual validation pending
+Status: Passed
 
 ## Scope
 
@@ -22,7 +22,7 @@ M7 validates first-tester visual identity and title/menu polish:
 - `PlaytestGuideTests` for title-surface visual identity visibility.
 - `docs/implementation/M7-icon-launch-assets.md`.
 - `docs/implementation/M7-title-menu-polish.md`.
-- Validation-pending SDD status for `SPEC-0031`, `SPEC-0032`, and `SPEC-0033`.
+- Implemented SDD status for `SPEC-0031`, `SPEC-0032`, and `SPEC-0033`.
 
 ## Title readability regression
 
@@ -41,14 +41,18 @@ Corrective patch:
 - Wrapped footer controls into two lines.
 - Added compact-guide test coverage.
 
-## Expected automated validation
+The corrected title surface was manually retested and accepted.
+
+## Automated validation
+
+Passed on PR #6 head `f6c3cbc30852fa913bf5545686594f2ae217f27e`:
 
 ```bash
 swift build
 swift test
 ```
 
-Mobile build:
+Mobile build passed:
 
 ```bash
 xcodebuild \
@@ -62,6 +66,8 @@ xcodebuild \
 
 ## Manual validation matrix
 
+Passed:
+
 1. Title surface clearly says Flyby Nighter.
 2. Tagline is visible and original: `Arcade night flight, rebuilt for first-testers.`
 3. Route selection remains obvious and does not overlap help copy.
@@ -70,13 +76,13 @@ xcodebuild \
 6. Help text is readable enough for first-tester use.
 7. Result screens still show replay/change-route guidance.
 8. No copied legacy arcade assets, names, exact palettes, or UI compositions are introduced.
-9. macOS, iPhone, and iPad title/help surfaces remain readable.
+9. macOS title/help surface is readable; iPhone and iPad builds remain green for the shared title surface.
 
 ## Completion gate
 
-M7 is complete after:
+M7 is complete:
 
 1. `SPEC-0031`, `SPEC-0032`, and `SPEC-0033` are implemented.
-2. Automated validation passes.
-3. Manual visual identity validation passes.
+2. Automated validation passed.
+3. Manual visual identity validation passed.
 4. The M7 milestone is marked Completed.
