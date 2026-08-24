@@ -33,11 +33,11 @@ public struct PlaytestGuide: Equatable, Sendable {
 
     public static let current = PlaytestGuide(
         title: "How to play",
-        routeSelection: "Routes: press 1/2, use arrows, or tap/click the side zones.",
+        routeSelection: "Routes: ROUTE 1/2 or ROUTE 2/2. macOS: 1/2 or arrows; iPhone/iPad: side taps.",
         controls: [
             "Start/replay: center tap/click or Return.",
             "Move: WASD/arrows on macOS, drag on touch.",
-            "Fire: Space on macOS, hold on touch."
+            "Fire: Space on macOS, hold to fire on touch."
         ],
         scoring: [
             "Score: enemies + gifts + clear bonus + remaining HP.",
