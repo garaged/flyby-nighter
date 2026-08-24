@@ -1,6 +1,6 @@
 # SPEC-0033: Title and Menu Polish
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M7
 
 ## Goal
@@ -23,6 +23,13 @@ Improve the first-tester title/menu surface so it feels intentional, branded, re
 5. Result screens must keep replay/change-route guidance.
 6. M7 must preserve M4/M5/M6 manual acceptance behavior.
 
+## Implementation
+
+- `PlaytestGuide.titleScreenSummary` includes the M7 tagline before release identity and route copy.
+- `docs/implementation/M7-title-menu-polish.md` defines title hierarchy and readability rules.
+- Existing result-screen score, best-score, replay, and change-route guidance is preserved.
+- No gameplay rule changes are introduced.
+
 ## Non-goals
 
 - No full settings menu.
@@ -41,4 +48,4 @@ Improve the first-tester title/menu surface so it feels intentional, branded, re
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and manual title/menu validation remain before this spec can be marked Implemented.
