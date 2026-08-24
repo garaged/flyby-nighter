@@ -1,6 +1,6 @@
 # SPEC-0034: First-Tester Build Automation
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M8
 
 ## Goal
@@ -23,13 +23,13 @@ Provide repeatable local commands for validating and preparing a first-tester de
 5. Automation must not add App Store Connect, TestFlight, notarization, signing, telemetry, analytics, or crash-reporting automation.
 6. Automation must not change deterministic gameplay rules.
 
-## Implementation plan
+## Implementation
 
-- Add `FirstTesterBuildPlan` in `FlybyNighterCore`.
-- Add `FirstTesterBuildPlanTests`.
-- Add root `Makefile` targets.
-- Add scripts under `scripts/first-tester/`.
-- Document local usage and limitations.
+- `FirstTesterBuildPlan` defines validation and macOS playtest commands.
+- `FirstTesterBuildPlanTests` protect command coverage and distribution boundaries.
+- Root `Makefile` provides `validate`, `mobile-build`, `run-macos`, `run-macos-reset`, `run-macos-muted`, and `package-first-tester`.
+- `scripts/first-tester/validate.sh` runs package build, tests, and the mobile simulator build.
+- `scripts/first-tester/package-macos.sh` prepares the local macOS handoff bundle.
 
 ## Acceptance criteria
 
@@ -41,4 +41,4 @@ Provide repeatable local commands for validating and preparing a first-tester de
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and manual validation pending.
