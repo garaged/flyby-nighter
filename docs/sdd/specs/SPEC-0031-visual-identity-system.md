@@ -1,6 +1,6 @@
 # SPEC-0031: Visual Identity System
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M7
 
 ## Goal
@@ -23,6 +23,14 @@ Define a small original visual identity system that can be applied consistently 
 4. Palette tokens must be named and documented.
 5. Automated tests must protect the default title, tagline, and palette shape.
 
+## Implementation
+
+- `VisualIdentity.current` defines the title, tagline, mood words, and palette tokens.
+- `VisualPaletteToken` stores named hex values and usage roles.
+- `PlaytestGuide` includes the visual identity tagline in the title/help summary.
+- `VisualIdentityTests` protect title, tagline, mood words, palette names, roles, and hex format.
+- `PlaytestGuideTests` protect title-surface visibility.
+
 ## Non-goals
 
 - No final illustration pass.
@@ -40,4 +48,4 @@ Define a small original visual identity system that can be applied consistently 
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Automated and manual visual validation remain before this spec can be marked Implemented.
