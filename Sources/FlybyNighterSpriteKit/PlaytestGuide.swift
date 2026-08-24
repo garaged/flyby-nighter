@@ -33,26 +33,26 @@ public struct PlaytestGuide: Equatable, Sendable {
 
     public static let current = PlaytestGuide(
         title: "How to play",
-        routeSelection: "Select ROUTE 1/2 Neon Rift or ROUTE 2/2 Glass Tide before a run. On macOS use 1/2, arrows, or side clicks; on iPhone/iPad tap the left or right side.",
+        routeSelection: "Routes: press 1/2, use arrows, or tap/click the side zones.",
         controls: [
-            "macOS: WASD or arrows move, Space fires, Return starts or replays.",
-            "iPhone/iPad: center tap starts, hold to fire, drag to steer."
+            "Start/replay: center tap/click or Return.",
+            "Move: WASD/arrows on macOS, drag on touch.",
+            "Fire: Space on macOS, hold on touch."
         ],
         scoring: [
-            "Enemy removals add enemy points.",
-            "Gift pickups add gift points.",
-            "Completing a route adds the clear bonus.",
-            "Finishing with HP remaining adds an HP bonus."
+            "Score: enemies + gifts + clear bonus + remaining HP.",
+            "Glass Tide includes the yellow Glass Shear gate pattern."
         ],
-        bestScores: "Best scores are stored separately per route and only improve when a run beats the current route best.",
-        debugReset: "For a clean playtest, launch with --reset-high-scores. For quiet testing, launch with --mute-audio."
+        bestScores: "Best score is saved separately per route.",
+        debugReset: "Reset scores: --reset-high-scores. Quiet test: --mute-audio."
     )
 
     public func titleScreenSummary(for route: RouteDefinition) -> String {
         var lines = [visualIdentity.tagline]
         lines.append(releaseIdentity.displayText)
-        lines.append(route.summary)
         lines.append(routeSelection)
+        lines.append(controls.joined(separator: " "))
+        lines.append(scoring.joined(separator: " "))
         lines.append(bestScores)
         return lines.joined(separator: "\n")
     }
