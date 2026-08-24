@@ -1,6 +1,6 @@
 # SPEC-0031: Visual Identity System
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M7
 
 ## Goal
@@ -48,4 +48,4 @@ Define a small original visual identity system that can be applied consistently 
 
 ## Validation
 
-Implementation is in place. Automated and manual visual validation remain before this spec can be marked Implemented.
+Implemented and validated in M7. Automated tests pass, the corrected title/help surface was manually accepted, and no gameplay-rule coupling was introduced.
