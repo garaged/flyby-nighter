@@ -9,8 +9,8 @@ final class ReleaseIdentityTests: XCTestCase {
         XCTAssertEqual(identity.channel, "first-tester")
         XCTAssertTrue(identity.isValid)
         XCTAssertTrue(identity.displayText.contains("Flyby Nighter"))
-        XCTAssertTrue(identity.displayText.contains("0.6.0"))
-        XCTAssertTrue(identity.displayText.contains("m6-dev"))
+        XCTAssertTrue(identity.displayText.contains("0.8.0"))
+        XCTAssertTrue(identity.displayText.contains("m8-dev"))
         XCTAssertTrue(identity.displayText.contains("first-tester"))
     }
 
@@ -18,8 +18,8 @@ final class ReleaseIdentityTests: XCTestCase {
         let token = ReleaseIdentity.firstTester.feedbackToken
 
         XCTAssertTrue(token.contains("app=Flyby Nighter"))
-        XCTAssertTrue(token.contains("version=0.6.0"))
-        XCTAssertTrue(token.contains("build=m6-dev"))
+        XCTAssertTrue(token.contains("version=0.8.0"))
+        XCTAssertTrue(token.contains("build=m8-dev"))
         XCTAssertTrue(token.contains("channel=first-tester"))
     }
 
