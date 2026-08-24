@@ -1,6 +1,6 @@
 # SPEC-0036: Tester Feedback Workflow
 
-Status: Accepted  
+Status: Validation Pending  
 Milestone: M8
 
 ## Goal
@@ -24,11 +24,12 @@ Give first testers a clear, low-friction way to report feedback with enough buil
 5. Workflow must remain manual/local in M8; no telemetry, crash-reporting SDK, or automatic upload is added.
 6. Feedback workflow must include triage categories for blocker, regression, usability, visual, and polish feedback.
 
-## Implementation plan
+## Implementation
 
-- Add `docs/implementation/M8-tester-feedback-workflow.md`.
-- Add feedback fields into the first-tester bundle handoff README.
-- Add release identity and manifest references.
+- `docs/implementation/M8-tester-feedback-workflow.md` defines required fields, categories, privacy guidance, and maintainer intake.
+- The generated first-tester handoff README includes a tester feedback template.
+- `FirstTesterBuildPlan.feedbackCategories` is test-covered.
+- The bundle manifest includes feedback categories.
 
 ## Acceptance criteria
 
@@ -39,4 +40,4 @@ Give first testers a clear, low-friction way to report feedback with enough buil
 
 ## Validation
 
-Pending implementation.
+Implementation is in place. Manual handoff and feedback workflow validation pending.
