@@ -1,6 +1,6 @@
 # SPEC-0030: Distribution Boundaries
 
-Status: Validation Pending  
+Status: Implemented  
 Milestone: M6
 
 ## Goal
@@ -40,7 +40,7 @@ Keep first-tester release-readiness work clear about what is supported now and w
 - No telemetry collection.
 - No privacy policy generation.
 
-## Acceptance criteria
+## Acceptance results
 
 1. The repository has a distribution-boundary note.
 2. The release-candidate checklist references the boundary.
@@ -49,4 +49,6 @@ Keep first-tester release-readiness work clear about what is supported now and w
 
 ## Validation
 
-Implementation is in place. Automated and manual boundary validation remain before this spec can be marked Implemented.
+Implemented and validated on August 23, 2026.
+
+See `docs/implementation/M6-validation.md`.
