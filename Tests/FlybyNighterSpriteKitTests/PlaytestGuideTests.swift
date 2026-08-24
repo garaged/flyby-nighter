@@ -50,10 +50,19 @@ final class PlaytestGuideTests: XCTestCase {
         XCTAssertTrue(text.contains("first-tester"))
     }
 
+    func testGuideCoversVisualIdentityForTitleSurface() {
+        let guide = PlaytestGuide.current
+        let text = guide.fullText
+
+        XCTAssertEqual(guide.visualIdentity, .current)
+        XCTAssertTrue(text.contains("Arcade night flight"))
+        XCTAssertTrue(text.contains("Flyby Nighter —"))
+    }
+
     func testTitleScreenSummaryIncludesRouteSpecificContextAndIdentity() {
         let summary = PlaytestGuide.current.titleScreenSummary(for: RouteID.glassTide.definition)
 
-        XCTAssertTrue(summary.contains("Flyby Nighter"))
+        XCTAssertTrue(summary.contains("Arcade night flight"))
         XCTAssertTrue(summary.contains("Glass Tide"))
         XCTAssertTrue(summary.contains("route"))
         XCTAssertTrue(summary.contains("Best scores"))
