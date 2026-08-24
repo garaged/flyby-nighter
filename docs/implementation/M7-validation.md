@@ -1,7 +1,7 @@
 # M7 Validation
 
 Branch: `m7-visual-identity`  
-Status: Specification baseline created; implementation pending
+Status: Implementation complete; automated and manual validation pending
 
 ## Scope
 
@@ -12,6 +12,17 @@ M7 validates first-tester visual identity and title/menu polish:
 - Icon and launch asset checklist.
 - Title/menu hierarchy and readability.
 - Confirmation that gameplay rules remain unchanged.
+
+## Implemented
+
+- `VisualIdentity.current` title, tagline, mood words, and palette tokens.
+- `VisualPaletteToken` named hex values and roles.
+- `VisualIdentityTests` for title, tagline, mood words, palette names, roles, and hex validation.
+- `PlaytestGuide` title/help integration for the M7 tagline.
+- `PlaytestGuideTests` for title-surface visual identity visibility.
+- `docs/implementation/M7-icon-launch-assets.md`.
+- `docs/implementation/M7-title-menu-polish.md`.
+- Validation-pending SDD status for `SPEC-0031`, `SPEC-0032`, and `SPEC-0033`.
 
 ## Expected automated validation
 
@@ -34,14 +45,12 @@ xcodebuild \
 
 ## Manual validation matrix
 
-Pending implementation. The final matrix must include:
-
 1. Title surface clearly says Flyby Nighter.
-2. Tagline is visible and original.
+2. Tagline is visible and original: `Arcade night flight, rebuilt for first-testers.`
 3. Route selection remains obvious.
 4. Release identity remains visible before testing.
 5. Reset and mute guidance remain available.
-6. Help text is more readable than the M5/M6 dense paragraph form.
+6. Help text is readable enough for first-tester use.
 7. Result screens still show replay/change-route guidance.
 8. No copied legacy arcade assets, names, exact palettes, or UI compositions are introduced.
 9. macOS, iPhone, and iPad title/help surfaces remain readable.
