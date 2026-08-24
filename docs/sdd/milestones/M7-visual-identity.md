@@ -1,6 +1,6 @@
 # M7: Visual Identity and Asset Polish
 
-Status: Accepted  
+Status: Completed  
 Milestone: M7
 
 ## Goal
@@ -58,4 +58,4 @@ A reviewer can:
 
 ## Validation
 
-Pending implementation.
+Completed. Automated validation passed, the corrected title/menu surface was manually accepted after the readability fix, and no deterministic gameplay rules were changed.
