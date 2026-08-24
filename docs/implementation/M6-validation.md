@@ -1,7 +1,8 @@
 # M6 Validation
 
 Branch: `m6-release-readiness`  
-Status: Implementation complete; automated and manual validation pending
+Status: Passed  
+Validated: August 23, 2026
 
 ## Scope
 
@@ -21,16 +22,18 @@ M6 validates release readiness for a first-tester development build:
 - Release identity coverage in `PlaytestGuideTests`.
 - `docs/implementation/M6-release-candidate-checklist.md`.
 - `docs/implementation/M6-distribution-boundaries.md`.
-- Validation-pending SDD status for `SPEC-0028`, `SPEC-0029`, and `SPEC-0030`.
+- Implemented SDD status for `SPEC-0028`, `SPEC-0029`, and `SPEC-0030`.
 
-## Expected automated validation
+## Automated validation result
+
+Passed:
 
 ```bash
 swift build
 swift test
 ```
 
-Mobile build:
+Passed mobile target build:
 
 ```bash
 xcodebuild \
@@ -42,7 +45,9 @@ xcodebuild \
   build
 ```
 
-## Manual validation matrix
+## Manual validation result
+
+Validated successfully:
 
 1. Release identity is visible before a playtest.
 2. Release identity includes app name, version, build, and channel.
@@ -52,11 +57,6 @@ xcodebuild \
 6. Distribution boundaries are explicit: no TestFlight/App Store/notarization/telemetry automation in M6.
 7. Route selection, scoring, best scores, reset, mute, and help do not regress.
 
-## Completion gate
+## Result
 
-M6 is complete after:
-
-1. `SPEC-0028`, `SPEC-0029`, and `SPEC-0030` are implemented.
-2. Automated validation passes.
-3. The manual release-readiness matrix passes.
-4. The M6 milestone is marked Completed.
+M6 acceptance criteria passed. `SPEC-0028`, `SPEC-0029`, and `SPEC-0030` are implemented, and the M6 milestone is complete.
