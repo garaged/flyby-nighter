@@ -1,7 +1,8 @@
 # SPEC-0035: Release Bundle Manifest
 
-Status: Validation Pending  
-Milestone: M8
+Status: Implemented  
+Milestone: M8  
+Validated: September 1, 2026
 
 ## Goal
 
@@ -30,6 +31,7 @@ Define the evidence manifest that travels with a first-tester local development 
 - `scripts/first-tester/package-macos.sh` writes `MANIFEST.md`.
 - The package script writes `README-FIRST-TESTER.md` into the generated bundle.
 - The manifest includes release identity, feedback token, commit, timestamp, validation status, validation commands, macOS playtest commands, distribution boundary, and feedback categories.
+- CI verifies generated bundle files exist after `make package-first-tester`.
 
 ## Acceptance criteria
 
@@ -40,4 +42,4 @@ Define the evidence manifest that travels with a first-tester local development 
 
 ## Validation
 
-Implementation is in place. Automated and manual bundle validation pending.
+Implemented and validated by automated CI plus manual bundle review.
