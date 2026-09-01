@@ -1,7 +1,8 @@
 # SPEC-0034: First-Tester Build Automation
 
-Status: Validation Pending  
-Milestone: M8
+Status: Implemented  
+Milestone: M8  
+Validated: September 1, 2026
 
 ## Goal
 
@@ -30,6 +31,7 @@ Provide repeatable local commands for validating and preparing a first-tester de
 - Root `Makefile` provides `validate`, `mobile-build`, `run-macos`, `run-macos-reset`, `run-macos-muted`, and `package-first-tester`.
 - `scripts/first-tester/validate.sh` runs package build, tests, and the mobile simulator build.
 - `scripts/first-tester/package-macos.sh` prepares the local macOS handoff bundle.
+- CI validates `make validate`, `make package-first-tester`, and `make mobile-build`.
 
 ## Acceptance criteria
 
@@ -41,4 +43,4 @@ Provide repeatable local commands for validating and preparing a first-tester de
 
 ## Validation
 
-Implementation is in place. Automated and manual validation pending.
+Implemented and validated by automated CI plus manual acceptance.
