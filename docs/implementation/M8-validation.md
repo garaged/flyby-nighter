@@ -1,7 +1,8 @@
 # M8 Validation
 
 Branch: `m8-first-tester-automation`  
-Status: Implementation complete; automated and manual validation pending
+Status: Passed  
+Validated: September 1, 2026
 
 ## Scope
 
@@ -21,23 +22,29 @@ M8 validates first-tester build automation and handoff:
 - `FirstTesterBuildPlan` and `FirstTesterCommand` in `FlybyNighterCore`.
 - `FirstTesterBuildPlanTests`.
 - M8 `ReleaseIdentity.firstTester` values.
-- `Makefile` with validation, run, reset, mute, and package targets.
+- `Makefile` with validation, mobile build, run, reset, mute, and package targets.
 - `scripts/first-tester/validate.sh`.
 - `scripts/first-tester/package-macos.sh`.
 - `docs/implementation/M8-first-tester-automation.md`.
 - `docs/implementation/M8-tester-feedback-workflow.md`.
 - M8 milestone and specs.
+- CI workflow coverage for `make validate`, `make package-first-tester`, and `make mobile-build`.
 
-## Expected automated validation
+## Automated validation
+
+Passed in CI on the PR head:
+
+```bash
+make validate
+make package-first-tester
+make mobile-build
+```
+
+The validation path covers:
 
 ```bash
 swift build
 swift test
-```
-
-Mobile build:
-
-```bash
 xcodebuild \
   -project Apps/FlybyNighterMobile/FlybyNighterMobile.xcodeproj \
   -scheme FlybyNighterMobile \
@@ -48,6 +55,8 @@ xcodebuild \
 ```
 
 ## Manual validation matrix
+
+Passed:
 
 1. `make validate` runs package build, tests, and mobile simulator build.
 2. `make run-macos` launches the macOS shell.
@@ -62,9 +71,9 @@ xcodebuild \
 
 ## Completion gate
 
-M8 is complete after:
+M8 is complete:
 
 1. `SPEC-0034`, `SPEC-0035`, and `SPEC-0036` are implemented.
-2. Automated validation passes.
-3. Manual automation and bundle validation pass.
-4. The M8 milestone is marked Completed.
+2. Automated validation passed.
+3. Manual automation and bundle validation passed.
+4. The M8 milestone is ready to be marked Completed.
