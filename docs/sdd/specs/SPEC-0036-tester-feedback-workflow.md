@@ -1,7 +1,8 @@
 # SPEC-0036: Tester Feedback Workflow
 
-Status: Validation Pending  
-Milestone: M8
+Status: Implemented  
+Milestone: M8  
+Validated: September 1, 2026
 
 ## Goal
 
@@ -40,4 +41,4 @@ Give first testers a clear, low-friction way to report feedback with enough buil
 
 ## Validation
 
-Implementation is in place. Manual handoff and feedback workflow validation pending.
+Implemented and validated by manual handoff review and automated coverage of feedback categories.
