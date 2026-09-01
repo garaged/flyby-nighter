@@ -1,7 +1,8 @@
 # M8: First-Tester Automation
 
-Status: Validation Pending  
-Milestone: M8
+Status: Completed  
+Milestone: M8  
+Validated: September 1, 2026
 
 ## Goal
 
@@ -60,8 +61,8 @@ A reviewer can:
 
 ## Implementation status
 
-Implementation is in place across the build plan model, tests, root `Makefile`, local scripts, handoff docs, and validation matrix.
+Implemented across the build plan model, tests, root `Makefile`, local scripts, handoff docs, CI workflow gates, and validation matrix.
 
 ## Validation
 
-Automated and manual validation pending.
+Completed. Automated CI and manual first-tester automation/bundle validation passed.
