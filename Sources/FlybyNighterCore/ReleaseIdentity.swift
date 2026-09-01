@@ -20,8 +20,8 @@ public struct ReleaseIdentity: Equatable, Sendable {
 
     public static let firstTester = ReleaseIdentity(
         appName: "Flyby Nighter",
-        version: "0.6.0",
-        build: "m6-dev",
+        version: "0.8.0",
+        build: "m8-dev",
         channel: "first-tester"
     )
 
