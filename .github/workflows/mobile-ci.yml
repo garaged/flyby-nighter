@@ -10,13 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build iPhone and iPad target
         run: |
-          if ! xcodebuild \
-            -project Apps/FlybyNighterMobile/FlybyNighterMobile.xcodeproj \
-            -scheme FlybyNighterMobile \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
-            CODE_SIGNING_ALLOWED=NO \
-            build > mobile-build.log 2>&1; then
+          if ! make mobile-build > mobile-build.log 2>&1; then
             tail -120 mobile-build.log
             exit 1
           fi

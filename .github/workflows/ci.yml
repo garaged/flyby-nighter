@@ -9,16 +9,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: swift --version
-      - name: Build package
+      - name: Validate package and tests
         run: |
-          if ! swift build > swift-build.log 2>&1; then
-            tail -80 swift-build.log
+          if ! make validate > validate.log 2>&1; then
+            tail -120 validate.log
             exit 1
           fi
-      - name: Upload package build log
+      - name: Upload validation log
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: swift-build-log
-          path: swift-build.log
-      - run: swift test
+          name: first-tester-validate-log
+          path: validate.log
+      - name: Prepare first-tester bundle
+        run: |
+          if ! make package-first-tester > package-first-tester.log 2>&1; then
+            tail -120 package-first-tester.log
+            exit 1
+          fi
+          test -x .build/first-tester/FlybyNighter-first-tester/FlybyNighterApp
+          test -f .build/first-tester/FlybyNighter-first-tester/MANIFEST.md
+          test -f .build/first-tester/FlybyNighter-first-tester/README-FIRST-TESTER.md
+      - name: Upload package log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: first-tester-package-log
+          path: package-first-tester.log

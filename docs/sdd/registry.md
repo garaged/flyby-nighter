@@ -33,6 +33,9 @@
 | SPEC-0031 | Visual identity system | Implemented | M7 | Original title/tagline/palette token model and tests validated. |
 | SPEC-0032 | Icon and launch assets | Implemented | M7 | Placeholder policy and future binary art checklist validated. |
 | SPEC-0033 | Title and menu polish | Implemented | M7 | Corrected title/help tagline integration and readability validation passed. |
+| SPEC-0034 | First-tester build automation | Implemented | M8 | Build plan model, helper scripts, Makefile commands, and CI command coverage validated. |
+| SPEC-0035 | Release bundle manifest | Implemented | M8 | Manifest fields, local bundle shape, generated files, and distribution boundary validated. |
+| SPEC-0036 | Tester feedback workflow | Implemented | M8 | Feedback template, triage categories, privacy guidance, and handoff bundle workflow validated. |
 
 ## Implementation rule
 

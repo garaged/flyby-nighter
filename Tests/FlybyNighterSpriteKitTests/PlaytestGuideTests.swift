@@ -45,8 +45,8 @@ final class PlaytestGuideTests: XCTestCase {
 
         XCTAssertEqual(guide.releaseIdentity, .firstTester)
         XCTAssertTrue(text.contains("Flyby Nighter"))
-        XCTAssertTrue(text.contains("0.6.0"))
-        XCTAssertTrue(text.contains("m6-dev"))
+        XCTAssertTrue(text.contains("0.8.0"))
+        XCTAssertTrue(text.contains("m8-dev"))
         XCTAssertTrue(text.contains("first-tester"))
     }
 
